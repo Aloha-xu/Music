@@ -1,0 +1,112 @@
+.mv-detail {
+  width: 100%;
+  display: flex;
+  overflow: scroll;
+  height: 84vh;
+  justify-content: center;
+}
+.mv-detail .content {
+  width: 1100px;
+}
+.mv-detail .content .detail {
+  width: 750px;
+}
+.mv-detail .content .detail .title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 15px 0;
+}
+.mv-detail .content .detail .video {
+  width: 756px;
+  height: 425px;
+}
+.mv-detail .content .detail .mv-artist {
+  margin: 10px 0;
+}
+.mv-detail .content .detail .mv-artist img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+.mv-detail .content .detail .mv-artist .item {
+  vertical-align: middle;
+  font-size: 14px;
+  margin-left: 10px;
+}
+.mv-detail .content .detail .mv-info {
+  position: relative;
+}
+.mv-detail .content .detail .mv-info .name {
+  font-size: 20px;
+  font-weight: 900;
+  display: inline-block;
+  width: 750px;
+  margin: 15px 0;
+}
+.mv-detail .content .detail .mv-info i {
+  position: absolute;
+  right: 0;
+  top: 15px;
+  font-size: 20px;
+}
+.mv-detail .content .detail .mv-info span {
+  font-size: 10px;
+  color: #bababa;
+}
+.mv-detail .content .detail .mv-description {
+  font-size: 15px;
+  text-indent: 2em;
+  margin-top: 10px;
+  display: inline-block;
+  line-height: 20px;
+  height: 20px;
+  width: 750px;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+.mv-detail .content .detail .video-group {
+  margin-top: 15px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.mv-detail .content .detail .video-group .item {
+  background-color: #ebebeb;
+  margin-right: 5px;
+  border-radius: 20px;
+  padding: 1px 5px;
+}
+.mv-detail .content .detail .tools {
+  font-size: 14px;
+  margin-top: 20px;
+}
+.mv-detail .content .detail .tools .button {
+  width: 120px;
+  height: 30px;
+  border: 1px solid #bebebe;
+  line-height: 30px;
+  border-radius: 20px;
+  text-align: center;
+  display: inline-block;
+  margin-right: 8px;
+}
+.mv-detail .content .detail .tools .button span {
+  margin-right: 5px;
+}
+.mv-detail .content .detail .tools .button:hover {
+  background-color: #bdbdbd;
+}
+.mv-detail .content .detail .tools .tip-off {
+  font-size: 12.5px;
+  color: #bebebe;
+  margin-left: 200px;
+}
+.mv-detail .content .detail .tools .tip-off:hover {
+  color: gray;
+}
+.mv-detail .content .detail .comment .title {
+  margin-top: 40px;
+}
+.mv-detail .content .related-mv {
+  width: 350px;
+}

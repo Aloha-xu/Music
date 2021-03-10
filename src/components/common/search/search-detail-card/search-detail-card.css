@@ -1,0 +1,36 @@
+.search-detail-card .pic {
+  display: inline-block;
+  vertical-align: middle;
+}
+.search-detail-card .pic img {
+  width: 60px;
+  height: 60px;
+  vertical-align: middle;
+  border-radius: 5px;
+}
+.search-detail-card .name {
+  width: 50%;
+  font-size: 14px;
+  padding-left: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.search-detail-card .song-number {
+  width: 15%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.search-detail-card .creater {
+  width: 15%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.search-detail-card .creater span {
+  font-size: 14px;
+  color: #cfcfcf;
+}
+.search-detail-card .other {
+  width: 10%;
+  display: inline-block;
+  vertical-align: middle;
+}

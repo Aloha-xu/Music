@@ -1,0 +1,31 @@
+.recommend-newmusic-card {
+  display: flex;
+}
+.recommend-newmusic-card .pic {
+  padding: 5px;
+}
+.recommend-newmusic-card .pic img {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+}
+.recommend-newmusic-card .text {
+  padding: 10px 0 10px 5px;
+  width: 100%;
+}
+.recommend-newmusic-card .text .songname {
+  font-size: 15px;
+}
+.recommend-newmusic-card .text .singer {
+  padding-top: 10px;
+  font-size: 13px;
+  color: #afafaf;
+  display: inline-block;
+}
+.recommend-newmusic-card .text .singer:hover {
+  color: #6e6e6e;
+}
+.recommend-newmusic-card .text:hover {
+  background-color: #dfdcdc;
+  border-radius: 5px;
+}

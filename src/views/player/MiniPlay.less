@@ -1,0 +1,181 @@
+.mini-play{
+    width: 100%;
+    display: flex;
+    height: 75px;
+    background-color: bisque;
+    min-width: 1500px;
+    .song-info{
+        flex: 1;
+        .pic{
+            display: inline-block;
+            margin:  0 15px;            
+            img{
+                width: 50px;
+                height: 50px;
+                border-radius: 5px;
+            }
+        }
+        .song-info{
+            display: inline-block;
+            .song-name{
+                line-height: 60px;
+                font-size:15px;
+            }
+            .heart{
+                line-height: 60px;
+            }
+            .artitse{
+                font-size: 13px;
+            }
+        }
+    }
+    .control-tools{
+        flex: 1;
+        .top{
+            display: flex;
+            padding-left: 100px;
+            margin-top: 5px;
+            .way-of-play,.pre,.play-stop,.next,.lyric{
+                width: 35px;
+                height: 35px;
+                line-height: 35px;
+                text-align: center;
+                margin-left: 14px;
+            }
+            .way-of-play:hover,.lyric:hover,.pre:hover,.play-stop:hover,.next:hover{
+                width: 35px;
+                height: 35px;
+                background-color: grey;
+                border-radius: 50%;
+            }
+        }
+        .bottom{
+            .current-time{
+                display: inline-block;
+                line-height: 37px;
+            }
+            .el-slider{
+                display: inline-block;
+                .el-slider__runway{
+                    background-color: gray;
+                    width: 400px;
+                    height: 3px;
+                    .el-slider__bar{
+                        background-color: red;
+                        height: 3px;
+                    }
+                    .el-slider__button-wrapper{
+                        .el-slider__button{
+                            background-color: red;
+                            border: 2px solid red;
+                            width: 10px;
+                            height: 10px;
+                        }
+                    }
+                }
+            }
+            .totle-time{
+                display: inline-block;
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .other-tools{
+        flex: 1;
+    }
+    .drawer{
+        .song-list{
+            overflow: scroll;
+            height: 100%;
+            .top{
+                border-bottom: 1px solid gray;
+                padding: 18px 25px;
+                .totle-song{
+                    color:rgb(175, 175, 175);
+                    font-size: 13px;
+                }
+                .collect{
+                    display: inline-block;
+                    padding: 0 20px;
+                    border-right: 1px solid grey;
+                    margin-left: 50px;
+                    cursor: pointer;
+                    i{
+                        margin-right: 5px;
+                    }
+                }
+                .clear{
+                    display: inline-block;
+                    padding: 0 20px;
+                    cursor: pointer;
+                    i{
+                        margin-right: 5px;
+                    }
+                }
+
+            }
+            .content{
+                font-size: 12.5px;
+                .item{
+                    display: flex;
+                    height: 35px;
+                    line-height: 35px;
+                    cursor: pointer;
+                    .song{
+                        width: 190px;
+                        padding-left: 20px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    .active{
+                        color: red;
+                    }
+                    .link{
+                        text-align: center;
+                        line-height: 35px;
+                    }
+                    .singer{
+                        width: 90px;
+                        color:rgb(107, 107, 107);
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    .active{
+                        color: red;
+                    }
+                    .dt{
+                        color:rgb(175, 175, 175);
+                        padding-left: 30px;
+                    }
+                    .delete{
+                        text-align: center;
+                        margin-left: 20px;
+                        line-height: 35px;
+                        i{
+                            font-size: 15px;
+                        }
+                        i:hover{
+                            color: red;
+                            border-radius: 50%;
+                        }
+                    }
+                    
+                }
+                .item:hover{
+                    background-color: rgb(221, 221, 221);
+                    .dt{
+                        color: black;
+                    }
+                    .singer{
+                        color: black;
+                    }
+                    .song{
+                        color: black;
+                    }
+                }
+            }
+        }
+    }
+}

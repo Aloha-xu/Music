@@ -1,0 +1,72 @@
+.search-detail-solo{
+    width: 100%;
+    .title-card{
+        font-size: 12.5px;
+        font-weight: 600;
+        margin: 10px 0 15px 20px;
+    }
+    .card{
+        background-color: rgb(233, 233, 233);
+        height: 70px;
+        padding: 10px 0 0 10px;
+        width: 300px;
+        border-radius: 5px;
+        margin: 10px 0 10px 20px;
+    }
+    .title-name{
+        display: flex;
+        margin-left: 100px;
+        height: 30px;
+        line-height: 30px;
+        span:nth-child(1){
+            flex: 6;
+        }
+        span:nth-child(2){
+            flex: 2;
+        }
+        span:nth-child(3){
+            flex: 3;
+        }
+        span:nth-child(4){
+            flex: 1;
+        }
+    }
+    .song-item{
+        margin-top: 5px;
+        font-size: 15px;
+        height: 30px;
+        line-height: 30px;
+        display: flex;
+        .index-number{
+            margin: 0 10px 0 20px;
+
+        }
+        img{
+            margin: 0 5px;
+        }
+        p{
+            margin: 0 5px;
+            margin-top: 7px;
+
+        }
+        .song-name{
+            flex: 6;
+            overflow: hidden;text-overflow: ellipsis;
+            .active{
+                color: red;
+                // pointer-events: none;
+            }
+        }
+        .singer{
+            flex: 2;
+            overflow: hidden;text-overflow: ellipsis;
+        }
+        .album{
+            flex: 3;
+            overflow: hidden;text-overflow: ellipsis;
+        }
+        .time{
+            flex: 1;
+        }
+    }
+}

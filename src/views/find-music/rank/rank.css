@@ -1,0 +1,23 @@
+.rank {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow: scroll;
+  height: 82vh;
+}
+.rank .content {
+  width: 1100px;
+}
+.rank .content .title {
+  font-weight: 900;
+  font-size: 20px;
+  margin-left: 5px;
+}
+.rank .content .card {
+  display: flex;
+  flex-wrap: wrap;
+}
+.rank .content .card .item {
+  width: 19%;
+  margin: 5px;
+}

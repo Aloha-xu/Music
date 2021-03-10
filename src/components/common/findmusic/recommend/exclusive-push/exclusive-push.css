@@ -1,0 +1,9 @@
+.exclusive-push .content {
+  display: flex;
+}
+.exclusive-push .content .item:nth-child(1) {
+  margin-right: 15px;
+}
+.exclusive-push .content .item:nth-child(2) {
+  margin-right: 15px;
+}

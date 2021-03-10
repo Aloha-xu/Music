@@ -1,0 +1,112 @@
+.updata-papg {
+  font-size: 13.5px;
+  color: #474747;
+  display: flex;
+  flex-wrap: wrap;
+  width: 800px;
+  height: 20px;
+  margin-left: 20px;
+}
+.updata-papg .title {
+  width: 100%;
+  font-size: 22px;
+  font-weight: 600;
+  padding-bottom: 25px;
+  padding-top: 20px;
+  color: black;
+}
+.updata-papg .playlist-info {
+  width: 550px;
+}
+.updata-papg .playlist-info .palylist-name {
+  margin: 15px 0;
+}
+.updata-papg .playlist-info .palylist-name .el-input {
+  width: 80%;
+}
+.updata-papg .playlist-info .types {
+  margin: 15px 0;
+  margin-left: 10px;
+}
+.updata-papg .playlist-info .types .basie-type {
+  display: inline-block;
+  width: 45px;
+  height: 20px;
+  border-radius: 20px;
+  color: #919191;
+  line-height: 20px;
+  text-align: center;
+  border: 1px solid #919191;
+  margin-right: 15px;
+}
+.updata-papg .playlist-info .types .add-type {
+  color: #4f95ff;
+  cursor: pointer;
+}
+.updata-papg .playlist-info .types .add-type:hover {
+  color: #2828dd;
+}
+.updata-papg .playlist-info .desc {
+  margin: 15px 0;
+  margin-left: 10px;
+}
+.updata-papg .playlist-info .desc .el-textarea {
+  width: 80%;
+}
+.updata-papg .playlist-info .save-button {
+  width: 85px;
+  height: 30px;
+  border-radius: 20px;
+  color: white;
+  background-color: #df0000;
+  line-height: 30px;
+  text-align: center;
+  letter-spacing: 7px;
+  display: inline-block;
+  margin-left: 70px;
+  padding-left: 5px;
+  cursor: pointer;
+}
+.updata-papg .playlist-info .save-button:hover {
+  background-color: #860000;
+}
+.updata-papg .playlist-info .cancel-button {
+  width: 85px;
+  height: 30px;
+  border-radius: 20px;
+  color: black;
+  background-color: #ffffff;
+  line-height: 30px;
+  text-align: center;
+  letter-spacing: 7px;
+  display: inline-block;
+  border: 1px solid #d4d4d4;
+  margin-left: 30px;
+  padding-left: 5px;
+  cursor: pointer;
+}
+.updata-papg .playlist-info .cancel-button:hover {
+  background-color: #f5f5f5;
+}
+.updata-papg .cover {
+  width: 250px;
+}
+.updata-papg .cover .updata-button {
+  width: 85px;
+  height: 30px;
+  border-radius: 20px;
+  color: black;
+  background-color: #ffffff;
+  line-height: 30px;
+  text-align: center;
+  display: inline-block;
+  border: 1px solid #d4d4d4;
+  margin-left: 30px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.updata-papg .cover img {
+  width: 150px;
+  height: 150px;
+  border-radius: 10px;
+}

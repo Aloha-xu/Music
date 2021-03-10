@@ -1,0 +1,100 @@
+.left-navbar .el-menu-vertical-demo .slot {
+  margin-left: 10px;
+}
+.left-navbar .el-menu-vertical-demo .my-music {
+  font-size: 15px;
+  margin-left: 28px;
+  color: #adaeaf;
+}
+.left-navbar .el-menu-vertical-demo .xu-top {
+  margin: 20px 0 0 0;
+}
+.left-navbar .el-menu-vertical-demo .xu-btm {
+  margin: 5px 0 0 0;
+}
+.left-navbar .el-menu-vertical-demo span {
+  font-size: 15px;
+}
+.left-navbar .user-songlist .created-playlist,
+.left-navbar .user-songlist .collectd-playlist {
+  cursor: pointer;
+}
+.left-navbar .user-songlist .created-playlist .titile,
+.left-navbar .user-songlist .collectd-playlist .titile {
+  padding: 10px 0;
+  padding-left: 20px;
+}
+.left-navbar .user-songlist .created-playlist .titile .name,
+.left-navbar .user-songlist .collectd-playlist .titile .name {
+  font-size: 15px;
+  margin-left: 10px;
+  margin-top: 15px;
+  color: #adaeaf;
+}
+.left-navbar .user-songlist .created-playlist .titile .el-icon-caret-right,
+.left-navbar .user-songlist .collectd-playlist .titile .el-icon-caret-right,
+.left-navbar .user-songlist .created-playlist .titile .el-icon-caret-bottom,
+.left-navbar .user-songlist .collectd-playlist .titile .el-icon-caret-bottom {
+  margin-left: 5px;
+  font-size: 15px;
+  color: #adaeaf;
+}
+.left-navbar .user-songlist .created-playlist .titile .el-icon-caret-right:hover,
+.left-navbar .user-songlist .collectd-playlist .titile .el-icon-caret-right:hover,
+.left-navbar .user-songlist .created-playlist .titile .el-icon-caret-bottom:hover,
+.left-navbar .user-songlist .collectd-playlist .titile .el-icon-caret-bottom:hover {
+  color: #4e4e4e;
+}
+.left-navbar .user-songlist .created-playlist .titile .el-icon-plus,
+.left-navbar .user-songlist .collectd-playlist .titile .el-icon-plus {
+  margin-left: 40px;
+  color: #adaeaf;
+}
+.left-navbar .user-songlist .created-playlist .titile .el-icon-plus:hover,
+.left-navbar .user-songlist .collectd-playlist .titile .el-icon-plus:hover {
+  color: #000000;
+}
+.left-navbar .user-songlist .created-playlist .user-love,
+.left-navbar .user-songlist .collectd-playlist .user-love {
+  height: 45px;
+  padding-left: 25px;
+  line-height: 45px;
+}
+.left-navbar .user-songlist .created-playlist .user-love img,
+.left-navbar .user-songlist .collectd-playlist .user-love img {
+  vertical-align: middle;
+}
+.left-navbar .user-songlist .created-playlist .user-love span,
+.left-navbar .user-songlist .collectd-playlist .user-love span {
+  vertical-align: middle;
+  margin-left: 10px;
+}
+.left-navbar .user-songlist .created-playlist .playlist-item,
+.left-navbar .user-songlist .collectd-playlist .playlist-item {
+  height: 45px;
+  padding-left: 25px;
+  line-height: 45px;
+}
+.left-navbar .user-songlist .created-playlist .playlist-item .el-icon-service,
+.left-navbar .user-songlist .collectd-playlist .playlist-item .el-icon-service {
+  font-size: 17px;
+  vertical-align: middle;
+}
+.left-navbar .user-songlist .created-playlist .playlist-item .name,
+.left-navbar .user-songlist .collectd-playlist .playlist-item .name {
+  display: inline-block;
+  width: 150px;
+  margin-left: 10px;
+  vertical-align: middle;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.left-navbar .user-songlist .created-playlist .titile:hover,
+.left-navbar .user-songlist .collectd-playlist .titile:hover,
+.left-navbar .user-songlist .created-playlist .user-love:hover,
+.left-navbar .user-songlist .collectd-playlist .user-love:hover,
+.left-navbar .user-songlist .created-playlist .playlist-item:hover,
+.left-navbar .user-songlist .collectd-playlist .playlist-item:hover {
+  background-color: #f0f0f0;
+}

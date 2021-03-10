@@ -1,0 +1,60 @@
+.all-mv-papg{
+    font-size: 13px;
+    color: rgb(87, 87, 87);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow: scroll;
+    height: 87vh;
+    .content{
+        width: 1100px;
+        .title{
+            font-size: x-large;
+            font-weight: bolder;
+            color:black;
+            padding: 20px 0;
+        }
+        .select-bar{
+            display: flex;
+            margin-bottom: 5px;
+            .left{
+                width: 4%;
+                padding: 7px 0px 10px 0;
+            }
+            .right{
+                width: 90%;
+                padding: 0px 10px;
+                display: flex;
+                flex-wrap: wrap;
+                div{
+                    padding: 7px 25px;
+                }
+                .active{
+                    background-color: rgb(255, 216, 216);
+                     border-radius: 10px ;
+                }
+            }
+        }
+        .card{
+            display: flex;
+            flex-wrap: wrap;
+            .item{
+                width: 24%;
+                img{
+                    height: 150px;
+                    object-fit: cover;
+                }
+            }
+            .item:nth-child(n+0){
+                margin-right: 10px;
+            }
+            .item:nth-child(n+2){
+                margin-right: 10px;
+
+            }
+            .item:nth-child(n+3){
+                margin-right: 10px;
+            }
+        }
+    }
+}

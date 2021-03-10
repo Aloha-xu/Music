@@ -1,0 +1,244 @@
+<template>
+<!-- 这个私人fm接口回来的数据在短时间内是相同的 没有写完minplay与私人fm接口数据的同步问题 -->
+  <div class="private-fm" >
+    <div class="fm-content">
+      <div class="record-tools">
+        <div class="record">
+          <div class="pic">
+            <img :src="currentSongInfo.pic" class="current-pic" />
+            <img :src="songInfoGroup[currentSongIndex+1].pic" class="next-pic" />
+            <i class="el-icon-caret-right play-button" v-show="!playing"></i>
+            <img
+              src="../../assets/icon/controltools/stop.png"
+              alt=""
+              v-show="playing"
+              class="stop-button"
+            />
+          </div>
+        </div>
+        <div class="tools">
+          <div class="heart">
+            <img
+              src="../../assets/icon/heart.svg"
+              alt=""
+              v-show="false"
+              style="height: 30px; weight: 30px"
+            />
+            <img
+              src="../../assets/icon/heartactive.svg"
+              alt=""
+              style="height: 30px; weight: 30px"
+            />
+          </div>
+          <div class="delete">
+            <i class="el-icon-delete" style="font-size: 30px"></i>
+          </div>
+          <div class="next" @click="nextSong()">
+            <i class="el-icon-caret-right" style="font-size: 30px"></i>
+          </div>
+          <div class="more">
+            <i class="el-icon-more" style="font-size: 30px"></i>
+          </div>
+        </div>
+      </div>
+      <div class="song-info">
+        <div class="song-name">{{ currentSongInfo.name }}</div>
+        <div class="album-name">
+          专辑：<span>{{ currentSongInfo.album }}</span>
+        </div>
+        <div
+          class="singer-name"
+          v-for="item in currentSongInfo.singer"
+          :key="item"
+        >
+          歌手：<span>{{ item }}</span>
+        </div>
+        <!-- 纯音乐的时候显示为该音乐为纯音乐的文字 -->
+        <div
+          class="lyric"
+          ref="lyric"
+          v-if="!currentSongInfo.lyric.length == 0"
+        >
+          <div
+            v-for="(item, index) in currentSongInfo.lyric"
+            :key="index"
+            class="lyric-item"
+          >
+            {{ item.content }}
+          </div>
+        </div>
+        <div class="noLyric" v-else>纯音乐</div>
+      </div>
+    </div>
+    <div class="comment">
+      <comment :commentInfo="commentInfo"></comment>
+    </div>
+  </div>
+</template>
+
+<script>
+import Comment from "../../components/common/play-list-detail/comment.vue";
+import { parseLyric } from "../../utils/lyric";
+import {
+  fm,
+  getSongUrl,
+  getSongLyric,
+  getMusicComment,
+} from "../../network/api";
+export default {
+  name: "PrivateFM",
+  data() {
+    return {
+      textarea: "",
+      songInfoGroup: [],
+      commentInfo: [],
+      currentSongInfo: {},
+      urls: {},
+      //未筛选数据
+      allSongInfo: {},
+      //当前播放的第几首歌
+      currentSongIndex: 0,
+      playing: true,
+    };
+  },
+  methods: {
+    async getSongInfo() {
+
+      //私人fm接口数据
+      let { data } = await fm();
+      this.allSongInfo = data.data;
+
+      //全部urls
+      let urls = await getSongUrl(data.data.map(({ id }) => id));
+      this.urls = urls.data.data;
+
+      //本来可以用mitations上面的已经写好的赛选数据的方法 但是返回的数据有一些不同
+      for (let i = 0; i < data.data.length; i++) {
+        let currentSongInfo = {};
+        currentSongInfo.id = data.data[i].id;
+        currentSongInfo.url = "";
+        currentSongInfo.name = data.data[i].name;
+        currentSongInfo.album = data.data[i].album.name;
+        currentSongInfo.singer = data.data[i].artists.map(({ name }) => name);
+        currentSongInfo.pic = data.data[i].album.blurPicUrl;
+        currentSongInfo.totleTime = data.data[i].duration;
+        currentSongInfo.lyric = [];
+        this.songInfoGroup.push(currentSongInfo);
+      }
+
+      //设置第一首歌曲的信息
+      this.currentSongInfo = this.songInfoGroup[0];
+      let comment = await getMusicComment(this.currentSongInfo.id);
+      this.commentInfo = comment.data.comments;
+      let lyric = await getSongLyric(this.currentSongInfo.id);
+      this.currentSongInfo.lyric = parseLyric(lyric.data.lrc.lyric);
+
+      // console.log(data);
+      // console.log(this.urls);
+      // console.log(comment);
+      // console.log(this.lyric);
+      // console.log(this.songInfoGroup);
+      // console.log(this.currentSongInfo);
+    },
+
+    //获取特定id歌曲的评论与歌词
+    async getOtherInfo() {
+      let comment = await getMusicComment(this.currentSongInfo.id);
+      this.commentInfo = comment.data.comments;
+      let lyric = await getSongLyric(this.currentSongInfo.id);
+      this.currentSongInfo.lyric = parseLyric(lyric.data.lrc.lyric);
+    },
+
+    //点击下一首歌曲按钮
+    nextSong() {
+      //判断是否是最后一首
+      //是 --》请求数据     不是 --》切下一首
+      if (this.songInfoGroup.length === this.currentSongIndex) {
+        //清除原有的数据
+        this.currentSongInfo={}
+        this.songInfoGroup=[]
+        this.allSongInfo={}
+        this.commentInfo=[]
+        this.currentSongIndex=0,
+        this.playing=false,
+        //再一次请求数据
+        this.getSongInfo();
+        this.updataInfo();
+        // console.log(this.currentSongIndex);
+        this.findCorrectUrl()
+      } else {
+        this.getOtherInfo();
+        this.$store.commit("changeCurrentPlay", this.currentSongInfo);
+        let currentSongIndex = this.songInfoGroup.findIndex(
+          (item) => item.id == this.currentSongInfo.id
+        );
+        this.currentSongInfo = this.songInfoGroup[currentSongIndex + 1];
+        this.currentSongIndex++;
+        this.findCorrectUrl()
+      }
+
+      // //每点击下一首歌曲的时候 当currentSongIndex=3时 删掉最前面一首
+      //这个功能不写了
+      // if(this.currentSongIndex===3){
+      //   this.songInfoGroup.splice(1,1)
+      // }
+    },
+    updataInfo() {
+      //把歌单的全部歌曲添加到播放列表
+      this.$store.commit("setAllSongsToPlayList");
+      //清除vuex的歌单列表
+      this.$store.commit("clearSongList");
+      //设置当前播放歌曲的下标 要同步两个界面的信息
+      this.$store.commit("setCurrentIndex",this.currentSongIndex);
+      //点击播放按钮后才把数据传到vuex
+      this.$store.commit("setAllSongListInfo", this.allSongInfo);
+      this.$store.commit("setAllSongUrls", this.urls);
+      //加载图片
+      this.$store.commit("setIsLoad", true);
+      this.$store.commit("changeCurrentPlay", this.currentSongInfo);
+      this.$store.commit("setSongListInfo", this.songInfoGroup);
+    },
+
+    //找到正确的url 这里不知道是对谁错 数据没验证
+    findCorrectUrl() {
+        for (let j = 0; j < this.urls.length; j++) {
+            if (this.urls[j].id == this.currentSongInfo.id) {
+                this.currentSongInfo.url = this.urls[j].url;
+                return
+            }
+        }
+    },
+
+    currentPlayTime(values, index) {
+      let flag = false;
+      //快进或者减慢歌词速度控制变量
+      let controlLyricSpeedValues = -0.5;
+      let currentTime =
+        this.$store.state.currentTime / 1000 + controlLyricSpeedValues;
+      if (
+        currentTime >= values.time &&
+        currentTime < this.$store.state.currentSongInfo.lyric[index + 1].time &&
+        index <= this.$store.state.currentSongInfo.lyric.length
+      ) {
+        flag = true;
+      }
+      return flag;
+    },
+  },
+  async created() {
+    this.getSongInfo();
+  },
+  components: {
+    Comment,
+  },
+  computed: {
+    // songInfo() {
+    //   return this.$store.state.currentSongInfo;
+    // },
+  },
+};
+</script>
+
+<style scoped>
+@import "./private-fm.css";
+</style>

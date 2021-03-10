@@ -1,0 +1,118 @@
+.song-list {
+  display: flex;
+  justify-content: center;
+  overflow: scroll;
+  height: 82vh;
+  position: relative;
+}
+.song-list .content {
+  width: 1100px;
+}
+.song-list .content .top {
+  cursor: pointer;
+  width: 1100px;
+  height: 170px;
+  overflow: hidden;
+  position: relative;
+  border: 1 solid white;
+  border-radius: 10px;
+}
+.song-list .content .top .backgroundimage {
+  height: 170px;
+  filter: blur(30px);
+}
+.song-list .content .top .backgroundimage img {
+  width: 100%;
+  height: 100%;
+}
+.song-list .content .top .pic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 150px;
+  width: 150px;
+}
+.song-list .content .top .pic img {
+  width: 100%;
+  margin: 10px;
+  border-radius: 5px;
+}
+.song-list .content .top .text {
+  position: absolute;
+  top: 0;
+  left: 170px;
+  margin-left: 20px;
+  margin-top: 30px;
+}
+.song-list .content .top .text .logo {
+  border: 1px solid goldenrod;
+  border-radius: 20px;
+  padding: 5px;
+  width: 100px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  color: gold;
+}
+.song-list .content .top .text .text-1 {
+  margin-top: 25px;
+  color: aliceblue;
+}
+.song-list .content .top .text .text-2 {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #cfcece;
+}
+.song-list .content .center {
+  margin-top: 15px;
+}
+.song-list .content .center .type {
+  display: flex;
+}
+.song-list .content .center .type .alltype .el-button {
+  border-radius: 20px;
+}
+.song-list .content .center .type .hottype {
+  width: 100%;
+  height: 30px;
+  margin-left: 340px;
+  line-height: 35px;
+}
+.song-list .content .center .type .hottype .item {
+  margin-left: 2px;
+  font-size: 13px;
+  color: gray;
+  display: inline-block;
+  padding: 0px 15px;
+}
+.song-list .content .center .type .hottype .item:hover {
+  color: #383838;
+}
+.song-list .content .center .type .hottype .el-button:focus,
+.song-list .content .center .type .hottype .el-button:hover {
+  color: gray;
+  border-color: gray;
+  background-color: white;
+}
+.song-list .content .center .type .hottype .active {
+  color: #fb3333;
+  background-color: #ffd8d8;
+  border-radius: 10px;
+}
+.song-list .content .center .allcard {
+  display: flex;
+  flex-wrap: wrap;
+  /*用了flex-wrap:wrap;自动换行属性后*/
+  justify-content: space-around;
+}
+.song-list .content .center .allcard .item {
+  width: 18.86%;
+}
+.song-list .content .pagination {
+  height: 200px;
+}
+.song-list .alltypepopover {
+  position: absolute;
+  left: 75px;
+  top: 230px;
+}
