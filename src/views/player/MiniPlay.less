@@ -2,8 +2,9 @@
     width: 100%;
     display: flex;
     height: 75px;
-    background-color: bisque;
+    background-color: rgb(255, 255, 255);
     min-width: 1500px;
+    border-top: 2px solid rgb(197, 197, 197);
     .song-info{
         flex: 1;
         .pic{
@@ -52,10 +53,12 @@
         .bottom{
             .current-time{
                 display: inline-block;
-                line-height: 37px;
+                vertical-align: middle;
+                padding-right: 10px;
             }
             .el-slider{
                 display: inline-block;
+                vertical-align: middle;
                 .el-slider__runway{
                     background-color: gray;
                     width: 400px;
@@ -76,12 +79,22 @@
             }
             .totle-time{
                 display: inline-block;
-                margin-bottom: 10px;
+                vertical-align: middle;
+
             }
         }
     }
     .other-tools{
         flex: 1;
+        justify-content: center;
+        -ms-flex-item-align: center;
+        .song-list{
+            font-size: 50px;
+            img{
+                width: 25px;
+                height: 25px;
+            }
+        }
     }
     .drawer{
         .song-list{

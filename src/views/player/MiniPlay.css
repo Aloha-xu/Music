@@ -2,8 +2,9 @@
   width: 100%;
   display: flex;
   height: 75px;
-  background-color: bisque;
+  background-color: #ffffff;
   min-width: 1500px;
+  border-top: 2px solid #c5c5c5;
 }
 .mini-play .song-info {
   flex: 1;
@@ -61,10 +62,12 @@
 }
 .mini-play .control-tools .bottom .current-time {
   display: inline-block;
-  line-height: 37px;
+  vertical-align: middle;
+  padding-right: 10px;
 }
 .mini-play .control-tools .bottom .el-slider {
   display: inline-block;
+  vertical-align: middle;
 }
 .mini-play .control-tools .bottom .el-slider .el-slider__runway {
   background-color: gray;
@@ -83,10 +86,19 @@
 }
 .mini-play .control-tools .bottom .totle-time {
   display: inline-block;
-  margin-bottom: 10px;
+  vertical-align: middle;
 }
 .mini-play .other-tools {
   flex: 1;
+  justify-content: center;
+  -ms-flex-item-align: center;
+}
+.mini-play .other-tools .song-list {
+  font-size: 50px;
+}
+.mini-play .other-tools .song-list img {
+  width: 25px;
+  height: 25px;
 }
 .mini-play .drawer .song-list {
   overflow: scroll;

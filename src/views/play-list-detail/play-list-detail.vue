@@ -69,6 +69,8 @@ export default {
         3: { type: "", list: [] },
         4: { type: "", list: [] },
       },
+      /* 模板的渲染比route快 */
+      
     };
   },
   methods: {

@@ -160,7 +160,7 @@
 }
 .inner-popover .content {
   overflow: scroll;
-  height: 85vh;
+  height: 82vh;
 }
 .inner-popover .content .befor-msg .msg-card .time,
 .inner-popover .content .new-msg .msg-card .time {
@@ -197,6 +197,16 @@
 .inner-popover .content .new-msg .msg-card .active {
   flex-direction: row-reverse;
   margin-right: 10px;
+}
+@media (max-width: 1920px) {
+  .inner-popover .content {
+    height: 82vh;
+  }
+}
+@media (min-width: 1921px) {
+  .inner-popover .content {
+    height: 87vh;
+  }
 }
 .inner-popover .el-input {
   position: absolute;

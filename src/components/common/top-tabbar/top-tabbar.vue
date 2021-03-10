@@ -107,15 +107,16 @@
                   :key="index"
                 >
                   <div class="time">{{ getYestaryToday(item.time) }}</div>
-                  <div class="msg" :class="toUserInfo.uId === item.uid ? '' : 'active'">
+                  <div
+                    class="msg"
+                    :class="toUserInfo.uId === item.uid ? '' : 'active'"
+                  >
                     <img
                       :src="toUserInfo.cover"
                       alt=""
                       v-show="toUserInfo.uId == item.uid"
                     />
-                    <div
-                      class="text"
-                    >
+                    <div class="text">
                       <div class="text-content">
                         {{ JSON.parse(item.msg).msg }}
                       </div>
@@ -130,15 +131,16 @@
                   :key="index"
                 >
                   <div class="time">{{ getYestaryToday(item.time) }}</div>
-                  <div class="msg" :class="toUserInfo.uId === item.uid ? '' : 'active'">
+                  <div
+                    class="msg"
+                    :class="toUserInfo.uId === item.uid ? '' : 'active'"
+                  >
                     <img
                       :src="toUserInfo.cover"
                       alt=""
                       v-show="toUserInfo.uId == item.uid"
                     />
-                    <div
-                      class="text"
-                    >
+                    <div class="text">
                       <div class="text-content">
                         {{ JSON.parse(item.msg).msg }}
                       </div>
@@ -210,14 +212,8 @@ export default {
     handleClose() {},
     handleInputSearch() {},
     async handleChangeSearch(searchValues) {
-      /* const CloudSearch_solo = await getCloudSearch(searchValues,1)
-      const CloudSearch_album = await getCloudSearch(searchValues,10) */
       const SearchSuggest = await getSearchSuggest(searchValues);
-      // console.log(CloudSearch_solo)
-      // console.log(CloudSearch_album)
       this.SearchDetail = SearchSuggest.data.result;
-      // console.log(SearchSuggest)
-      // console.log(this.SearchDetailk)
     },
     loadAll() {
       for (let i = 0; i < this.HotSearchDetail.length; i++) {
@@ -243,7 +239,6 @@ export default {
         "currentUserInfo",
         JSON.stringify(data.profile)
       );
-
       let data2 = await account();
       console.log(data2);
       let data1 = await userDetail(data.profile.userId);

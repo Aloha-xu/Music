@@ -1,27 +1,29 @@
 .search-detail-video{
     display: flex;
-    flex-wrap: wrap;
     width: 100%;
-
-
-    @media (max-width:1999px) {
-        .card{
-            margin-right: 40px;
-            width: 30%;
+    justify-content: center;
+    .content{
+        display: flex;
+        flex-wrap: wrap;
+        width: 1100px;
+        @media (min-width:1351px) {
+            .card{
+                margin-right: 20px;
+                width: 22%;
+            }
+            .card:nth-child(4n+1){
+                margin-left: 10px;
+            }
         }
-        .card:nth-child(3n+1){
-            margin-left: 40px;
-        }
-    }
-
     
-    @media (min-width: 2000px) {
-        .card {
-            margin-right: 20px;
-            width: 19%;
-        }
-        .card:nth-child(4n+1){
-            margin-left: 40px;
+        @media (max-width: 1350px) {
+            .card{
+                margin-right: 20px;
+                width: 28.5%;
+            }
+            .card:nth-child(3n+1){
+                margin-left: 40px;
+            }
         }
     }
 }

@@ -9,6 +9,7 @@
         <span class="songlist-type">{{ TitleType }}</span>
         <span class="songlist-name">{{ info.name }}</span>
         <i
+          v-show="isShowUpdataComponent"
           class="el-icon-edit-outline"
           style="
             font-size: 25px;
@@ -35,6 +36,7 @@
           round
           @click="handleCollectSonglist"
           v-show="!info.subscribed"
+          :style="isShowUpdataComponent? 'pointer-events: none; opacity: 0.6;' : ''"
         >
           <span class="el-icon-folder-add"
             >收藏({{ info.subscribedCount }}万)</span
@@ -127,6 +129,10 @@ export default {
     info() {
       return this.songListDetailInfo;
     },
+    isShowUpdataComponent(){
+      return this.$store.state.isShowUpdataComponent
+    }
+    
   },
 };
 </script>

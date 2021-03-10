@@ -3,7 +3,7 @@
     <div class="left">
       <img :src="pic" alt="" />
     </div>
-    <div class="content">
+    <div class="comment-content">
       <div class="text">
         <span>{{ name }}:</span>
         <span>{{ text }}</span>

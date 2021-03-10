@@ -177,12 +177,12 @@ export default {
   watch: {
     $route() {
       this.setDelay =false
-      setTimeout(() => {
-      this.setDelay = true
-    }, 1500);
       this.currentIndex = 0
       this.getInfo();
       this.itemClick(this.currentIndex);
+      setTimeout(() => {
+      this.setDelay = true
+    }, 1500);
     },
   },
 };

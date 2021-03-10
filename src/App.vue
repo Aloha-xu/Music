@@ -16,6 +16,7 @@
   </div>
 </template>
 <script>
+/* tese */
 import TopTabBar from "./components/common/top-tabbar/top-tabbar.vue";
 import NavBar from "./components/common/navbar/left-navbar";
 import MaxPlay from "./views/player/MaxPlay.vue";

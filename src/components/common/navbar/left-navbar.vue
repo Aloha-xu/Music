@@ -61,7 +61,7 @@
           ></i>
           <i class="el-icon-plus"></i>
         </div>
-        <div class="user-love" v-show="isShowPlaylist" @click="handleToPlaylistPapg(this.$store.state.heartSonglist.id)">
+        <div class="user-love" v-show="isShowPlaylist" @click="handleToPlaylistPapg(heartSonglist.id,'myplaylist')">
           <img src="../../../assets/icon/heart.svg" alt="" />
           <span class="name">我喜欢的音乐</span>
         </div>
@@ -70,7 +70,7 @@
           v-for="(item, index) in mySonglist"
           :key="index"
           v-show="isShowPlaylist"
-          @click="handleToPlaylistPapg(item.id)"
+          @click="handleToPlaylistPapg(item.id,'myplaylist')"
         >
           <i class="el-icon-service"></i>
           <span class="name" >{{ item.name }}</span>
@@ -97,7 +97,7 @@
           v-for="(item, index) in collectSonglist"
           :key="index"
           v-show="isShowCollectPlaylist"
-          @click="handleToPlaylistPapg(item.id)"
+          @click="handleToPlaylistPapg(item.id,'collectplaylist')"
         >
           <i class="el-icon-service"></i>
           <span class="name" >{{ item.name }}</span>
@@ -160,9 +160,15 @@ export default {
       this.$store.commit("setUserSonglistInfo", playlist);
       this.$store.commit("updataSonglist");
     },
-    handleToPlaylistPapg(id){
-      this.$router.push("/playlistdetail/" + id);
-    }
+    handleToPlaylistPapg(id,type){
+      if(type == 'myplaylist'){
+        this.$store.state.isShowUpdataComponent = true
+      }else[
+        this.$store.state.isShowUpdataComponent = false
+      ]
+        this.$router.push("/playlistdetail/"+id);
+    },
+    
   },
   computed: {
     mySonglist() {

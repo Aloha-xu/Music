@@ -166,10 +166,10 @@
     }
         .content{
             overflow: scroll;
-            height: 85vh;
-        .befor-msg,.new-msg{
-            .msg-card{
-                .time{
+            height: 82vh;
+            .befor-msg,.new-msg{
+                .msg-card{
+                    .time{
                     font-size: 12px;
                     text-align: center;
                     border-radius: 10px;
@@ -206,6 +206,16 @@
             }
         }
     }
+        @media (max-width:1920px) {
+            .content{
+                height: 82vh;
+            }
+        }
+        @media (min-width:1921px) {
+            .content{
+                height: 87vh;
+            }
+        }
     .el-input{
         position: absolute;
         .el-input__inner{
