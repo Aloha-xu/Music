@@ -203,4 +203,10 @@ export default {
         state.songListDetailInfo = songListDetailInfo
     },
 
+    setShowMsgDarwer(state){
+        state.isShowMsgDrawer = !state.isShowMsgDrawer
+    },
+    setShowMsgInnerDarwer(state){
+        state.isShowInnerMsgDrawer = !state.isShowInnerMsgDrawer
+    },
 }

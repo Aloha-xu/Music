@@ -198,6 +198,12 @@
   flex-direction: row-reverse;
   margin-right: 10px;
 }
+.inner-popover .tip {
+  text-align: center;
+  margin-top: 50px;
+  overflow: scroll;
+  height: 82vh;
+}
 @media (max-width: 1920px) {
   .inner-popover .content {
     height: 82vh;

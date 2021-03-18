@@ -1,0 +1,177 @@
+.user-detail {
+  overflow: scroll;
+  height: 85vh;
+  width: 100%;
+}
+.user-detail .head {
+  display: flex;
+  margin: 30px 40px 0 40px;
+}
+.user-detail .head .user-pic img {
+  width: 185px;
+  height: 185px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.user-detail .head .user-detail-info {
+  flex-grow: 1;
+}
+.user-detail .head .user-detail-info .title {
+  font-size: 22px;
+  font-weight: 900;
+  padding-bottom: 10px;
+}
+.user-detail .head .user-detail-info .user-basice-info {
+  display: flex;
+  align-items: center;
+  border-bottom: 1.5px solid rgba(180, 180, 180, 0.801);
+  padding-bottom: 10px;
+}
+.user-detail .head .user-detail-info .user-basice-info .all-auth-types {
+  font-size: 11px;
+  font-weight: 100;
+  width: 300px;
+}
+.user-detail .head .user-detail-info .user-basice-info .all-auth-types .auth-types {
+  display: inline-block;
+  padding: 2px;
+  border-radius: 20px;
+  margin-left: 5px;
+  background-color: rgba(8, 137, 197, 0.1);
+  color: #0d09d8;
+  margin-bottom: 8px;
+}
+.user-detail .head .user-detail-info .user-basice-info .all-auth-types .level {
+  padding: 2px 5px;
+  border-radius: 20px;
+  margin-left: 5px;
+  background-color: rgba(0, 0, 0, 0.1);
+  color: #000000;
+  margin-bottom: 5px;
+}
+.user-detail .head .user-detail-info .user-basice-info .all-auth-types .man {
+  padding: 3px 7px;
+  border-radius: 50%;
+  margin-left: 5px;
+  background-color: rgba(29, 138, 228, 0.1);
+  margin-bottom: 5px;
+  color: #012b85;
+}
+.user-detail .head .user-detail-info .user-basice-info .all-auth-types .girl {
+  padding: 3px 7px;
+  border-radius: 50%;
+  margin-left: 5px;
+  background-color: rgba(206, 1, 1, 0.1);
+  margin-bottom: 5px;
+  color: #ce1d06;
+}
+.user-detail .head .user-detail-info .user-basice-info .tools-button {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row-reverse;
+}
+.user-detail .head .user-detail-info .user-basice-info .tools-button .send-msg-button,
+.user-detail .head .user-detail-info .user-basice-info .tools-button .focus-button-on,
+.user-detail .head .user-detail-info .user-basice-info .tools-button .focus-button-off {
+  cursor: pointer;
+  border: 1px solid gray;
+  padding: 7px 12px;
+  border-radius: 20px;
+  margin-left: 5px;
+}
+.user-detail .head .user-detail-info .user-basice-info .tools-button .send-msg-button:hover,
+.user-detail .head .user-detail-info .user-basice-info .tools-button .focus-button-on:hover,
+.user-detail .head .user-detail-info .user-basice-info .tools-button .focus-button-off:hover {
+  background-color: rgba(233, 233, 233, 0.637);
+}
+.user-detail .head .user-detail-info .user-basice-info .tools-button .other-button {
+  border: 1px solid gray;
+  padding: 5px 7px;
+  border-radius: 50%;
+  margin-left: 5px;
+}
+.user-detail .head .user-detail-info .user-number-info {
+  display: flex;
+  margin-top: 10px;
+}
+.user-detail .head .user-detail-info .user-number-info .dynamic {
+  cursor: pointer;
+  width: 60px;
+  border-right: 1px solid rgba(180, 180, 180, 0.856);
+  padding-right: 20px;
+}
+.user-detail .head .user-detail-info .user-number-info .dynamic .dynamic-number {
+  font-size: 20px;
+  padding: 5px;
+}
+.user-detail .head .user-detail-info .user-number-info .dynamic span {
+  font-size: 12px;
+  color: rgba(143, 143, 143, 0.904);
+  padding: 0px 5px;
+}
+.user-detail .head .user-detail-info .user-number-info .focus {
+  cursor: pointer;
+  width: 60px;
+  padding-left: 20px;
+  border-right: 1px solid rgba(180, 180, 180, 0.856);
+}
+.user-detail .head .user-detail-info .user-number-info .focus .focus-number {
+  font-size: 20px;
+  padding: 5px;
+}
+.user-detail .head .user-detail-info .user-number-info .focus span {
+  font-size: 12px;
+  color: rgba(143, 143, 143, 0.904);
+  padding: 0px 5px;
+}
+.user-detail .head .user-detail-info .user-number-info .fans {
+  cursor: pointer;
+  width: 60px;
+  padding: 0px 20px;
+}
+.user-detail .head .user-detail-info .user-number-info .fans .fans-number {
+  font-size: 20px;
+  padding: 5px;
+}
+.user-detail .head .user-detail-info .user-number-info .fans span {
+  font-size: 12px;
+  color: rgba(143, 143, 143, 0.904);
+  padding: 0px 5px;
+}
+.user-detail .head .user-detail-info .user-introduce-info {
+  font-size: 13px;
+  margin-left: 5px;
+}
+.user-detail .head .user-detail-info .user-introduce-info .sns,
+.user-detail .head .user-detail-info .user-introduce-info .self-introduction {
+  margin-top: 10px;
+}
+.user-detail .user-detail-content {
+  margin-left: 40px;
+}
+.user-detail .user-detail-content .play-list-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.user-detail .user-detail-content .play-list-title span {
+  font-size: 13px;
+  font-weight: 400;
+}
+.user-detail .user-detail-content .all-cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+@media (max-width: 1400px) {
+  .user-detail .user-detail-content .all-cards .card {
+    width: 22%;
+    margin-right: 25px;
+  }
+}
+@media (min-width: 1401px) {
+  .user-detail .user-detail-content .all-cards .card {
+    width: 15%;
+    margin-right: 20px;
+  }
+}

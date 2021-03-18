@@ -66,7 +66,14 @@ export default {
     //全部的标签数据 弹出框
     allTypeInfo:{},
 
-
     //控制palylistdetail页面下的updata组件是否显示
-    isShowUpdataComponent:false
+    isShowUpdataComponent:false,
+
+    //控制top-tabbar页面下的drawer组件是否显示
+    isShowMsgDrawer:false,
+
+    //控制top-tabbar页面下的innerdrawer组件是否显示
+    isShowInnerMsgDrawer:false,
+
+    toUserInfo:{},
 }

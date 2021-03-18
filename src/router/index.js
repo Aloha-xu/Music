@@ -30,6 +30,7 @@ const Video =()=>import('../views/video/video-component/video.vue')
 const AllMvPapg =()=>import('../views/video/all-mv-papg/all-mv-papg.vue')
 const MvDetail =()=>import('../views/mv-detail/mv-detail.vue')
 const UpDataPapg =()=>import('../views/user-updata-papg/updata-papg.vue')
+const UserDetail =()=>import('../views/user-detail/user-detail.vue')
 
 
 //使用VueRouter
@@ -153,6 +154,10 @@ const routes=[
     {
         path:'/userupdata/:id',
         component:UpDataPapg,
+    },
+    {
+        path:'/userdetail/:id',
+        component:UserDetail,
     },
 ]
 //注册router

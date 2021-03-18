@@ -22,7 +22,7 @@
       </div>
       <div class="creator-info" v-if="info.creator && isShowAlbumComponent">
         <img :src="info.creator.avatarUrl" alt="" class="head-portrait" />
-        <span class="creator-name">{{ info.creator.nickname }}</span>
+        <span class="creator-name" @click="clickToUserDetailPapg">{{ info.creator.nickname }}</span>
         <span class="create-time">{{ info.createTime }}</span>
       </div>
       <div class="tools">
@@ -124,6 +124,9 @@ export default {
     handleToUpdataPapg() {
       this.$router.push("/userupdata/" + this.$route.params.id);
     },
+    clickToUserDetailPapg(){
+      this.$router.push("/userdetail/" + this.info.creator.userId);
+    }
   },
   computed: {
     info() {

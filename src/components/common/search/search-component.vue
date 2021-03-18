@@ -132,6 +132,7 @@ export default {
     },
 
     handleToSearchDetailPapg() {
+      console.log("2222")
       this.$router.push({path:"/cloudsearch",query:{keywords:this.searchValues}});
     },
 
@@ -149,6 +150,7 @@ export default {
       }
       this.searchValues = searchValues
       //直接跳到detail界面
+      console.log("一点击")
       this.$router.push({path:"/cloudsearch",query:{keywords:searchValues}});
     },
 

@@ -61,7 +61,7 @@
           ></i>
           <i class="el-icon-plus"></i>
         </div>
-        <div class="user-love" v-show="isShowPlaylist" @click="handleToPlaylistPapg(heartSonglist.id,'myplaylist')">
+        <div class="user-love" v-show="isShowPlaylist" @click="handleToPlaylistPapg(heartSonglist.id,'heartplaylist')">
           <img src="../../../assets/icon/heart.svg" alt="" />
           <span class="name">我喜欢的音乐</span>
         </div>

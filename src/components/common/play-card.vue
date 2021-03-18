@@ -17,9 +17,10 @@
     <div class="text">
       {{ text }}
     </div>
-      <div class="card-YY-MM-DD">
+    <div class="card-YY-MM-DD">
         <slot name="yymmdd"></slot>
-      </div>
+    </div>
+    <div class="track-count" v-show="trackCount">{{trackCount}}首</div>
   </div>
 </template>
 <script>
@@ -30,6 +31,7 @@ export default {
     playcount: Number,
     text: String,
     id: Number,
+    trackCount : Number ,
   },
   data() {
     return {
@@ -94,5 +96,9 @@ export default {
   font-size: 13px;
   font-weight: 300;
   margin-top: 10px;
+}
+.track-count{
+  font-size: 13px;
+  font-weight: 300;
 }
 </style>

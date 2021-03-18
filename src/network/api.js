@@ -1,6 +1,5 @@
 import {request} from './request'
 
-
 /* FindMusic => recommend 组件下的API */
 /* 轮播图 */
 export function getBanner(){
@@ -367,7 +366,7 @@ export function getComment(id,type,pageNo){
     })
 }
 
-//////////////////////////////歌手//////////////////////////////////////////
+//////////////////////////////歌手////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 说明 : 调用此接口 , 传入歌手 id, 可获得获取歌手详情
 // 必选参数 : id: 歌手 id
 // 接口地址 : /artist/detail
@@ -1046,9 +1045,13 @@ export function getPrivateMsgHistory(uid){
 // offset : 偏移数量，用于分页 , 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
 // 接口地址 : /msg/private
 // 调用例子 : /msg/private?limit=3
-export function getMsgPrivate(){
+export function getMsgHistory(){
+    let timestamp = new Date().getTime()
     return request({
         url:'/msg/private',
+        params:{
+            timestamp
+        }
     })
 }
 
@@ -1103,9 +1106,23 @@ export function getMsgNotices(lasttime){
 
 
 
-
-
-
+///////////////////////////////////////////////////////////////////////////////////用户//////////////////////////////////////////////////////////////////////////////////////
+// 关注/取消关注用户
+// 说明 : 登录后调用此接口 , 传入用户 id, 和操作 t,可关注/取消关注用户
+// 必选参数 :
+// id : 用户 id
+// t : 1为关注,其他为取消关注
+// 接口地址 : /follow
+// 调用例子 : /follow?id=32953014&t=1
+export function setFollow(id,t){
+    let timestamp =new Date().getTime()
+    return request({
+        url:'/follow',
+        params:{
+            id,t,timestamp
+        }
+    })
+}
 
 
 
@@ -1161,11 +1178,13 @@ export function account(){
         url:"/user/account"
     })
 }
-export function userDetail(uid){
+
+export function getUserDetail(uid){
+    let timestamp = new Date().getTime()
     return request({
         url:"/user/detail",
         params:{
-            uid
+            uid,timestamp
         }
     })
 }

@@ -39,7 +39,7 @@
           <img
             src="../../../assets/icon/email.svg"
             alt=""
-            @click="getNotices()"
+            @click="ShowMsgDarwer"
           />
           <img src="../../../assets/icon/clothes.svg" alt="" />
           <img src="../../../assets/icon/setting.svg" alt="" />
@@ -47,7 +47,13 @@
       </div>
     </div>
     <!-- 通知栏的弹出框 -->
-    <el-drawer :visible.sync="drawer" size="365px" :show-close="false">
+    <el-drawer
+      :visible="drawer"
+      size="365px"
+      :show-close="false"
+      @close="handleClose"
+      @open="handleOpen"
+    >
       <div class="notice-popover">
         <!--  -->
         <div class="title">消息</div>
@@ -73,7 +79,7 @@
               <div
                 class="text"
                 @click="
-                  handleToInnerDrawer(
+                  clickToInnerDrawer(
                     item.fromUser.userId,
                     item.fromUser.nickname,
                     item.fromUser.avatarUrl
@@ -92,14 +98,16 @@
         <el-drawer
           size="365px"
           :append-to-body="true"
-          :visible.sync="innerDrawer"
+          :visible="innerDrawer"
           :show-close="false"
           :wrapperClosable="false"
+          @open="handleInnerOpen"
+          @close="handleInnerClose"
         >
           <div class="inner-popover">
             <i class="el-icon-arrow-left" @click="handleOutInneerPopover"></i>
             <div class="name">{{ toUserInfo.name }}</div>
-            <div class="content">
+            <div class="content" v-show="!beforMsgs.length == 0 || !newMsgs.length == 0">
               <div class="befor-msg">
                 <div
                   class="msg-card"
@@ -149,6 +157,7 @@
                 </div>
               </div>
             </div>
+            <div class="tip" v-show="beforMsgs.length == 0 && newMsgs.length == 0">暂无私聊</div>
             <el-input
               type="text"
               v-model="text"
@@ -169,9 +178,9 @@ import {
   getHotSearchDetail,
   getSearchSuggest,
   account,
-  userDetail,
+  getUserDetail,
   getLogin,
-  getMsgPrivate,
+  getMsgHistory,
   getPrivateMsgHistory,
   SendText,
 } from "../../../network/api";
@@ -186,16 +195,15 @@ export default {
       HotSearchDetail: [],
       //搜索建议结果的数据
       SearchDetail: {},
+      //自己
       currentUserInfo: null,
-      drawer: false,
-      innerDrawer: false,
       tabItem: ["私信", "评论", "@我", "通知"],
       privateInfo: {},
       currentNav: 0,
-
       beforMsgs: [],
       newMsgs: [],
       text: "",
+      //私信对象信息
       toUserInfo: {},
       //刷新消息的定时器
       msgInterval: null,
@@ -208,8 +216,7 @@ export default {
     go() {
       this.$router.back(1);
     },
-    handleOpen() {},
-    handleClose() {},
+    
     handleInputSearch() {},
     async handleChangeSearch(searchValues) {
       const SearchSuggest = await getSearchSuggest(searchValues);
@@ -241,17 +248,11 @@ export default {
       );
       let data2 = await account();
       console.log(data2);
-      let data1 = await userDetail(data.profile.userId);
+      let data1 = await getUserDetail(data.profile.userId);
       console.log(data1);
     },
 
-    //获取通知消息
-    async getNotices() {
-      let { data } = await getMsgPrivate();
-      this.privateInfo = data.msgs;
-      this.drawer = !this.drawer;
-      //可以做一个timeinterval刷新数据 有新数据就出现红点 并刷新最新一条数据信息 ⭐⭐⭐
-    },
+    
     parseLastNotice(msg) {
       let afterMsg = JSON.parse(msg);
       return afterMsg.msg;
@@ -263,15 +264,42 @@ export default {
       return getYestaryToday(time);
     },
 
-    handleToInnerDrawer(uId, name, cover) {
-      this.toUserInfo = { name, cover, uId };
-      this.innerDrawer = true;
-      this.getPrivateMsg(uId);
-      this.msgInterval = setInterval(() => {
-        this.getPrivateMsg(uId);
-      }, 5000);
-      //推出的时候要关闭这个循环
+    //展示darwer通知页面
+    ShowMsgDarwer(){
+      this.$store.commit("setShowMsgDarwer");
     },
+    //获取通知消息
+    async getNotices() {
+      const { data } = await getMsgHistory();
+      this.privateInfo = data.msgs;
+      //可以做一个timeinterval刷新数据 有新数据就出现红点 并刷新最新一条数据信息 ⭐⭐⭐
+    },
+    //点击具体消息进去对应的私聊
+    clickToInnerDrawer(uId, name, cover) {
+      this.toUserInfo = {uId, name, cover};
+      this.getPrivateMsg(uId);
+      this.$store.commit("setShowMsgInnerDarwer");
+    },
+    //drawer的回调事件
+    handleOpen() {
+      //通过用户个人界面进去进行私聊 先处理聊天对象的信息 否者就模板渲染比数据快 数据就渲染不上去了
+      this.toUserInfo = this.$store.state.toUserInfo
+      this.getPrivateMsg(this.toUserInfo.uId);
+    },
+    handleClose() {
+      this.$store.commit("setShowMsgDarwer");
+    },
+    handleInnerOpen(){
+      //计时器定时更新数据
+      this.msgInterval = setInterval(() => {
+        this.getPrivateMsg(this.toUserInfo.uId);
+      }, 5000);
+    },
+    handleInnerClose(){
+      //返回darwer时候刷新数据
+      this.getNotices()
+    },
+
 
     //获取历史聊天记录
     async getPrivateMsg(uId) {
@@ -303,7 +331,7 @@ export default {
 
     //退出innnerPopover
     handleOutInneerPopover() {
-      this.innerDrawer = false;
+      this.$store.commit("setShowMsgInnerDarwer");
       //清除聊天数据
       this.beforMsgs = [];
       this.newMsgs = [];
@@ -311,7 +339,7 @@ export default {
       window.clearInterval(this.msgInterval);
     },
 
-    //发送消息
+    //处理发送消息事件
     async sendMsgs() {
       //数据返回的是历史消息
       const { data } = await SendText(this.toUserInfo.uId, this.text);
@@ -338,9 +366,21 @@ export default {
       this.text = "";
     },
   },
+
   async created() {
     const { data } = await getHotSearchDetail();
     this.HotSearchDetail = data.data;
+    this.getNotices()
+    //通过vuex传入touser的信息
+    this.toUserInfo = this.$store.state.toUserInfo
+  },
+  computed: {
+    drawer() {
+      return this.$store.state.isShowMsgDrawer;
+    },
+    innerDrawer(){
+      return this.$store.state.isShowInnerMsgDrawer;
+    }
   },
 };
 </script>

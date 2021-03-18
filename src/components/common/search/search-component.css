@@ -33,6 +33,7 @@
   width: 360px;
   display: flex;
   margin-bottom: 5px;
+  cursor: pointer;
 }
 .search .hot-search .item .left {
   width: 50px;
