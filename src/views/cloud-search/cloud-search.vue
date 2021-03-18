@@ -148,7 +148,6 @@ export default {
     async getInfo() {
       let solo = await getCloudSearch(this.$route.query.keywords, 1);
       let searchResult = await getSearchMultimatch(this.$route.query.keywords);
-      this.searchResult = searchResult.data.result.artist;
       let albumInfo = await getCloudSearch(this.$route.query.keywords, 10);
       let singerInfo = await getCloudSearch(this.$route.query.keywords, 100);
       let playlistInfo = await getCloudSearch(this.$route.query.keywords, 1000);
@@ -157,6 +156,7 @@ export default {
       let lyricInfo = await getCloudSearch(this.$route.query.keywords, 1006);
       let anchorInfo = await getCloudSearch(this.$route.query.keywords, 1009);
       this.$store.commit("setAllSongListInfo", solo.data.result.songs);
+      this.searchResult = searchResult.data.result.artist;
       this.soloInfo = solo.data.result;
       this.singerInfo = singerInfo.data.result;
       this.albumInfo = albumInfo.data.result;

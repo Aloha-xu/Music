@@ -251,13 +251,11 @@ export default {
       let data1 = await getUserDetail(data.profile.userId);
       console.log(data1);
     },
-
-    
     parseLastNotice(msg) {
       let afterMsg = JSON.parse(msg);
       return afterMsg.msg;
     },
-    getYMD(time) {
+    getYMD(time) {  
       return getYMD(time);
     },
     getYestaryToday(time) {

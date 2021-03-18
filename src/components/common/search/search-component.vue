@@ -121,7 +121,7 @@ export default {
           this.isShowHotSearch = false;
           this.isShowStringSearch = false;
         }
-      }, 100);
+      }, 200);
     },
 
     handleShowCloudSearch() {
@@ -132,26 +132,30 @@ export default {
     },
 
     handleToSearchDetailPapg() {
-      console.log("2222")
+      console.log("1111")
       this.$router.push({path:"/cloudsearch",query:{keywords:this.searchValues}});
     },
 
     handleToSingerDetailPapg(id) {
+      console.log("22222")
+      
       this.$router.push("/singerlistdetail/" + id);
     },
 
     handleToAlbumDetailPapg(id) {
+      console.log("3333")
+
       this.$router.push("/albumlistdetail/" + id);
     },
 
     handleClickHotSong(searchValues) {
+      console.log("4444")
+
       if (this.isShowHotSearch) {
         this.isShowHotSearch = false;
       }
       this.searchValues = searchValues
-      //直接跳到detail界面
-      console.log("一点击")
-      this.$router.push({path:"/cloudsearch",query:{keywords:searchValues}});
+        this.$router.push({path:"/cloudsearch",query:{keywords:this.searchValues}});
     },
 
     handlePlaySong() {},
