@@ -53,7 +53,7 @@
             v-for="(item, index) in this.$store.state.currentSongInfo.lyric"
             :key="index"
             class="lyric-item"
-            :class="currentPlayTime(item, index) ? 'lyric-active' : ''"
+            :class="syncLyricToTime(item, index) ? 'lyric-active' : ''"
           >
             {{ item.content }}
           </div>
@@ -84,25 +84,25 @@
     <!-- 评论 -->
     <div class="comment">
       <div class="title">评论：</div>
-        <el-input
-          type="textarea"
-          placeholder="请输入内容"
-          v-model="textarea"
-          maxlength="140"
-          show-word-limit
-        >
-        </el-input>
-        <comment-card
-          v-for="(item, index) in commentInfo"
-          :key="index"
-          :likedCount="item.likedCount"
-          :name="item.user.nickname"
-          :pic="item.user.avatarUrl"
-          :text="item.content"
-          :time="item.time"
-        ></comment-card>
-      </div>
+      <el-input
+        type="textarea"
+        placeholder="请输入内容"
+        v-model="textarea"
+        maxlength="140"
+        show-word-limit
+      >
+      </el-input>
+      <comment-card
+        v-for="(item, index) in commentInfo"
+        :key="index"
+        :likedCount="item.likedCount"
+        :name="item.user.nickname"
+        :pic="item.user.avatarUrl"
+        :text="item.content"
+        :time="item.time"
+      ></comment-card>
     </div>
+  </div>
 </template>
 
 <script>
@@ -117,7 +117,10 @@ export default {
   },
   data() {
     return {
-      textarea:'',
+      textarea: "",
+      playing: this.$store.state.playing,
+      interval: null,
+
     };
   },
   methods: {
@@ -131,9 +134,10 @@ export default {
         //因为filter会把div下全部标签都虚化了
       };
     },
-    
-    //歌词样式变换控制函数
-    currentPlayTime(values, index) {
+
+    //歌词样式控制
+    //同步歌曲播放进度与歌词
+    syncLyricToTime(values, index) {
       let flag = false;
       //快进或者减慢歌词速度控制变量
       let controlLyricSpeedValues = -0.5;
@@ -148,11 +152,21 @@ export default {
       }
       return flag;
     },
-    
+
     handleCurrentScorllLocation() {
-      this.$refs.lyric.scrollBy(0, 5);
+      //通过audio时间与歌词数量判断移动的距离x
+      // 6   7  行歌词前就不用动scroll
+      // 然后后面的就一行歌词 20px的位移
+      //最后到剩下 6  7  行的样子就不需要移动了
+      let currentTime = parseInt(this.$store.state.currentTime / 1000);
+      console.log(currentTime);
+      let lyric = this.$store.state.currentSongInfo.lyric;
+      for (let i = 6; i < lyric.length - 6; i++) {
+        if (lyric[i].time === currentTime) {
+          this.$refs.lyric.scrollBy(0, 20);
+        }
+      }
     },
-    
   },
   computed: {
     songInfo() {
@@ -164,6 +178,21 @@ export default {
     commentInfo() {
       return this.$store.state.commentInfo;
     },
+  },
+  created() {
+    this.interval = setInterval(() => {
+      this.handleCurrentScorllLocation();
+    }, 1000);
+  },
+  watch: {
+    playing() {
+      if (!this.playing) {
+        clearInterval(this.interval);
+      }
+    },
+    songInfo(){
+      this.$refs.lyric.scrollTo(0,0)
+    }
   },
 };
 </script>
