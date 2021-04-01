@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-pic">
-      <el-image :src="pic" alt="" lazy class="img" @click="cardClick" />
+      <img :src="pic" @click="cardClick"  class="playcard-img"/>
       <span class="palycount">
         <slot name="card_palycount">{{ playCount }}</slot>
       </span>
@@ -71,10 +71,10 @@ export default {
   margin-top: 10px;
   border-radius: 5px;
 }
-.img {
-  width: 100%;
-  border-radius: 5px;
-}
+.playcard-img{
+    width: 100%;
+    border-radius: 5px;
+    }
 .palycount {
   position: absolute;
   top: 3px;
