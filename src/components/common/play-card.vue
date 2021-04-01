@@ -27,11 +27,23 @@
 export default {
   name: "PlayCard",
   props: {
-    pic: String,
-    playcount: Number,
-    text: String,
-    id: Number,
-    trackCount : Number ,
+    pic:{
+      type:String,
+      default:''
+    },
+    playcount:{
+      type:Number,
+      default:0
+    },text:{
+      type:String,
+      default:''
+    },id:{
+      type:Number,
+      default:0
+    },trackCount:{
+      type:Number,
+      default:0
+    },
   },
   data() {
     return {

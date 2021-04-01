@@ -1,0 +1,18 @@
+.high-quality-playlist {
+  overflow: scroll;
+  height: 80vh;
+}
+.high-quality-playlist .head .title {
+  font-size: 30px;
+  font-weight: 700;
+}
+.high-quality-playlist .head .type-btn {
+  border: 1px solid gray;
+  padding: 7px;
+}
+.high-quality-playlist .content_ {
+  display: flex;
+}
+.high-quality-playlist .content_ .cards {
+  width: 50%;
+}

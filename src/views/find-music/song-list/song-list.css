@@ -8,7 +8,7 @@
 .song-list .content {
   width: 1100px;
 }
-.song-list .content .top {
+.song-list .content .high-quality-playlist {
   cursor: pointer;
   width: 1100px;
   height: 170px;
@@ -17,34 +17,34 @@
   border: 1 solid white;
   border-radius: 10px;
 }
-.song-list .content .top .backgroundimage {
+.song-list .content .high-quality-playlist .backgroundimage {
   height: 170px;
   filter: blur(30px);
 }
-.song-list .content .top .backgroundimage img {
+.song-list .content .high-quality-playlist .backgroundimage img {
   width: 100%;
   height: 100%;
 }
-.song-list .content .top .pic {
+.song-list .content .high-quality-playlist .pic {
   position: absolute;
   top: 0;
   left: 0;
   height: 150px;
   width: 150px;
 }
-.song-list .content .top .pic img {
+.song-list .content .high-quality-playlist .pic img {
   width: 100%;
   margin: 10px;
   border-radius: 5px;
 }
-.song-list .content .top .text {
+.song-list .content .high-quality-playlist .text {
   position: absolute;
   top: 0;
   left: 170px;
   margin-left: 20px;
   margin-top: 30px;
 }
-.song-list .content .top .text .logo {
+.song-list .content .high-quality-playlist .text .logo {
   border: 1px solid goldenrod;
   border-radius: 20px;
   padding: 5px;
@@ -54,11 +54,11 @@
   line-height: 20px;
   color: gold;
 }
-.song-list .content .top .text .text-1 {
+.song-list .content .high-quality-playlist .text .text-1 {
   margin-top: 25px;
   color: aliceblue;
 }
-.song-list .content .top .text .text-2 {
+.song-list .content .high-quality-playlist .text .text-2 {
   margin-top: 5px;
   font-size: 12px;
   color: #cfcece;

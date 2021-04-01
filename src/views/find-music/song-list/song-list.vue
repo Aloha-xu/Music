@@ -2,7 +2,9 @@
   <div class="song-list" ref="song_list">
     <!--歌单页面下的顶部歌单种类大卡片显示处  -->
     <div class="content">
-      <div class="top">
+
+      <!-- 精品歌单 -->
+      <div class="high-quality-playlist" @click="clickToHighQualityPlaylistPapg">
         <div class="backgroundimage">
           <img :src="TopSongListInfo[0].coverImgUrl" alt="" />
         </div>
@@ -22,7 +24,7 @@
         <div class="type">
           <!-- ⭐切换歌曲类型时候字体数量变化时右边的热门词语会往左边跑 -->
           <div class="alltype" @click="HandleShowPopover">
-            <el-button>{{CurrentPopoverType}}</el-button>
+            <el-button>{{ CurrentPopoverType }}</el-button>
           </div>
           <div class="hottype">
             <span
@@ -50,6 +52,8 @@
           </play-card>
         </div>
       </div>
+
+      <!-- 页码组件 -->
       <div class="pagination">
         <div class="block">
           <el-pagination
@@ -64,8 +68,15 @@
         </div>
       </div>
     </div>
+
     <!-- popover弹出框组件 -->
-    <all-type-popover :TypeLists="TypeLists" :HotSongType="HotSongType" class="alltypepopover"  v-show="isShowPopover" @handleSongTypeClick="handleSongTypeClick"></all-type-popover>
+    <all-type-popover
+      :TypeLists="TypeLists"
+      :HotSongType="HotSongType"
+      class="alltypepopover"
+      v-show="isShowPopover"
+      @handleSongTypeClick="handleSongTypeClick"
+    ></all-type-popover>
   </div>
 </template>
 
@@ -112,7 +123,7 @@ export default {
         4: { type: "", list: [] },
       },
       //是否显示全部歌单popover
-      isShowPopover:false
+      isShowPopover: false,
     };
   },
   methods: {
@@ -145,7 +156,7 @@ export default {
     async getHotSongListType() {
       const { data } = await getHotSongListType();
       // console.log(data)
-      this.HotSongType = data.tags.map(({name})=>name);
+      this.HotSongType = data.tags.map(({ name }) => name);
       // console.log(this.HotSongType);
     },
     /* 获取精品歌单 */
@@ -153,7 +164,7 @@ export default {
       const { data } = await getTopSonglist(cat, limit, before);
       //拿到数据中第一条作为精品歌单页面进去的入口
       this.TopSongListInfo = data.playlists.slice(0, 1);
-      // console.log(data);
+      console.log(data);
       // console.log(this.TopSongListInfo);
     },
     /* 获取精品歌单标签列表 */
@@ -169,7 +180,7 @@ export default {
       //设置当前音乐类型
       this.CurrentType = type;
       //设置当前popover的音乐类型
-      this.CurrentPopoverType=type
+      this.CurrentPopoverType = type;
       //根据选着的音乐类型更新数据
       this.getSongList(type, 100, 0);
       //更换精品页面的数据
@@ -214,33 +225,35 @@ export default {
     },
 
     //处理popover是否显示
-    HandleShowPopover(){
-      this.isShowPopover=!this.isShowPopover
+    HandleShowPopover() {
+      this.isShowPopover = !this.isShowPopover;
     },
     //处理popover发射出来的已选择歌曲类型
-    handleSongTypeClick(value){
+    handleSongTypeClick(value) {
       //设置当前popover的歌单类型
-      this.CurrentPopoverType=value
+      this.CurrentPopoverType = value;
       //重置歌单数据
       this.getSongList(value, 100, 0);
       //关闭popover窗口
-      this.isShowPopover=false
+      this.isShowPopover = false;
       //判断发射出来的音乐类型是不是在热门类型里面
-      let i=0
-      let flag=false
-      for(i;i<=9;i++){
-        if(value===this.HotSongType[i]){
-          flag=true
-          break
+      let i = 0;
+      let flag = false;
+      for (i; i <= 9; i++) {
+        if (value === this.HotSongType[i]) {
+          flag = true;
+          break;
         }
       }
-      if(flag){
-        this.CurrentType=value
-      }else{
-        this.CurrentType=""
+      if (flag) {
+        this.CurrentType = value;
+      } else {
+        this.CurrentType = "";
       }
+    },
+    clickToHighQualityPlaylistPapg(){
+      this.$router.push('/highqualityplaylist')
     }
-    
   },
   async created() {
     this.getSongListType();
