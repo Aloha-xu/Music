@@ -102,11 +102,11 @@ export default {
     };
   },
   async created() {
+    this.getInfo();
+    this.itemClick(0);
     setTimeout(() => {
       this.setDelay = true
     }, 1500);
-    this.getInfo();
-    this.itemClick(this.currentIndex);
   },
   methods: {
     itemClick(value) {
