@@ -17,12 +17,14 @@
         alt=""
         v-show="!isHeart(item.id)"
         @click="ClickHeart(item.id,index)"
+        class="no-active-heart"
       />
       <img
         src="../../../assets/icon/heartactive.svg"
         alt=""
         v-show="isHeart(item.id)"
         @click="ClickHeart(item.id,index)"
+        class="active-heart"
       />
       <p class="el-icon-download"></p>
       <div class="song-name" @click="HandleSongClick(item, index)">

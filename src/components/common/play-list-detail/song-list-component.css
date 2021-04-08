@@ -26,13 +26,19 @@
 }
 .songlist-component .song-item .index-number {
   margin: 0 10px 0 20px;
+  vertical-align: middle;
 }
-.songlist-component .song-item img {
+.songlist-component .song-item .no-active-heart,
+.songlist-component .song-item .active-heart {
   margin: 0 5px;
+  width: 20px;
+  height: 30px;
+  vertical-align: middle;
 }
 .songlist-component .song-item p {
   margin: 0 5px;
   margin-top: 7px;
+  vertical-align: middle;
 }
 .songlist-component .song-item .song-name {
   flex: 6;

@@ -159,7 +159,7 @@ export default {
       // 然后后面的就一行歌词 20px的位移
       //最后到剩下 6  7  行的样子就不需要移动了
       let currentTime = parseInt(this.$store.state.currentTime / 1000);
-      console.log(currentTime);
+      // console.log(currentTime);
       let lyric = this.$store.state.currentSongInfo.lyric;
       for (let i = 6; i < lyric.length - 6; i++) {
         if (lyric[i].time === currentTime) {

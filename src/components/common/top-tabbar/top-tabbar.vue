@@ -211,10 +211,16 @@ export default {
   },
   methods: {
     back() {
-      this.$router.back();
+      //在使用this.$router.back();这种方式前进与后退路由的时候，在跳转到别的页面之后返回到上一个界面后，无法再前进到之前跳转的页面
+      // this.$router.back();
+      history.back();
+      // console.log(history)
     },
     go() {
-      this.$router.back(1);
+      // this.$router.back(1);
+      history.go(1);
+      // console.log(history)
+
     },
     
     handleInputSearch() {},
