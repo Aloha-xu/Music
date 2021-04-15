@@ -12,15 +12,15 @@
         <div class="time">{{ showDate }}</div>
         <div class="tools">
           <div class="like">
-            <i class="el-icon-thumb"></i>
+            <i class="el-icon-thumb" @click="toLike"></i>
             <span>{{ likedCount }}</span>
           </div>
           <span>|</span>
-          <div class="share">
+          <div class="share" @click="toShare">
             <i class="el-icon-share"></i>
           </div>
           <span>|</span>
-          <div class="reply">
+          <div class="reply" @click="toReply">
             <i class="el-icon-chat-line-round"></i>
           </div>
         </div>
@@ -39,6 +39,7 @@ export default {
     pic: String,
     likedCount: Number,
     time: Number,
+    uid:Number,
   },
   data() {
     return {};
@@ -47,6 +48,18 @@ export default {
     showDate() {
       return getYMDHMS(this.time);
     },
+  },
+  methods: {
+    toLike(){
+      this.$emit("handleLike");
+    },
+    toShare(){
+      this.$emit("handleShareComment");
+    },
+    toReply(){
+      this.$emit("handleReplyComment",[this.uid,this.name]);
+      
+    }
   },
 };
 </script>

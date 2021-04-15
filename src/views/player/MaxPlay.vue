@@ -82,9 +82,9 @@
       </div>
     </div>
     <!-- 评论 -->
-    <div class="comment">
+    <div class="comment_">
       <div class="title">评论：</div>
-      <el-input
+      <!-- <el-input
         type="textarea"
         placeholder="请输入内容"
         v-model="textarea"
@@ -100,20 +100,22 @@
         :pic="item.user.avatarUrl"
         :text="item.content"
         :time="item.time"
-      ></comment-card>
+      ></comment-card> -->
+      <comment :commentInfo="commentInfo"></comment>
     </div>
   </div>
 </template>
 
 <script>
-import CommentCard from "../../components/common/comment-card.vue";
+// import CommentCard from "../../components/common/comment-card.vue";
 import NewMusicCard from "../../components/common/findmusic/recommend/new-music/new-music-card.vue";
+import Comment from '../../components/common/play-list-detail/comment.vue';
 /* import { mapState} from "vuex"; */
 export default {
   name: "MaxPlay",
   components: {
     NewMusicCard,
-    CommentCard,
+    Comment,
   },
   data() {
     return {

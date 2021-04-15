@@ -68,7 +68,7 @@
         </div>
         <div class="comment">
           <div class="title">评论({{ commentCount }})</div>
-          <comment :commentInfo="commentInfo"></comment>
+          <comment :commentInfo="commentInfo" :t="t" :type="type" :id="this.id"></comment>
         </div>
       </div>
       <!-- 不想写了 -->
@@ -111,6 +111,10 @@ export default {
       videoGroup: [],
       isShowDescription: false,
       title: "",
+      
+      t:null,
+      type:null,
+
     };
   },
   methods: {
@@ -174,8 +178,12 @@ export default {
   created() {
     if (Number(this.$route.params.id)) {
       this.getMvDetailInfo();
+      this.t = 1;
+      this.type = 1;
     } else {
       this.getVideoDetailInfo();
+      this.t = 1;
+      this.type = 5;
     }
   },
 };

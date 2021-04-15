@@ -29,13 +29,13 @@
       <div v-else-if="currentIndex === 2" class="albumdetail">
         
       </div>
-      <comment v-else class="comment" :commentInfo="commentInfo"></comment>
+      <comment v-else class="comment" :commentInfo="commentInfo" :id="this.id" :t=1 :type=3></comment>
     </div>
   </div>
 </template>
 
 <script>
-import Comment from "../../components/common/play-list-detail/comment";
+import Comment from "../../components/common/play-list-detail/comment.vue";
 import PlayListDetailHead from "../../components/common/play-list-detail/play-list-detail-head.vue";
 import SongListComponent from "../../components/common/play-list-detail/song-list-component.vue";
 import {

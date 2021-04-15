@@ -40,11 +40,14 @@
   float: right;
 }
 .comment-card .comment-content .time-tools .tools .like {
+  cursor: pointer;
   margin: 0 10px;
 }
 .comment-card .comment-content .time-tools .tools .share {
+  cursor: pointer;
   margin: 0 10px;
 }
 .comment-card .comment-content .time-tools .tools .reply {
+  cursor: pointer;
   margin: 0 10px;
 }

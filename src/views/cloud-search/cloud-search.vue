@@ -1,6 +1,6 @@
 <template>
   <div class="cloud-search">
-    <div class="title" v-if="titleValue">找到{{ titleValue }}</div>
+    <div class="title" v-show="setDelay && titleValue ">找到{{ titleValue }}</div>
     <div class="navbar">
       <div
         v-for="(item, index) in navbar"
@@ -103,10 +103,12 @@ export default {
   },
   async created() {
     this.getInfo();
-    this.itemClick(0);
     setTimeout(() => {
       this.setDelay = true
     }, 1500);
+    setTimeout(() => {
+      this.itemClick(0)
+    }, 3000);
   },
   methods: {
     itemClick(value) {
@@ -176,14 +178,16 @@ export default {
   },
   watch: {
     $route() {
-      this.setDelay =false
-      this.currentIndex = 0
       this.getInfo();
-      this.itemClick(this.currentIndex);
+      this.setDelay = false
+      this.currentIndex = 0
       setTimeout(() => {
-      this.setDelay = true
+        this.setDelay = true
+        this.itemClick(this.currentIndex);
     }, 1500);
+    console.log("rotue进入");
     },
+
   },
 };
 </script>

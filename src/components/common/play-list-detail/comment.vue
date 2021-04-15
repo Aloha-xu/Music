@@ -7,26 +7,50 @@
         v-model="textarea"
         maxlength="140"
         show-word-limit
+        id="input"
+        ref="input_"
       >
       </el-input>
+      <el-button size="medium" round class="send" @click="sendComment">发送</el-button>
     </div>
     <div class="comment-item">
-      <comment-card v-for="(item,index) in commentInfo" :key="index"  :likedCount="item.likedCount" :name="item.user.nickname" :pic="item.user.avatarUrl" :text="item.content" :time="item.time"></comment-card>
+      <comment-card v-for="(item,index) in commentInfo" :key="index"  :likedCount="item.likedCount" :name="item.user.nickname" :pic="item.user.avatarUrl" :text="item.content" :time="item.time"  :uid="item.commentId"  @handleReplyComment="handleReplyComment"></comment-card>
     </div>
   </div>
 </template>
 <script>
 import CommentCard from '../comment-card.vue';
+import {SendOrDelComment} from '../../../network/api'
 export default {
   components: { CommentCard },
   name: "Comment",
   data() {
     return {
     textarea:'',
+    uid:null,
     }
   },
   props:{
-    commentInfo:Array
+    commentInfo:Array,
+    id:String,
+    type:Number,
+    t:Number,
+  },
+  methods: {
+    async sendComment(){
+      const {data} = await SendOrDelComment(this.t,this.type,this.id,this.textarea,this.uid)
+      this.textarea= "";
+      console.log(data)
+      console.log('data')
+    },
+    handleReplyComment(value){
+      this.textarea= "回复"+ value[1] ;
+      this.uid = value [0];
+      this.t = 2 ;
+      //两种方法设置focus 一个是原生的 一个是通过ref
+      // document.getElementById("input").focus(); 
+      this.$refs.input_.focus();
+    }
   },
 };
 </script>
@@ -37,5 +61,9 @@ export default {
 }
 .comment .comment-input-area{
   width: 98%;
+}
+.send{
+  margin-top: 10px;
+  float: right;
 }
 </style>

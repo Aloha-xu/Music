@@ -96,13 +96,13 @@
 .max-play .simi-song .simi-content .simi-item {
   width: 30%;
 }
-.max-play .comment {
+.max-play .comment_ {
   width: 1100px;
   margin-top: 40px;
   position: absolute;
   top: 550px;
 }
-.max-play .comment .title {
+.max-play .comment_ .title {
   font-size: x-large;
   padding-bottom: 20px;
 }
