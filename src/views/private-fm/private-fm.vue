@@ -36,10 +36,10 @@
           <div class="delete">
             <i class="el-icon-delete" style="font-size: 30px"></i>
           </div>
-          <div class="next" @click.stop="nextSong()">
+          <div class="next" >
             <i class="el-icon-caret-right" style="font-size: 30px"></i>
           </div>
-          <div class="more" @click="test()">
+          <div class="more" >
             <i class="el-icon-more" style="font-size: 30px"></i>
           </div>
         </div>
@@ -129,6 +129,7 @@ export default {
         this.songInfoGroup.push(currentSongInfo);
       }
 
+      this.$store.state.songList = this.songInfoGroup;
 
       //设置第一首歌曲的信息
       this.currentSongInfo =JSON.parse(JSON.stringify(this.songInfoGroup[0]));
@@ -163,22 +164,20 @@ export default {
       //是 --》请求数据     不是 --》切下一首
       if (this.currentSongIndex === 3) {
         //清除原有的数据
-        this.currentSongInfo = {};
+        // this.currentSongInfo = {};
         this.songInfoGroup = [];
-        this.allSongInfo = {};
-        this.commentInfo = [];
+        // this.allSongInfo = {};
+        // this.commentInfo = [];
         this.currentSongIndex = 0,
         this.playing = false,
         //再一次请求数据
         this.getSongInfo();
         this.updataInfo();
       } else {
-        let test = JSON.parse(JSON.stringify(this.songInfoGroup[this.currentSongIndex]));
-        this.currentSongInfo = test
+        this.currentSongInfo = JSON.parse(JSON.stringify(this.songInfoGroup[this.currentSongIndex]));
         this.$store.commit("changeCurrentPlay", this.currentSongInfo);
         this.getOtherInfo();
         this.currentSongIndex++;
-        console.log(this.currentSongInfo);
       }
       this.findCorrectUrl();
       // //每点击下一首歌曲的时候 当currentSongIndex=3时 删掉最前面一首
