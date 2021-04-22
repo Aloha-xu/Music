@@ -163,9 +163,11 @@ export default {
       let currentTime = parseInt(this.$store.state.currentTime / 1000);
       // console.log(currentTime);
       let lyric = this.$store.state.currentSongInfo.lyric;
-      for (let i = 6; i < lyric.length - 6; i++) {
-        if (lyric[i].time === currentTime) {
-          this.$refs.lyric.scrollBy(0, 20);
+      if(!lyric){
+        for (let i = 6; i < lyric.length - 6; i++) {
+          if (lyric[i].time === currentTime) {
+            this.$refs.lyric.scrollBy(0, 20);
+          }
         }
       }
     },

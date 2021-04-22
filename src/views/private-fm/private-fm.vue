@@ -1,12 +1,15 @@
 <template>
-<!-- 这个私人fm接口回来的数据在短时间内是相同的 没有写完minplay与私人fm接口数据的同步问题 -->
-  <div class="private-fm" >
+  <!-- 这个私人fm接口回来的数据在短时间内是相同的 没有写完minplay与私人fm接口数据的同步问题 -->
+  <div class="private-fm">
     <div class="fm-content">
       <div class="record-tools">
         <div class="record">
           <div class="pic">
-            <img :src="currentSongInfo.pic" class="current-pic" />
-            <img :src="songInfoGroup[currentSongIndex+1].pic" class="next-pic" />
+            <img :src="songInfo.pic" class="current-pic" />
+            <img
+              :src="songInfoGroup[currentSongIndex + 1].pic"
+              class="next-pic"
+            />
             <i class="el-icon-caret-right play-button" v-show="!playing"></i>
             <img
               src="../../assets/icon/controltools/stop.png"
@@ -33,22 +36,22 @@
           <div class="delete">
             <i class="el-icon-delete" style="font-size: 30px"></i>
           </div>
-          <div class="next" @click="nextSong()">
+          <div class="next" @click.stop="nextSong()">
             <i class="el-icon-caret-right" style="font-size: 30px"></i>
           </div>
-          <div class="more">
+          <div class="more" @click="test()">
             <i class="el-icon-more" style="font-size: 30px"></i>
           </div>
         </div>
       </div>
       <div class="song-info">
-        <div class="song-name">{{ currentSongInfo.name }}</div>
+        <div class="song-name">{{ songInfo.name }}</div>
         <div class="album-name">
-          专辑：<span>{{ currentSongInfo.album }}</span>
+          专辑：<span>{{ songInfo.album }}</span>
         </div>
         <div
           class="singer-name"
-          v-for="item in currentSongInfo.singer"
+          v-for="item in songInfo.singer"
           :key="item"
         >
           歌手：<span>{{ item }}</span>
@@ -57,10 +60,10 @@
         <div
           class="lyric"
           ref="lyric"
-          v-if="!currentSongInfo.lyric.length == 0"
+          v-if="!songInfo.lyric.length == 0"
         >
           <div
-            v-for="(item, index) in currentSongInfo.lyric"
+            v-for="(item, index) in songInfo.lyric"
             :key="index"
             class="lyric-item"
           >
@@ -126,8 +129,9 @@ export default {
         this.songInfoGroup.push(currentSongInfo);
       }
 
+
       //设置第一首歌曲的信息
-      this.currentSongInfo = this.songInfoGroup[0];
+      this.currentSongInfo =JSON.parse(JSON.stringify(this.songInfoGroup[0]));
       let comment = await getMusicComment(this.currentSongInfo.id);
       this.commentInfo = comment.data.comments;
       let lyric = await getSongLyric(this.currentSongInfo.id);
@@ -139,6 +143,10 @@ export default {
       // console.log(this.lyric);
       // console.log(this.songInfoGroup);
       // console.log(this.currentSongInfo);
+
+      this.$store.commit("changeCurrentPlay", this.currentSongInfo);
+      this.$store.commit("play");
+      this.findCorrectUrl();
     },
 
     //获取特定id歌曲的评论与歌词
@@ -153,30 +161,26 @@ export default {
     nextSong() {
       //判断是否是最后一首
       //是 --》请求数据     不是 --》切下一首
-      if (this.songInfoGroup.length === this.currentSongIndex) {
+      if (this.currentSongIndex === 3) {
         //清除原有的数据
-        this.currentSongInfo={}
-        this.songInfoGroup=[]
-        this.allSongInfo={}
-        this.commentInfo=[]
-        this.currentSongIndex=0,
-        this.playing=false,
+        this.currentSongInfo = {};
+        this.songInfoGroup = [];
+        this.allSongInfo = {};
+        this.commentInfo = [];
+        this.currentSongIndex = 0,
+        this.playing = false,
         //再一次请求数据
         this.getSongInfo();
         this.updataInfo();
-        // console.log(this.currentSongIndex);
-        this.findCorrectUrl()
       } else {
-        this.getOtherInfo();
+        let test = JSON.parse(JSON.stringify(this.songInfoGroup[this.currentSongIndex]));
+        this.currentSongInfo = test
         this.$store.commit("changeCurrentPlay", this.currentSongInfo);
-        let currentSongIndex = this.songInfoGroup.findIndex(
-          (item) => item.id == this.currentSongInfo.id
-        );
-        this.currentSongInfo = this.songInfoGroup[currentSongIndex + 1];
+        this.getOtherInfo();
         this.currentSongIndex++;
-        this.findCorrectUrl()
+        console.log(this.currentSongInfo);
       }
-
+      this.findCorrectUrl();
       // //每点击下一首歌曲的时候 当currentSongIndex=3时 删掉最前面一首
       //这个功能不写了
       // if(this.currentSongIndex===3){
@@ -185,28 +189,26 @@ export default {
     },
     updataInfo() {
       //把歌单的全部歌曲添加到播放列表
-      this.$store.commit("setAllSongsToPlayList");
-      //清除vuex的歌单列表
-      this.$store.commit("clearSongList");
+      this.$store.state.songList = this.songInfoGroup;
       //设置当前播放歌曲的下标 要同步两个界面的信息
-      this.$store.commit("setCurrentIndex",this.currentSongIndex);
+      this.$store.commit("setCurrentIndex", this.currentSongIndex);
       //点击播放按钮后才把数据传到vuex
       this.$store.commit("setAllSongListInfo", this.allSongInfo);
       this.$store.commit("setAllSongUrls", this.urls);
       //加载图片
       this.$store.commit("setIsLoad", true);
-      this.$store.commit("changeCurrentPlay", this.currentSongInfo);
-      this.$store.commit("setSongListInfo", this.songInfoGroup);
+      // this.$store.commit("changeCurrentPlay", this.currentSongInfo);
+      // this.$store.commit("setSongListInfo", this.songInfoGroup);
     },
 
     //找到正确的url 这里不知道是对谁错 数据没验证
     findCorrectUrl() {
-        for (let j = 0; j < this.urls.length; j++) {
-            if (this.urls[j].id == this.currentSongInfo.id) {
-                this.currentSongInfo.url = this.urls[j].url;
-                return
-            }
+      for (let j = 0; j < this.urls.length; j++) {
+        if (this.urls[j].id == this.currentSongInfo.id) {
+          this.currentSongInfo.url = this.urls[j].url;
+          return;
         }
+      }
     },
 
     currentPlayTime(values, index) {
@@ -226,15 +228,18 @@ export default {
     },
   },
   async created() {
+    //一开始进来的时候会自动播放请求到数据的第一首歌
+    //只是第一次created的时候
     this.getSongInfo();
+    this.updataInfo();
   },
   components: {
     Comment,
   },
   computed: {
-    // songInfo() {
-    //   return this.$store.state.currentSongInfo;
-    // },
+    songInfo() {
+      return this.$store.state.currentSongInfo;
+    },
   },
 };
 </script>

@@ -197,32 +197,20 @@ export default {
       switch (this.wayOfPlay) {
         case 0:
           this.setNextSong();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
-          this.$refs.audio.play();
           break;
         case 1:
           this.randomPlayWay();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
-
-          this.$refs.audio.play();
           break;
         case 2:
           this.singlePlayWay();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
-
-          this.$refs.audio.play();
           break;
         case 3:
           this.setNextSong();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
-
-          this.$refs.audio.play();
           break;
       }
+      this.findCorrectUrl();
+      this.getMaxPlayAllInfo()
+      this.$refs.audio.play();
     },
 
     pause() {
@@ -271,54 +259,38 @@ export default {
       switch (this.wayOfPlay) {
         case 0:
           this.setNextSong();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
           break;
         case 1:
           this.randomPlayWay();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
           break;
         case 2:
           this.setNextSong();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
           break;
         case 3:
           this.setNextSong();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
           break;
       }
+      this.findCorrectUrl();
+      this.getMaxPlayAllInfo()
     },
 
     async preSong() {
       switch (this.wayOfPlay) {
         case 0:
           this.setPreSong();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
           break;
         case 1:
           this.randomPlayWay();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
-
           break;
         case 2:
           this.setPreSong();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
-
           break;
         case 3:
           this.setPreSong();
-          this.findCorrectUrl();
-          this.getMaxPlayAllInfo()
-
           break;
       }
-
+      this.findCorrectUrl();
+      this.getMaxPlayAllInfo()
     },
 
     controlSongLists() {

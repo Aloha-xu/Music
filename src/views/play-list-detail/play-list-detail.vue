@@ -38,7 +38,7 @@
 import Collecter from "../../components/common/play-list-detail/collecter";
 import Comment from "../../components/common/play-list-detail/comment.vue";
 import PlayListDetailHead from "../../components/common/play-list-detail/play-list-detail-head.vue";
-import SongListComponent from "../../components/common/play-list-detail/song-list-component";
+import SongListComponent from "../../components/common/play-list-detail/song-list-component.vue";
 import {
   getSongListDetail,
   getCollector,
