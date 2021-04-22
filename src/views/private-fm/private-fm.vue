@@ -5,9 +5,9 @@
       <div class="record-tools">
         <div class="record">
           <div class="pic">
-            <img :src="songInfo.pic" class="current-pic" />
+            <img :src="currentSongInfo.pic" class="current-pic" />
             <img
-              :src="songInfoGroup[currentSongIndex + 1].pic"
+              :src="this.$store.state.songList[currentSongIndex + 1].pic"
               class="next-pic"
             />
             <i class="el-icon-caret-right play-button" v-show="!playing"></i>
@@ -36,7 +36,7 @@
           <div class="delete">
             <i class="el-icon-delete" style="font-size: 30px"></i>
           </div>
-          <div class="next" >
+          <div class="next" @click="nextSong">
             <i class="el-icon-caret-right" style="font-size: 30px"></i>
           </div>
           <div class="more" >
@@ -45,13 +45,13 @@
         </div>
       </div>
       <div class="song-info">
-        <div class="song-name">{{ songInfo.name }}</div>
+        <div class="song-name">{{ currentSongInfo.name }}</div>
         <div class="album-name">
-          专辑：<span>{{ songInfo.album }}</span>
+          专辑：<span>{{ currentSongInfo.album }}</span>
         </div>
         <div
           class="singer-name"
-          v-for="item in songInfo.singer"
+          v-for="item in currentSongInfo.singer"
           :key="item"
         >
           歌手：<span>{{ item }}</span>
@@ -60,10 +60,10 @@
         <div
           class="lyric"
           ref="lyric"
-          v-if="!songInfo.lyric.length == 0"
+          v-if="!currentSongInfo.lyric.length == 0"
         >
           <div
-            v-for="(item, index) in songInfo.lyric"
+            v-for="(item, index) in currentSongInfo.lyric"
             :key="index"
             class="lyric-item"
           >
@@ -111,28 +111,32 @@ export default {
       let { data } = await fm();
       this.allSongInfo = data.data;
 
+      this.$store.commit("setAllSongListInfo", this.allSongInfo);
+
       //全部urls
       let urls = await getSongUrl(data.data.map(({ id }) => id));
       this.urls = urls.data.data;
 
-      //本来可以用mitations上面的已经写好的赛选数据的方法 但是返回的数据有一些不同
-      for (let i = 0; i < data.data.length; i++) {
-        let currentSongInfo = {};
-        currentSongInfo.id = data.data[i].id;
-        currentSongInfo.url = "";
-        currentSongInfo.name = data.data[i].name;
-        currentSongInfo.album = data.data[i].album.name;
-        currentSongInfo.singer = data.data[i].artists.map(({ name }) => name);
-        currentSongInfo.pic = data.data[i].album.blurPicUrl;
-        currentSongInfo.totleTime = data.data[i].duration;
-        currentSongInfo.lyric = [];
-        this.songInfoGroup.push(currentSongInfo);
-      }
+      // //本来可以用mitations上面的已经写好的赛选数据的方法 但是返回的数据有一些不同
+      // for (let i = 0; i < data.data.length; i++) {
+      //   let currentSongInfo = {};
+      //   currentSongInfo.id = data.data[i].id;
+      //   currentSongInfo.url = "";
+      //   currentSongInfo.name = data.data[i].name;
+      //   currentSongInfo.album = data.data[i].album.name;
+      //   currentSongInfo.singer = data.data[i].artists.map(({ name }) => name);
+      //   currentSongInfo.pic = data.data[i].album.blurPicUrl;
+      //   currentSongInfo.totleTime = data.data[i].duration;
+      //   currentSongInfo.lyric = [];
+      //     this.songInfoGroup.push(currentSongInfo);
+      //   }
 
-      this.$store.state.songList = this.songInfoGroup;
+      this.$store.commit("setfm");
+
+      
 
       //设置第一首歌曲的信息
-      this.currentSongInfo =JSON.parse(JSON.stringify(this.songInfoGroup[0]));
+      this.currentSongInfo =this.$store.state.songList[0];
       let comment = await getMusicComment(this.currentSongInfo.id);
       this.commentInfo = comment.data.comments;
       let lyric = await getSongLyric(this.currentSongInfo.id);
@@ -174,7 +178,7 @@ export default {
         this.getSongInfo();
         this.updataInfo();
       } else {
-        this.currentSongInfo = JSON.parse(JSON.stringify(this.songInfoGroup[this.currentSongIndex]));
+        this.currentSongInfo = this.$store.state.songList[this.currentSongIndex];
         this.$store.commit("changeCurrentPlay", this.currentSongInfo);
         this.getOtherInfo();
         this.currentSongIndex++;
@@ -188,7 +192,7 @@ export default {
     },
     updataInfo() {
       //把歌单的全部歌曲添加到播放列表
-      this.$store.state.songList = this.songInfoGroup;
+      // this.$store.state.songList = this.songInfoGroup;
       //设置当前播放歌曲的下标 要同步两个界面的信息
       this.$store.commit("setCurrentIndex", this.currentSongIndex);
       //点击播放按钮后才把数据传到vuex
@@ -236,9 +240,6 @@ export default {
     Comment,
   },
   computed: {
-    songInfo() {
-      return this.$store.state.currentSongInfo;
-    },
   },
 };
 </script>

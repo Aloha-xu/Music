@@ -50,6 +50,22 @@ export default {
         }
     },
 
+    setfm(state) {
+        for (let i = 0; i < state.SongListAllInfos.length; i++) {
+            let currentSongInfo = {};
+            currentSongInfo.id = state.SongListAllInfos[i].id;
+            currentSongInfo.url = "";
+            currentSongInfo.name = state.SongListAllInfos[i].name;
+            currentSongInfo.album = state.SongListAllInfos[i].album.name;
+            currentSongInfo.singer = state.SongListAllInfos[i].artists.map(({ name }) => name);
+            currentSongInfo.pic = state.SongListAllInfos[i].album.blurPicUrl;
+            currentSongInfo.totleTime = state.SongListAllInfos[i].duration;
+            currentSongInfo.lyric = [];
+            state.songList.push(currentSongInfo)
+            }
+    },
+
+
     //播放歌单列表的第一首歌
     setPlayFirstSong(state) {
         let currentsonginfo = {};
