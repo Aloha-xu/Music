@@ -74,7 +74,7 @@
       </div>
     </div>
     <div class="comment">
-      <comment :commentInfo="commentInfo"></comment>
+      <comment :commentInfo="commentInfo" @refeshCommrnt="getCommentInfo"></comment>
     </div>
   </div>
 </template>
@@ -139,7 +139,7 @@ export default {
       this.currentSongInfo =this.$store.state.songList[0];
       let comment = await getMusicComment(this.currentSongInfo.id);
       this.commentInfo = comment.data.comments;
-      let lyric = await getSongLyric(this.currentSongInfo.id);
+      let lyric = await getSongLyric(this.currentSongInfo.id);5
       this.currentSongInfo.lyric = parseLyric(lyric.data.lrc.lyric);
 
       // console.log(data);
@@ -153,6 +153,12 @@ export default {
       this.$store.commit("play");
       this.findCorrectUrl();
     },
+
+    async getCommentInfo(){
+      let comment = await getMusicComment(this.currentSongInfo.id);
+      this.commentInfo = comment.data.comments;
+    },
+
 
     //获取特定id歌曲的评论与歌词
     async getOtherInfo() {

@@ -29,7 +29,7 @@
       <div v-else-if="currentIndex === 2" class="albumdetail">
         
       </div>
-      <comment v-else class="comment" :commentInfo="commentInfo" :id="this.id" :t=1 :type=3></comment>
+      <comment v-else class="comment" :commentInfo="commentInfo" @refeshCommrnt="getCommentInfo" :id="this.id" :t=1 :type=3></comment>
     </div>
   </div>
 </template>
@@ -93,15 +93,17 @@ export default {
       this.$store.commit("setAllSongListInfo",SongsInfo)
       this.$store.commit("setAllSongUrls",Urls)
     },
+    async getCommentInfo(){
+      this.id = this.$route.params.id;
+      const {data} = await getAlbumComment(this.id,50)
+      this.commentInfo=data.comments
+    }
+
   },
   async created() {
     this.itemClick(this.currentIndex);
     this.getSongListDetailInfo();
-    //this.getCollector();
-
-    this.id = this.$route.params.id;
-      const {data} = await getAlbumComment(this.id,50)
-      this.commentInfo=data.comments
+    this.getCommentInfo();      
   },
 };
 </script>

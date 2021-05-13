@@ -14,7 +14,9 @@
         </div>
         <div class="mv-artist">
           <img :src="artistImg" alt="" />
-          <span v-for="item in artist" :key="item" class="item">{{ item }}</span>
+          <span v-for="item in artist" :key="item" class="item">{{
+            item
+          }}</span>
         </div>
         <div class="mv-info">
           <div class="name" v-show="Number(this.$route.params.id)">
@@ -68,7 +70,13 @@
         </div>
         <div class="comment">
           <div class="title">评论({{ commentCount }})</div>
-          <comment :commentInfo="commentInfo" :t="t" :type="type" :id="this.id"></comment>
+          <comment
+            :commentInfo="commentInfo"
+            :t="t"
+            :type="type"
+            :id="this.id"
+            @refeshCommrnt="getCommentInfo"
+          ></comment>
         </div>
       </div>
       <!-- 不想写了 -->
@@ -111,16 +119,24 @@ export default {
       videoGroup: [],
       isShowDescription: false,
       title: "",
-      
-      t:null,
-      type:null,
-
+      t: null,
+      type: null,
     };
   },
   methods: {
     showDescription() {
       this.isShowDescription = !this.isShowDescription;
       console.log(this.isShowDescription);
+    },
+    async getCommentInfo() {
+      this.id = this.$route.params.id;
+      if (Number(this.$route.params.id)) {
+        let commentInfo = await getMvComment(this.id);
+        this.commentInfo = commentInfo.data.comments;
+      } else {
+        const commentInfo = await getVideoComment(this.id);
+        this.commentInfo = commentInfo.data.comments;
+      }
     },
     //获取mv的信息
     async getMvDetailInfo() {
@@ -129,8 +145,6 @@ export default {
       console.log(data);
       let url = await getMvUrl(this.id);
       console.log(url);
-      let commentInfo = await getMvComment(this.id);
-      console.log(commentInfo);
       let recommendMvInfo = await getRecommentMv();
       console.log(recommendMvInfo);
 
@@ -143,7 +157,6 @@ export default {
       this.subCount = data.data.subCount;
       this.shareCount = data.data.shareCount;
       this.commentCount = data.data.commentCount;
-      this.commentInfo = commentInfo.data.comments;
       this.mvUrl = url.data.data.url;
       this.videoGroup = [];
       this.title = "";
@@ -156,7 +169,6 @@ export default {
       const url = await getVideoUrl(this.id);
       console.log(url);
       const commentDetailInfo = await getVideoDetailInfo(this.id);
-      const commentInfo = await getVideoComment(this.id);
       const correlationVideo = await getAllVideo(this.id);
       console.log(correlationVideo);
 
@@ -169,13 +181,13 @@ export default {
       this.shareCount = commentDetailInfo.data.shareCount;
       this.commentCount = commentDetailInfo.data.commentCount;
       this.likedCount = commentDetailInfo.data.likedCount;
-      this.commentInfo = commentInfo.data.comments;
       this.mvUrl = url.data.urls[0].url;
       this.title = data.data.title;
       this.videoGroup = data.data.videoGroup;
     },
   },
   created() {
+    this.getCommentInfo();
     if (Number(this.$route.params.id)) {
       this.getMvDetailInfo();
       this.t = 1;

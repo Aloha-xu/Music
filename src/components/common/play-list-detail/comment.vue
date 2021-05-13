@@ -44,7 +44,9 @@ export default {
       const {data} = await SendOrDelComment(this.t,this.type,this.id,this.textarea,this.uid)
       this.textarea= "";
       console.log(data)
-      console.log('data')
+
+      //发射一个方法出去 刷新
+      this.$emit("refeshCommrnt");
     },
     handleReplyComment(value){
       this.textarea= "回复"+ value[1] ;

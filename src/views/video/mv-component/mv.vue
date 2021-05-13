@@ -113,9 +113,8 @@ export default {
     this.newMvInfo = res1.data;
     this.wycpMvInfo = res2.data;
     this.hotMvInfo = res3.data;
-    // console.log(res1);
-    // console.log(res2);
-    // console.log(res3);
+    //暂停minplay的音乐播放
+    this.$store.commit("stop");
   },
 };
 </script>

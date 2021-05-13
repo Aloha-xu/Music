@@ -38,11 +38,11 @@
       <!-- 飙升榜的数据卡槽 -->
       <slot name="SoaringrateData"></slot>
       <div class="singer">
-        <span v-for="(item1, index1) in item.ar" :key="index1"
+        <span v-for="(item1, index1) in item.ar" :key="index1" @click="clickToSingerPapg(item1.id)"
           >{{ item1.name }}&nbsp;</span
         >
       </div>
-      <div class="album">{{ item.al.name }}</div>
+      <div class="album" @click="clickToAlbumPapg(item.al.id)">{{ item.al.name }}</div>
       <div class="time">{{ setSongTime(item.dt) }}</div>
     </div>
   </div>
@@ -67,7 +67,6 @@ export default {
   data() {
     return {
       isClickHeart: false,
-
       //歌单的全部列表信息
       allSongList: [],
       likeList: [],
@@ -165,6 +164,13 @@ export default {
       }
       return true
     },
+    clickToSingerPapg(id){
+      this.$router.push("/singerlistdetail/" + id);
+    },
+    clickToAlbumPapg(id){
+      this.$router.push("/albumlistdetail/" + id);
+    }
+    
   },
   computed: {
     currentId() {

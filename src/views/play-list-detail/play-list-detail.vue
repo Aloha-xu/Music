@@ -29,7 +29,7 @@
         v-else-if="currentIndex === 2"
         :collecter="songListDetailInfo.subscribers"
       ></collecter>
-      <comment v-else :commentInfo="commentInfo" :id="this.id" :t=1 :type=2></comment>
+      <comment v-else :commentInfo="commentInfo" :id="this.id" :t=1 :type=2 @refeshCommrnt="getCommentInfo"></comment>
     </div>
   </div>
 </template>
