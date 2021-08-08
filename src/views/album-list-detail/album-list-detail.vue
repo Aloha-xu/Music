@@ -21,15 +21,18 @@
             {{ item }}
           </div>
         </div>
-        
       </div>
-      <song-list-component
-        v-if="currentIndex === 0"
-      ></song-list-component>
-      <div v-else-if="currentIndex === 2" class="albumdetail">
-        
-      </div>
-      <comment v-else class="comment" :commentInfo="commentInfo" @refeshCommrnt="getCommentInfo" :id="this.id" :t=1 :type=3></comment>
+      <song-list-component v-if="currentIndex === 0" :songsInfo="songList"></song-list-component>
+      <div v-else-if="currentIndex === 2" class="albumdetail"></div>
+      <comment
+        v-else
+        class="comment"
+        :commentInfo="commentInfo"
+        @refeshCommrnt="getCommentInfo"
+        :id="this.id"
+        :t="1"
+        :type="3"
+      ></comment>
     </div>
   </div>
 </template>
@@ -42,7 +45,7 @@ import {
   getSongListDetail,
   getCollector,
   getSongDetail,
-  getSongUrl, 
+  getSongUrl,
   getAlbumComment,
 } from "../../network/api";
 export default {
@@ -55,8 +58,10 @@ export default {
       TitleType: "专辑",
       currentIndex: 0,
       navbar: ["歌曲列表", "评论", "专辑详情"],
-      isShowAlbumComponent:false,
-      commentInfo:[]
+      isShowAlbumComponent: false,
+      commentInfo: [],
+      songList: [],
+      playLisy:[]
     };
   },
   methods: {
@@ -85,25 +90,61 @@ export default {
       const { data } = await getSongListDetail(this.id, 20);
       // console.log(JSON.stringify(data, null, 2))这种方法可以展示console的全部内容
       this.songListDetailInfo = data.playlist;
-      console.log(this.songListDetailInfo)
+      console.log(this.songListDetailInfo);
       //处理歌单全部的ids
-      const res = await getSongDetail(data.playlist.trackIds.map(({ id }) => id));
+      const res = await getSongDetail(
+        data.playlist.trackIds.map(({ id }) => id)
+      );
       let SongsInfo = res.data.songs;
-      let Urls = await getSongUrl(SongsInfo.map(({id})=>id))
-      this.$store.commit("setAllSongListInfo",SongsInfo)
-      this.$store.commit("setAllSongUrls",Urls)
-    },
-    async getCommentInfo(){
-      this.id = this.$route.params.id;
-      const {data} = await getAlbumComment(this.id,50)
-      this.commentInfo=data.comments
-    }
+      console.log(SongsInfo);
+      let Urls = await getSongUrl(SongsInfo.map(({ id }) => id));
 
+      for (let i = 0; i < SongsInfo.length; i++) {
+        let songinfo = {};
+        songinfo.url = Urls.data.data[i].url;
+        songinfo.id = SongsInfo[i].id;
+        songinfo.name = SongsInfo[i].name;
+        songinfo.singer = [];
+        for (let j = 0; j < SongsInfo[i].ar.length; j++) {
+          songinfo.singer[j] = {
+            name: SongsInfo[i].ar[j].name,
+            id: SongsInfo[i].ar[j].id,
+          };
+        }
+        songinfo.pic = SongsInfo[i].al.picUrl;
+        songinfo.totleTime = SongsInfo[i].dt;
+        songinfo.lyric = [];
+        songinfo.album = { name: SongsInfo[i].al.name, id: SongsInfo[i].al.id };
+        //把歌曲放到播放列表中
+        this.songList.push(songinfo);
+      }
+      for (let i = 0; i < SongsInfo.length; i++) {
+        let currentsonginfo = {};
+        currentsonginfo.url = Urls.data.data[i].url;
+        currentsonginfo.id = SongsInfo[i].id;
+        currentsonginfo.name = SongsInfo[i].name;
+        currentsonginfo.singer = SongsInfo[i].ar.map(({ name }) => name);
+        currentsonginfo.pic = SongsInfo[i].al.picUrl;
+        currentsonginfo.totleTime = SongsInfo[i].dt;
+        currentsonginfo.lyric = [];
+        currentsonginfo.album = SongsInfo[i].al.name;
+        //把歌曲放到播放列表中
+        this.playList.push(currentsonginfo);
+      }
+
+      this.$store.commit("setAllSongsToPlayList", this.playList);
+      this.$store.commit("setAllSongUrls", Urls);
+    },
+    async getCommentInfo() {
+      this.id = this.$route.params.id;
+      const { data } = await getAlbumComment(this.id, 50);
+      this.commentInfo = data.comments;
+    },
   },
   async created() {
     this.itemClick(this.currentIndex);
     this.getSongListDetailInfo();
-    this.getCommentInfo();      
+    this.getCommentInfo();
   },
 };
 </script>

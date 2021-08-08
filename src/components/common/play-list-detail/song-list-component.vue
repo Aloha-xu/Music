@@ -38,12 +38,12 @@
       <!-- 飙升榜的数据卡槽 -->
       <slot name="SoaringrateData"></slot>
       <div class="singer">
-        <span v-for="(item1, index1) in item.ar" :key="index1" @click="clickToSingerPapg(item1.id)"
+        <span v-for="(item1, index1) in item.singer" :key="index1" @click="clickToSingerPapg(item1.id)"
           >{{ item1.name }}&nbsp;</span
         >
       </div>
-      <div class="album" @click="clickToAlbumPapg(item.al.id)">{{ item.al.name }}</div>
-      <div class="time">{{ setSongTime(item.dt) }}</div>
+      <div class="album" @click="clickToAlbumPapg(item.album.id)">{{ item.album.name }}</div>
+      <div class="time">{{ setSongTime(item.totleTime) }}</div>
     </div>
   </div>
 </template>
@@ -72,7 +72,9 @@ export default {
       likeList: [],
     };
   },
-  props: {},
+  props: {
+    songsInfo:Array,
+  },
   methods: {
     /* 点击指定红星添加收藏未做 */
 
@@ -92,7 +94,6 @@ export default {
       const { data } = await getSongListDetail(this.id, 20);
       this.$store.commit("setSongListDetailInfo", data.playlist);
 
-      // console.log(index);
       // console.log(id);
       // console.log(currentIndex)
       // console.log(this.likeList)
@@ -110,26 +111,27 @@ export default {
 
         //获取所点击的歌曲的url
         const { data } = await getSongUrl(values.id);
+        console.log(data)
 
         //筛选出全部歌手名字
-        let singers = values.ar.map(({ name }) => name);
+        let singers = values.singer.map(({ name }) => name);
 
         //筛选出需要的歌曲信息以数组形式放到state
         let currentsonginfo = {};
         currentsonginfo.url = data.data[0].url;
         currentsonginfo.id = values.id;
         currentsonginfo.name = values.name;
-        currentsonginfo.album = [];
+        currentsonginfo.album = values.album.name;
         currentsonginfo.singer = singers;
-        currentsonginfo.pic = values.al.picUrl;
-        currentsonginfo.totleTime = values.dt;
+        currentsonginfo.pic = values.pic;
+        currentsonginfo.totleTime = values.totleTime;
         currentsonginfo.lyric = parseLyric(lyric.data.lrc.lyric);
 
         //修改当前播放的音乐信息
         this.$store.commit("changeCurrentPlay", currentsonginfo);
 
         //点击任意一首歌后把歌单歌曲添加到播放列表中
-        this.$store.commit("setAllSongsToPlayList");
+        //this.$store.commit("setAllSongsToPlayList");
 
         //isload图片
         this.$store.commit("setIsLoad", "true");
@@ -177,9 +179,9 @@ export default {
       return this.$store.state.currentSongInfo.id;
     },
     //使用SongListAllInfos没有筛选的数据是因为赛选数据后就会发到播放列表显示出来 我没有写一个卡口
-    songsInfo() {
-      return this.$store.state.SongListAllInfos;
-    },
+    // songsInfo() {
+    //   return this.$store.state.SongListAllInfos;
+    // },
     
   },
   async created() {

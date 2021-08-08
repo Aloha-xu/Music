@@ -102,6 +102,7 @@ export default {
       //当前播放的第几首歌
       currentSongIndex: 0,
       playing: true,
+      songList:[]
     };
   },
   methods: {
@@ -131,7 +132,20 @@ export default {
       //     this.songInfoGroup.push(currentSongInfo);
       //   }
 
-      this.$store.commit("setfm");
+      for (let i = 0; i < this.allSongInfo.length; i++) {
+            let currentSongInfo = {};
+            currentSongInfo.id = this.allSongInfo[i].id;
+            currentSongInfo.url = "";
+            currentSongInfo.name = this.allSongInfo[i].name;
+            currentSongInfo.album = this.allSongInfo[i].album.name;
+            currentSongInfo.singer = this.allSongInfo[i].artists.map(({ name }) => name);
+            currentSongInfo.pic = this.allSongInfo[i].album.blurPicUrl;
+            currentSongInfo.totleTime = this.allSongInfo[i].duration;
+            currentSongInfo.lyric = [];
+            this.songList.push(currentSongInfo)
+            }
+
+      this.$store.commit("setfm",this.songList);
 
       
 

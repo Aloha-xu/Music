@@ -103,6 +103,7 @@ export default {
     songListDetailInfo: Object,
     TitleType: String,
     isShowAlbumComponent: Boolean,
+    playList:Array
   },
   data() {
     return {
@@ -115,8 +116,8 @@ export default {
       console.log(this.isShowDescription);
     },
     handlePlayAllSongs() {
-      this.$store.commit("setAllSongsToPlayList");
-      this.$store.commit("setPlayFirstSong");
+      this.$store.commit("setAllSongsToPlayList",this.playList);
+      this.$store.commit("changeCurrentPlay",this.playList[0]);
     },
     handleCollectSonglist() {
       this.$emit("handleCollectSonglist");

@@ -149,6 +149,7 @@ export default {
       drawer: false,
       //控制播放方式的开关
       wayOfPlay: 0,
+
     };
   },
   computed: {
@@ -380,6 +381,18 @@ export default {
       this.$store.state.commentInfo = musicComments.data.comments
     },
   },
+  created(){
+    this.$watch(
+      "playing",()=>{
+        if(!this.$store.state.playing){
+          this.$refs.audio.pause();
+        }else{
+          this.$refs.audio.play();
+        }
+        console.log("wo运行了")
+      }
+    )
+  }
 };
 </script>
 

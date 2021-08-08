@@ -9,7 +9,7 @@
             width="750px"
             height="420px"
             controls
-            autoplay="autoplay"
+            preload="auto"
           ></video>
         </div>
         <div class="mv-artist">
@@ -197,6 +197,8 @@ export default {
       this.t = 1;
       this.type = 5;
     }
+    //暂停minplay的音乐播放
+    this.$store.commit("stop");
   },
 };
 </script>

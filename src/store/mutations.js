@@ -34,35 +34,37 @@ export default {
     },
 
     //把歌单的全部歌曲添加到播放列表
-    setAllSongsToPlayList(state) {
-        for (let i = 0; i < state.SongListAllInfos.length; i++) {
-            let currentsonginfo = {};
-            currentsonginfo.url = state.SongListAllUrls.data.data[i].url;
-            currentsonginfo.id = state.SongListAllInfos[i].id;
-            currentsonginfo.name = state.SongListAllInfos[i].name;
-            currentsonginfo.singer = state.SongListAllInfos[i].ar.map(({ name }) => name);
-            currentsonginfo.pic = state.SongListAllInfos[i].al.picUrl;
-            currentsonginfo.totleTime = state.SongListAllInfos[i].dt;
-            currentsonginfo.lyric = []
-            currentsonginfo.album = state.SongListAllInfos[i].al.name;
-            //把歌曲放到播放列表中 
-            state.songList.push(currentsonginfo)
-        }
+    setAllSongsToPlayList(state,allSongs) {
+        // for (let i = 0; i < state.SongListAllInfos.length; i++) {
+        //     let currentsonginfo = {};
+        //     currentsonginfo.url = state.SongListAllUrls.data.data[i].url;
+        //     currentsonginfo.id = state.SongListAllInfos[i].id;
+        //     currentsonginfo.name = state.SongListAllInfos[i].name;
+        //     currentsonginfo.singer = state.SongListAllInfos[i].ar.map(({ name }) => name);
+        //     currentsonginfo.pic = state.SongListAllInfos[i].al.picUrl;
+        //     currentsonginfo.totleTime = state.SongListAllInfos[i].dt;
+        //     currentsonginfo.lyric = []
+        //     currentsonginfo.album = state.SongListAllInfos[i].al.name;
+        //     //把歌曲放到播放列表中 
+        //     state.songList.push(currentsonginfo)
+        // }
+        state.songList = allSongs
     },
 
-    setfm(state) {
-        for (let i = 0; i < state.SongListAllInfos.length; i++) {
-            let currentSongInfo = {};
-            currentSongInfo.id = state.SongListAllInfos[i].id;
-            currentSongInfo.url = "";
-            currentSongInfo.name = state.SongListAllInfos[i].name;
-            currentSongInfo.album = state.SongListAllInfos[i].album.name;
-            currentSongInfo.singer = state.SongListAllInfos[i].artists.map(({ name }) => name);
-            currentSongInfo.pic = state.SongListAllInfos[i].album.blurPicUrl;
-            currentSongInfo.totleTime = state.SongListAllInfos[i].duration;
-            currentSongInfo.lyric = [];
-            state.songList.push(currentSongInfo)
-            }
+    setfm(state,v) {
+        // for (let i = 0; i < state.SongListAllInfos.length; i++) {
+        //     let currentSongInfo = {};
+        //     currentSongInfo.id = state.SongListAllInfos[i].id;
+        //     currentSongInfo.url = "";
+        //     currentSongInfo.name = state.SongListAllInfos[i].name;
+        //     currentSongInfo.album = state.SongListAllInfos[i].album.name;
+        //     currentSongInfo.singer = state.SongListAllInfos[i].artists.map(({ name }) => name);
+        //     currentSongInfo.pic = state.SongListAllInfos[i].album.blurPicUrl;
+        //     currentSongInfo.totleTime = state.SongListAllInfos[i].duration;
+        //     currentSongInfo.lyric = [];
+        //     state.songList.push(currentSongInfo)
+        //     }
+        state.songList = v
     },
 
 

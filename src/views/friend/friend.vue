@@ -61,7 +61,6 @@ export default {
         require("../../assets/blackpink/23.jpg"),
         require("../../assets/blackpink/33.jpg"),
         require("../../assets/blackpink/43.jpg"),
-        // require("../../assets/blackpink/53.jpg"),
         require("../../assets/blackpink/63.jpg"),
         require("../../assets/blackpink/73.jpg"),
         require("../../assets/blackpink/83.jpg"),
@@ -121,14 +120,15 @@ export default {
 
 <style scoped>
 .friend{
-   overflow: scroll;height: 90vh;
-
+   overflow: scroll;
+   height: 90vh;
+   display: flex;
+   flex-wrap: wrap;
 }
 .rose{
     width: calc(100%/2);
 }
 img{
     width: 100%;
-    height: 100%;
 }
 </style>

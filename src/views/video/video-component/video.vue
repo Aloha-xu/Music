@@ -114,9 +114,9 @@ export default {
     }
     let videoInfo = await getVideoType(58107);
     this.videoInfo = videoInfo.data.datas;
-    //暂停minplay的音乐播放
-    this.$store.commit("stop");
+    
   },
+  
 };
 </script>
 

@@ -29,7 +29,6 @@ export default {
     methods: {
       async getPersonalizedNewSong(){
         const {data} = await getPersonalizedNewSong(12)
-        // console.log(data)
         this.NewMusicCardInfo=data.result
       },
       intoDetailsClick(){

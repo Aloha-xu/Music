@@ -92,7 +92,7 @@ export default {
         currentsonginfo.url = data.data[0].url;
         currentsonginfo.id = values.id;
         currentsonginfo.name = values.name;
-        currentsonginfo.album = [];
+        currentsonginfo.album = this.$store.state.songListDetailInfo.tracks[index].al.name;
         currentsonginfo.singer = singers;
         currentsonginfo.pic = values.al.picUrl;
         currentsonginfo.totleTime = values.dt;

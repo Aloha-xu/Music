@@ -6,6 +6,7 @@
       :TitleType="TitleType"
       :isShowAlbumComponent="isShowAlbumComponent"
       @handleCollectSonglist="handleCollectSonglist"
+      :playList="playList"
     >
     </play-list-detail-head>
 
@@ -24,12 +25,22 @@
         </div>
         <div class="search">123</div>
       </div>
-      <song-list-component v-if="currentIndex === 0"></song-list-component>
+      <song-list-component
+        v-if="currentIndex === 0"
+        :songsInfo="songList"
+      ></song-list-component>
       <collecter
         v-else-if="currentIndex === 2"
         :collecter="songListDetailInfo.subscribers"
       ></collecter>
-      <comment v-else :commentInfo="commentInfo" :id="this.id" :t=1 :type=2 @refeshCommrnt="getCommentInfo"></comment>
+      <comment
+        v-else
+        :commentInfo="commentInfo"
+        :id="this.id"
+        :t="1"
+        :type="2"
+        @refeshCommrnt="getCommentInfo"
+      ></comment>
     </div>
   </div>
 </template>
@@ -47,7 +58,7 @@ import {
   getPlayListComment,
   getUserPlaylist,
   subPlaylist,
-  getSongListType
+  getSongListType,
 } from "../../network/api";
 export default {
   components: { PlayListDetailHead, SongListComponent, Collecter, Comment },
@@ -70,7 +81,8 @@ export default {
         4: { type: "", list: [] },
       },
       /* 模板的渲染比route快 */
-      
+      songList: [],
+      playList: [],
     };
   },
   methods: {
@@ -97,22 +109,59 @@ export default {
     async getSongListDetailInfo() {
       this.id = this.$route.params.id;
       const { data } = await getSongListDetail(this.id, 20);
-      // console.log(data);
       this.$store.commit("setSongListDetailInfo", data.playlist);
     },
     //获取并处理歌单列表全部信息
     async handleSongListDetailInfo() {
       this.id = this.$route.params.id;
       const { data } = await getSongListDetail(this.id, 20);
-      // console.log(data);
+      console.log(data);
       this.$store.commit("setSongListDetailInfo", data.playlist);
       //处理歌单中全部的歌曲的ids
       const res = await getSongDetail(
         this.$store.state.songListDetailInfo.trackIds.map(({ id }) => id)
       );
       let SongsInfo = res.data.songs;
+      console.log(SongsInfo);
       let Urls = await getSongUrl(SongsInfo.map(({ id }) => id));
-      this.$store.commit("setAllSongListInfo", SongsInfo);
+
+      //这里赛选的数据是有singer的id、album的id
+      for (let i = 0; i < SongsInfo.length; i++) {
+        let songinfo = {};
+        songinfo.url = Urls.data.data[i].url;
+        songinfo.id = SongsInfo[i].id;
+        songinfo.name = SongsInfo[i].name;
+        songinfo.singer = [];
+        for (let j = 0; j < SongsInfo[i].ar.length; j++) {
+          songinfo.singer[j] = {
+            name: SongsInfo[i].ar[j].name,
+            id: SongsInfo[i].ar[j].id,
+          };
+        }
+        songinfo.pic = SongsInfo[i].al.picUrl;
+        songinfo.totleTime = SongsInfo[i].dt;
+        songinfo.lyric = [];
+        songinfo.album = { name: SongsInfo[i].al.name, id: SongsInfo[i].al.id };
+        //把歌曲放到播放列表中
+        this.songList.push(songinfo);
+      }
+
+      for (let i = 0; i < SongsInfo.length; i++) {
+            let currentsonginfo = {};
+            currentsonginfo.url = Urls.data.data[i].url;
+            currentsonginfo.id = SongsInfo[i].id;
+            currentsonginfo.name = SongsInfo[i].name;
+            currentsonginfo.singer = SongsInfo[i].ar.map(({ name }) => name);
+            currentsonginfo.pic = SongsInfo[i].al.picUrl;
+            currentsonginfo.totleTime = SongsInfo[i].dt;
+            currentsonginfo.lyric = []
+            currentsonginfo.album = SongsInfo[i].al.name;
+            //把歌曲放到播放列表中 
+            this.playList.push(currentsonginfo)
+        }
+
+
+      this.$store.commit("setAllSongsToPlayList", this.playList);
       this.$store.commit("setAllSongUrls", Urls);
     },
 
@@ -147,7 +196,7 @@ export default {
       this.$store.commit("setUserSonglistInfo", playlist);
       this.$store.commit("updataSonglist");
     },
-    async getCommentInfo(){
+    async getCommentInfo() {
       this.id = this.$route.params.id;
       const { data } = await getPlayListComment(this.id, 50);
       this.commentInfo = data.comments;
@@ -194,9 +243,9 @@ export default {
   async created() {
     this.itemClick(this.currentIndex);
     this.handleSongListDetailInfo();
-    this.getCommentInfo()
-    this.getSongListType()
-    this.$store.state.allTypeInfo=this.typeLists
+    this.getCommentInfo();
+    this.getSongListType();
+    this.$store.state.allTypeInfo = this.typeLists;
   },
   computed: {
     songListDetailInfo() {
@@ -204,12 +253,12 @@ export default {
     },
   },
   watch: {
-    '$route'(){
+    $route() {
       let id = this.$route.params.id;
-      if(id){
+      if (id) {
         this.itemClick(this.currentIndex);
-      this.handleSongListDetailInfo();
-      this.getCommentInfo()
+        this.handleSongListDetailInfo();
+        this.getCommentInfo();
       }
     },
   },
