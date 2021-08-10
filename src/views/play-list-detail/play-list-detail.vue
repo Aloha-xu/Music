@@ -1,12 +1,9 @@
 <template>
   <div class="play-list-detail">
     <play-list-detail-head
-      v-if="this.songListDetailInfo"
-      :songListDetailInfo="songListDetailInfo"
-      :TitleType="TitleType"
-      :isShowAlbumComponent="isShowAlbumComponent"
+      :values="headInfo"
+      :isShowPlayListComponent="isShowPlayListComponent"
       @handleCollectSonglist="handleCollectSonglist"
-      :playList="playList"
     >
     </play-list-detail-head>
 
@@ -28,6 +25,7 @@
       <song-list-component
         v-if="currentIndex === 0"
         :songsInfo="songList"
+        @handleSongClick="handleSongClick"
       ></song-list-component>
       <collecter
         v-else-if="currentIndex === 2"
@@ -46,20 +44,25 @@
 </template>
 
 <script>
-import Collecter from "../../components/common/play-list-detail/collecter";
-import Comment from "../../components/common/play-list-detail/comment.vue";
-import PlayListDetailHead from "../../components/common/play-list-detail/play-list-detail-head.vue";
-import SongListComponent from "../../components/common/play-list-detail/song-list-component.vue";
+import Collecter from "@/components/common/play-list-detail/collecter";
+import Comment from "@/components/common/play-list-detail/comment.vue";
+import PlayListDetailHead from "@/components/common/play-list-detail/play-list-detail-head.vue";
+import SongListComponent from "@/components/common/play-list-detail/song-list-component.vue";
 import {
   getSongListDetail,
   getCollector,
   getSongDetail,
-  getSongUrl,
   getPlayListComment,
   getUserPlaylist,
   subPlaylist,
   getSongListType,
-} from "../../network/api";
+  getSongUrl,
+  getSongLyric,
+  getSimiPlayList,
+  getMusicComment,
+  getCheckMusic,
+} from "@/network/api";
+import { parseLyric } from "@/utils/lyric";
 export default {
   components: { PlayListDetailHead, SongListComponent, Collecter, Comment },
   name: "PlayListDetail",
@@ -69,7 +72,7 @@ export default {
       TitleType: "歌单",
       currentIndex: 0,
       navbar: ["歌曲列表", "评论", "收藏者"],
-      isShowAlbumComponent: true,
+      isShowPlayListComponent: true,
       //评论
       commentInfo: [],
       //歌单类型分类
@@ -83,6 +86,7 @@ export default {
       /* 模板的渲染比route快 */
       songList: [],
       playList: [],
+      headInfo: null,
     };
   },
   methods: {
@@ -105,31 +109,58 @@ export default {
       const { data } = await getCollector(this.id, 30, 30);
       console.log(data);
     },
-    //获取歌单列表全部信息
-    async getSongListDetailInfo() {
+    //获取歌单头部信息
+    async upDataSongListHeadInfo() {
       this.id = this.$route.params.id;
       const { data } = await getSongListDetail(this.id, 20);
-      this.$store.commit("setSongListDetailInfo", data.playlist);
+      this.headInfo.subscribed = data.playlist.subscribed
     },
     //获取并处理歌单列表全部信息
     async handleSongListDetailInfo() {
       this.id = this.$route.params.id;
       const { data } = await getSongListDetail(this.id, 20);
-      console.log(data);
-      this.$store.commit("setSongListDetailInfo", data.playlist);
+      let songListHeadInfo = {};
+      songListHeadInfo.coverImgUrl = data.playlist.coverImgUrl;
+      songListHeadInfo.titleType = "歌单";
+      songListHeadInfo.name = data.playlist.name;
+      songListHeadInfo.nickname = data.playlist.creator.nickname;
+      songListHeadInfo.createTime = data.playlist.createTime;
+      songListHeadInfo.avatarUrl = data.playlist.creator.avatarUrl;
+      songListHeadInfo.subscribed = data.playlist.subscribed;
+      songListHeadInfo.subscribedCount = data.playlist.subscribedCount;
+      songListHeadInfo.shareCount = data.playlist.shareCount;
+      songListHeadInfo.tags = data.playlist.tags;
+      songListHeadInfo.trackCount = data.playlist.trackCount;
+      songListHeadInfo.playCount = data.playlist.playCount;
+      songListHeadInfo.description = data.playlist.description;
+      songListHeadInfo.id = data.playlist.id;
+      this.headInfo = songListHeadInfo;
+
       //处理歌单中全部的歌曲的ids
       const res = await getSongDetail(
-        this.$store.state.songListDetailInfo.trackIds.map(({ id }) => id)
+        data.playlist.trackIds.map(({ id }) => id)
       );
-      let SongsInfo = res.data.songs;
-      console.log(SongsInfo);
-      let Urls = await getSongUrl(SongsInfo.map(({ id }) => id));
 
-      //这里赛选的数据是有singer的id、album的id
+      const SongsInfo = res.data.songs;
+      console.log(SongsInfo)
+
+      //这里返回的url是不按传入的id按需返回的 所以需要进行url校正
+      const Urls = await getSongUrl(SongsInfo.map(({ id }) => id));
+
+
+      //判断songlist里面有没数据
+      if(!this.songList.length == 0){
+        this.songList = []
+      }
+      if(!this.playList.length == 0){
+        this.playList = []
+      }
+
+      //这里筛选出来的数据是用来渲染歌单的歌曲列表的
       for (let i = 0; i < SongsInfo.length; i++) {
         let songinfo = {};
-        songinfo.url = Urls.data.data[i].url;
         songinfo.id = SongsInfo[i].id;
+        songinfo.url = Urls.data.data[i].url;
         songinfo.name = SongsInfo[i].name;
         songinfo.singer = [];
         for (let j = 0; j < SongsInfo[i].ar.length; j++) {
@@ -142,33 +173,92 @@ export default {
         songinfo.totleTime = SongsInfo[i].dt;
         songinfo.lyric = [];
         songinfo.album = { name: SongsInfo[i].al.name, id: SongsInfo[i].al.id };
-        //把歌曲放到播放列表中
         this.songList.push(songinfo);
       }
 
-      for (let i = 0; i < SongsInfo.length; i++) {
-            let currentsonginfo = {};
-            currentsonginfo.url = Urls.data.data[i].url;
-            currentsonginfo.id = SongsInfo[i].id;
-            currentsonginfo.name = SongsInfo[i].name;
-            currentsonginfo.singer = SongsInfo[i].ar.map(({ name }) => name);
-            currentsonginfo.pic = SongsInfo[i].al.picUrl;
-            currentsonginfo.totleTime = SongsInfo[i].dt;
-            currentsonginfo.lyric = []
-            currentsonginfo.album = SongsInfo[i].al.name;
-            //把歌曲放到播放列表中 
-            this.playList.push(currentsonginfo)
+      //这里筛选出来的数据是用push进去state的playlist的
+      for (let j = 0; j < SongsInfo.length; j++) {
+        let currentsonginfo = {};
+        currentsonginfo.id = SongsInfo[j].id;
+        currentsonginfo.url = "";
+        //进行url校正
+        //这里无法使用findindex 不知道为什么
+        for (let j = 0; j < Urls.data.data.length; j++) {
+          if (Urls.data.data[j].id == currentsonginfo.id) {
+            currentsonginfo.url = Urls.data.data[j].url;
+          }
         }
+        currentsonginfo.name = SongsInfo[j].name;
+        currentsonginfo.singer = SongsInfo[j].ar.map(({ name }) => name);
+        currentsonginfo.pic = SongsInfo[j].al.picUrl;
+        currentsonginfo.totleTime = SongsInfo[j].dt;
+        currentsonginfo.lyric = [];
+        currentsonginfo.album = SongsInfo[j].al.name;
+        this.playList.push(currentsonginfo);
+      }
+    },
 
+    //处理点击某一首歌的事件
+    //v[0] 歌曲信息
+    //v[1] 歌曲下标
+    async handleSongClick(v) {
+      const checkmusic = await getCheckMusic(v[0].id);
+      //判断音乐是否有版权
+      if (checkmusic.data.success) {
+        //获取歌曲的歌词
+        let lyric = await getSongLyric(v[0].id);
+        console.log(lyric);
 
-      this.$store.commit("setAllSongsToPlayList", this.playList);
-      this.$store.commit("setAllSongUrls", Urls);
+        //更新当前播放的下标
+        this.$store.commit("setCurrentIndex", v[1]);
+
+        // //获取所点击的歌曲的url
+        // const { data } = await getSongUrl(values.id);
+        // console.log(data)
+
+        //筛选出全部歌手名字
+        // let singers = values.singer.map(({ name }) => name);
+
+        //筛选出需要的歌曲信息以数组形式放到state
+        // let currentsonginfo = {};
+        // currentsonginfo.id = values.id;
+        // // let correctUrlIndex = data.data.findIndex((item)=>{ currentsonginfo.id == item.id})
+        // // currentsonginfo.url = data.data[correctUrlIndex].url;
+        // currentsonginfo.url = data.data[0].url;
+        // currentsonginfo.name = values.name;
+        // currentsonginfo.album = values.album.name;
+        // currentsonginfo.singer = singers;
+        // currentsonginfo.pic = values.pic;
+        // currentsonginfo.totleTime = values.totleTime;
+        this.playList[v[1]].lyric = parseLyric(lyric.data.lrc.lyric);
+
+        //修改当前播放的音乐信息
+        this.$store.commit("changeCurrentPlay", this.playList[v[1]]);
+
+        //点击任意一首歌后把歌单歌曲添加到播放列表中
+        this.$store.commit("setAllSongsToPlayList", this.playList);
+
+        //isload图片
+        this.$store.commit("setIsLoad", "true");
+
+        //获取某一首歌的相似歌单信息
+        let simimusic = await getSimiPlayList(v[0].id);
+        this.$store.state.SimiSongList = simimusic.data.playlists;
+        //获取某一首歌的评论
+        let musicComments = await getMusicComment(v[0].id, 100);
+        this.$store.state.commentInfo = musicComments.data.comments;
+      } else {
+        alert(checkmusic.data.message);
+        // alert(`${checkmusic.data.message}`)
+        // alert("没版权")
+        //这个功能不知道有没有成功 等写了search功能再测试
+      }
     },
 
     //收藏歌单
     async handleCollectSonglist() {
       //添加歌单
-      if (this.$store.state.songListDetailInfo.subscribed) {
+      if (this.headInfo.subscribed) {
         //true
         //弹窗 问是否取消收藏
         this.$confirm("确定不再收藏该歌单?", {
@@ -176,12 +266,12 @@ export default {
           cancelButtonText: "取消",
           type: "warning",
         }).then(async () => {
-          await subPlaylist(2, this.$store.state.songListDetailInfo.id);
+          await subPlaylist(2, this.headInfo.id);
           this.refreshUserSonglistInfo();
         });
       } else {
         //false
-        await subPlaylist(1, this.$store.state.songListDetailInfo.id);
+        await subPlaylist(1, this.headInfo.id);
         this.refreshUserSonglistInfo();
       }
       //⭐⭐⭐⭐⭐⭐
@@ -189,7 +279,7 @@ export default {
     },
     //刷新用户歌单信息函数
     async refreshUserSonglistInfo() {
-      this.getSongListDetailInfo();
+      this.upDataSongListHeadInfo();
       let uInfo = JSON.parse(window.localStorage.getItem("currentUserInfo"));
       let uId = uInfo.userId;
       let playlist = await getUserPlaylist(uId);
@@ -245,12 +335,9 @@ export default {
     this.handleSongListDetailInfo();
     this.getCommentInfo();
     this.getSongListType();
-    this.$store.state.allTypeInfo = this.typeLists;
+    // this.$store.state.allTypeInfo = this.typeLists;
   },
   computed: {
-    songListDetailInfo() {
-      return this.$store.state.songListDetailInfo;
-    },
   },
   watch: {
     $route() {

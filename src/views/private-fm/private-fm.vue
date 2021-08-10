@@ -165,7 +165,6 @@ export default {
 
       this.$store.commit("changeCurrentPlay", this.currentSongInfo);
       this.$store.commit("play");
-      this.findCorrectUrl();
     },
 
     async getCommentInfo(){
@@ -203,7 +202,6 @@ export default {
         this.getOtherInfo();
         this.currentSongIndex++;
       }
-      this.findCorrectUrl();
       // //每点击下一首歌曲的时候 当currentSongIndex=3时 删掉最前面一首
       //这个功能不写了
       // if(this.currentSongIndex===3){

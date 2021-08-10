@@ -183,7 +183,6 @@ export default {
       "singlePlayWay",
       "changeCurrentPlay",
       "setCurrentIndex",
-      "findCorrectUrl",
     ]),
     
     start() {
@@ -209,7 +208,6 @@ export default {
           this.setNextSong();
           break;
       }
-      this.findCorrectUrl();
       this.getMaxPlayAllInfo()
       this.$refs.audio.play();
     },
@@ -271,7 +269,6 @@ export default {
           this.setNextSong();
           break;
       }
-      this.findCorrectUrl();
       this.getMaxPlayAllInfo()
     },
 
@@ -290,7 +287,6 @@ export default {
           this.setPreSong();
           break;
       }
-      this.findCorrectUrl();
       this.getMaxPlayAllInfo()
     },
 
@@ -313,7 +309,7 @@ export default {
       //歌单列表的数据全部重置
       this.clearSongList();
       //隐藏
-      this.setIsLoad("false"); //⭐⭐未解决问题：点击清除按钮后 歌曲图片没有隐藏
+      this.setIsLoad(false);
       //清空当前播放的歌曲数据
       this.resetCurrentSongInfo();
       //停止音乐
@@ -324,7 +320,6 @@ export default {
     //从歌单中移除选中的歌曲
     handleDelete(id) {
       this.deleteSong(id);
-      this.findCorrectUrl();
     },
 
     //处理音乐播放方式
@@ -359,7 +354,6 @@ export default {
     //在播放列表中点击特定歌曲并进行播放
     handleClickPlaySong(values, index) {
       this.changeCurrentPlay(values);
-      this.findCorrectUrl();
       this.setCurrentIndex(index);
     },
 

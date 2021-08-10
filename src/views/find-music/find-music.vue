@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import NavBar from "../../components/common/findmusic/navbar/NavBar";
+import NavBar from "../../components/common/findmusic/navbar/NavBar.vue";
 export default {
   name: "FindMusic",
   components: {

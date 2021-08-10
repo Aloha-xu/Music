@@ -4,18 +4,18 @@
       @intoDetailsClick="intoDetailsClick"
       ></into-details-button>
       <div class="content">
-        <new-music-card v-for="item in NewMusicCardInfo" :key="item.id"
+        <NewMusicCard v-for="item in NewMusicCardInfo" :key="item.id"
         :pic="item.picUrl" :songname="item.name" :singer="item.song.artists.map(({name})=>name)" class="item"
         :id="item.id"
-        ></new-music-card>
+        ></NewMusicCard>
       </div>
   </div>
 </template>
 
 <script>
 import NewMusicCard from './new-music-card'
-import {getPersonalizedNewSong} from '../../../../../network/api'
-import IntoDetailsButton from '../../../into-details-button.vue'
+import {getPersonalizedNewSong} from '@/network/api'
+import IntoDetailsButton from "@/components/common/into-details-button.vue";
 export default {
     name:"NewMusic",
     data() {
@@ -42,6 +42,7 @@ export default {
     async created() {
       this.getPersonalizedNewSong()
     },
+    
 }
 </script>
 

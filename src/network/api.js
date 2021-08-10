@@ -52,6 +52,16 @@ export function getSongListDetail(id,s){
     })
 }
 
+export function getAlbumListDetail(id){
+    let timestamp = new Date().getTime()
+    return request({
+        url:"/album",
+        params:{
+            id,timestamp
+        }
+    })
+}
+
 
 /* 获取热门歌单分类 */
 export function getHotSongListType(){
@@ -1195,7 +1205,11 @@ export function SendOrDelComment(t,type,id,content,commentId){
 
 
 //账号密码登陆接口
-
+export function getLogin(){
+    return request({
+        url:"/login/cellphone?phone=17324205074&password=86868868z."
+    })
+}
 
 export function refresh(){
     return request({
@@ -1225,6 +1239,7 @@ export function getUserDetail(uid){
         }
     })
 }
+
 
 
 

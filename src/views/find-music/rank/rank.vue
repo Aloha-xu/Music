@@ -54,9 +54,12 @@ export default {
     },
     async created() {
       this.getTopListInfo()
-
-     
+      this.$store.commit('refeshCurrentNavIndex',3)
     },
+    activated(){
+      //再次激活时 对比一些数据 看似否需要更新
+      this.$store.commit('refeshCurrentNavIndex',3)
+    }
 }
 </script>
 

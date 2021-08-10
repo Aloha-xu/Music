@@ -6,7 +6,7 @@
         <nav-bar></nav-bar>
       </el-aside>
       <keep-alive
-        exclude="PlayListDetail,SingerListDetail,MvDetail,PrivateFM,UpDataPapg"
+        exclude="PlayListDetail,AlbumListDetail,SingerListDetail,MvDetail,PrivateFM,UpDataPapg"
       >
         <router-view></router-view>
       </keep-alive>

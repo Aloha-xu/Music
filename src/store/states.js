@@ -1,6 +1,5 @@
 export default {
-    //当前导航下标
-    navCurrentIndex: 0,
+    
 
     //当前的播放歌曲信息
     currentSongInfo: {
@@ -50,6 +49,8 @@ export default {
     //某一首歌的评论数据
     commentInfo:{},
 
+    //当前导航下标 发现音乐下的推荐、歌单、主播电台
+    navCurrentIndex: 0,
 
     //用户的全部歌单信息
     userSonglistInfo:[],

@@ -51,17 +51,17 @@
 <script>
 //获取数据不应该写在这 不想改了
 import {
-  getSongUrl,
-  getSongLyric,
-  getSimiPlayList,
-  getMusicComment,
-  getCheckMusic,
+  // getSongUrl,
+  // getSongLyric,
+  // getSimiPlayList,
+  // getMusicComment,
+  // getCheckMusic,
   getLikeList,
   setLike,
   getSongListDetail
 } from "../../../network/api";
 import { forMatTime } from "../../../utils/format";
-import { parseLyric } from "../../../utils/lyric";
+// import { parseLyric } from "../../../utils/lyric";
 export default {
   name: "SongListComponent",
   data() {
@@ -74,6 +74,7 @@ export default {
   },
   props: {
     songsInfo:Array,
+    playList:Array,
   },
   methods: {
     /* 点击指定红星添加收藏未做 */
@@ -100,54 +101,59 @@ export default {
     },
     // 处理点击播放音乐事件
     async HandleSongClick(values, index) {
-      let checkmusic = await getCheckMusic(values.id);
-      //判断音乐是否有版权
-      if (checkmusic.data.success) {
-        //获取歌曲的歌词
-        let lyric = await getSongLyric(values.id);
 
-        //更新当前播放的下标
-        this.$store.commit("setCurrentIndex", index);
+      this.$emit('handleSongClick',[values,index])
 
-        //获取所点击的歌曲的url
-        const { data } = await getSongUrl(values.id);
-        console.log(data)
+      // let checkmusic = await getCheckMusic(values.id);
+      // //判断音乐是否有版权
+      // if (checkmusic.data.success) {
+      //   //获取歌曲的歌词
+      //   let lyric = await getSongLyric(values.id);
 
-        //筛选出全部歌手名字
-        let singers = values.singer.map(({ name }) => name);
+      //   //更新当前播放的下标
+      //   this.$store.commit("setCurrentIndex", index);
 
-        //筛选出需要的歌曲信息以数组形式放到state
-        let currentsonginfo = {};
-        currentsonginfo.url = data.data[0].url;
-        currentsonginfo.id = values.id;
-        currentsonginfo.name = values.name;
-        currentsonginfo.album = values.album.name;
-        currentsonginfo.singer = singers;
-        currentsonginfo.pic = values.pic;
-        currentsonginfo.totleTime = values.totleTime;
-        currentsonginfo.lyric = parseLyric(lyric.data.lrc.lyric);
+      //   //获取所点击的歌曲的url
+      //   const { data } = await getSongUrl(values.id);
+      //   console.log(data)
 
-        //修改当前播放的音乐信息
-        this.$store.commit("changeCurrentPlay", currentsonginfo);
+      //   //筛选出全部歌手名字
+      //   let singers = values.singer.map(({ name }) => name);
 
-        //点击任意一首歌后把歌单歌曲添加到播放列表中
-        //this.$store.commit("setAllSongsToPlayList");
+      //   //筛选出需要的歌曲信息以数组形式放到state
+      //   let currentsonginfo = {};
+      //   currentsonginfo.id = values.id;
+      //   // let correctUrlIndex = data.data.findIndex((item)=>{ currentsonginfo.id == item.id})
+      //   // currentsonginfo.url = data.data[correctUrlIndex].url;
+      //   currentsonginfo.url = data.data[0].url;
+      //   currentsonginfo.name = values.name;
+      //   currentsonginfo.album = values.album.name;
+      //   currentsonginfo.singer = singers;
+      //   currentsonginfo.pic = values.pic;
+      //   currentsonginfo.totleTime = values.totleTime;
+      //   currentsonginfo.lyric = parseLyric(lyric.data.lrc.lyric);
 
-        //isload图片
-        this.$store.commit("setIsLoad", "true");
+      //   //修改当前播放的音乐信息
+      //   this.$store.commit("changeCurrentPlay", currentsonginfo);
 
-        //获取某一首歌的相似歌单信息
-        let simimusic = await getSimiPlayList(values.id);
-        this.$store.state.SimiSongList = simimusic.data.playlists;
-        //获取某一首歌的评论
-        let musicComments = await getMusicComment(values.id, 100);
-        this.$store.state.commentInfo = musicComments.data.comments;
-      } else {
-        alert(checkmusic.data.message);
-        // alert(`${checkmusic.data.message}`)
-        // alert("没版权")
-        //这个功能不知道有没有成功 等写了search功能再测试
-      }
+      //   //点击任意一首歌后把歌单歌曲添加到播放列表中
+      //   this.$store.commit("setAllSongsToPlayList",this.playList[index]);
+
+      //   //isload图片
+      //   this.$store.commit("setIsLoad", "true");
+
+      //   //获取某一首歌的相似歌单信息
+      //   let simimusic = await getSimiPlayList(values.id);
+      //   this.$store.state.SimiSongList = simimusic.data.playlists;
+      //   //获取某一首歌的评论
+      //   let musicComments = await getMusicComment(values.id, 100);
+      //   this.$store.state.commentInfo = musicComments.data.comments;
+      // } else {
+      //   alert(checkmusic.data.message);
+      //   // alert(`${checkmusic.data.message}`)
+      //   // alert("没版权")
+      //   //这个功能不知道有没有成功 等写了search功能再测试
+      // }
     },
     //计算歌曲时间
     setSongTime(time) {

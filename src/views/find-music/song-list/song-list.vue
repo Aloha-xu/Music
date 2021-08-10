@@ -261,6 +261,10 @@ export default {
     this.getTopSonglist();
     this.getTopSonglistType();
     this.getSongList();
+    this.$store.commit("refeshCurrentNavIndex", 1);
+  },
+  activated() {
+    this.$store.commit("refeshCurrentNavIndex", 1);
   },
 };
 </script>

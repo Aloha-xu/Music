@@ -49,7 +49,7 @@
           @click="ToSingerDetailClick(item.id)"
         >
           <div class="img">
-            <el-image :src="item.img1v1Url"  lazy></el-image>
+            <el-image :src="item.img1v1Url" lazy></el-image>
           </div>
           <div class="name">
             {{ item.name }}
@@ -222,17 +222,15 @@ export default {
     },
   },
   async created() {
+    this.$store.commit("refeshCurrentNavIndex", 4);
     this.getArtistsList(
       this.ClassifyCurrentIndexthis,
       this.LanguageCurrentIndex,
       this.FirstletterCurrentIndex
     );
   },
-  mounted() {
-    //this.scroll()
-    // this.$refs.singer.onscroll=(e)=>{
-    //   console.log(e)
-    // }
+  activated() {
+    this.$store.commit("refeshCurrentNavIndex", 4);
   },
 };
 </script>

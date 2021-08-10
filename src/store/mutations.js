@@ -1,6 +1,10 @@
 //处理同步的操作
 export default {
 
+    refeshCurrentNavIndex(state,index){
+        state.navCurrentIndex = index
+    },
+
     //更改当前正在播放的歌曲的信息
     changeCurrentPlay(state, currentsonginfo) {
         state.currentSongInfo = currentsonginfo
@@ -35,51 +39,11 @@ export default {
 
     //把歌单的全部歌曲添加到播放列表
     setAllSongsToPlayList(state,allSongs) {
-        // for (let i = 0; i < state.SongListAllInfos.length; i++) {
-        //     let currentsonginfo = {};
-        //     currentsonginfo.url = state.SongListAllUrls.data.data[i].url;
-        //     currentsonginfo.id = state.SongListAllInfos[i].id;
-        //     currentsonginfo.name = state.SongListAllInfos[i].name;
-        //     currentsonginfo.singer = state.SongListAllInfos[i].ar.map(({ name }) => name);
-        //     currentsonginfo.pic = state.SongListAllInfos[i].al.picUrl;
-        //     currentsonginfo.totleTime = state.SongListAllInfos[i].dt;
-        //     currentsonginfo.lyric = []
-        //     currentsonginfo.album = state.SongListAllInfos[i].al.name;
-        //     //把歌曲放到播放列表中 
-        //     state.songList.push(currentsonginfo)
-        // }
         state.songList = allSongs
     },
 
     setfm(state,v) {
-        // for (let i = 0; i < state.SongListAllInfos.length; i++) {
-        //     let currentSongInfo = {};
-        //     currentSongInfo.id = state.SongListAllInfos[i].id;
-        //     currentSongInfo.url = "";
-        //     currentSongInfo.name = state.SongListAllInfos[i].name;
-        //     currentSongInfo.album = state.SongListAllInfos[i].album.name;
-        //     currentSongInfo.singer = state.SongListAllInfos[i].artists.map(({ name }) => name);
-        //     currentSongInfo.pic = state.SongListAllInfos[i].album.blurPicUrl;
-        //     currentSongInfo.totleTime = state.SongListAllInfos[i].duration;
-        //     currentSongInfo.lyric = [];
-        //     state.songList.push(currentSongInfo)
-        //     }
         state.songList = v
-    },
-
-
-    //播放歌单列表的第一首歌
-    setPlayFirstSong(state) {
-        let currentsonginfo = {};
-        currentsonginfo.url = state.SongListAllUrls.data.data[0].url;
-        currentsonginfo.id = state.SongListAllInfos[0].id;
-        currentsonginfo.name = state.SongListAllInfos[0].name;
-        currentsonginfo.singer = state.SongListAllInfos[0].ar.map(({ name }) => name);
-        currentsonginfo.pic = state.SongListAllInfos[0].al.picUrl;
-        currentsonginfo.totleTime = state.SongListAllInfos[0].dt;
-        currentsonginfo.lyric = []
-        currentsonginfo.album = state.SongListAllInfos[0].al.name;
-        state.currentSongInfo = currentsonginfo
     },
 
     //列表循环  这里还没有写完列表循环与顺序循环的选择 我觉得列表循环是已有的列表中循环播放然而这个顺序循环就是按照你点进去的歌单 直接把这个歌单放到列表中 再播放 这个功能后续写
@@ -172,7 +136,7 @@ export default {
     resetCurrentSongInfo(state) {
         state.currentSongInfo = {
             url: '',
-            id: '',
+            id: null,
             name: '',
             album: '',
             singer: '',
@@ -185,18 +149,6 @@ export default {
     //设置当前歌曲下标
     setCurrentIndex(state, currentIndex) {
         state.currentIndex = currentIndex
-    },
-
-    findCorrectUrl(state) {
-        //拿到现在需要播放的歌曲的id
-        // state.currentSongInfo.id
-        //拿到这个id 根据这个id 去SongListAllUrls里面找对应id的url 再返回赋值给currentSongInfo
-        for (let j = 0; j < state.SongListAllUrls.length; j++) {
-            if (state.SongListAllUrls.data.data[j].id == state.currentSongInfo.id) {
-                state.currentSongInfo.url = state.SongListAllUrls.data.data[j].url;
-                return
-            }
-        }
     },
 
     //刷新用户的歌单

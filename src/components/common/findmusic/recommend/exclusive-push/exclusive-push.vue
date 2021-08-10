@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import IntoDetailsButton from "../../../into-details-button";
-import { getExclusivePush } from "../../../../../network/api";
+import IntoDetailsButton from "@/components/common/into-details-button.vue";
+import { getExclusivePush } from "@/network/api";
 import ExclusiverPushCard from "./exclusive-push-card/exclusive-push-card.vue";
 export default {
   name: "ExclusivePush",
@@ -45,6 +45,7 @@ export default {
   async created() {
     this.getExclusivePush();
   },
+  
 };
 </script>
 

@@ -11,7 +11,6 @@ export default {
     name:"NavBar",
     data() {
         return {
-            currentIndex:0,
             findMusictype:['推荐','歌单','主播电台','排行榜','歌手','最新音乐']
         }
     },
@@ -20,27 +19,27 @@ export default {
             switch (index){
                 case 0:
                 this.$router.push('/recommend');
-                this.currentIndex=index
+                this.$store.commit('refeshCurrentNavIndex',index)
                 break;
                 case 1:
                 this.$router.push('/songlist');
-                this.currentIndex=index
+                this.$store.commit('refeshCurrentNavIndex',index)
                 break;
                 case 2:
                 this.$router.push('/anchorradio');
-                this.currentIndex=index
+                this.$store.commit('refeshCurrentNavIndex',index)
                 break;
                 case 3:
                 this.$router.push('/rank');
-                this.currentIndex=index
+                this.$store.commit('refeshCurrentNavIndex',index)
                 break;
                 case 4:
                 this.$router.push('/singer');
-                this.currentIndex=index
+                this.$store.commit('refeshCurrentNavIndex',index)
                 break;
                 case 5:
                 this.$router.push('/newmusic');
-                this.currentIndex=index
+                this.$store.commit('refeshCurrentNavIndex',index)
                 break;
             }
 
@@ -49,9 +48,11 @@ export default {
     created() {
         this.itemClick(this.currentIndex)
     },
-    activated() {
-        this.itemClick(this.currentIndex)
-    },
+    computed:{
+        currentIndex(){
+            return this.$store.state.navCurrentIndex
+        }
+    }
 }
 </script>
 
