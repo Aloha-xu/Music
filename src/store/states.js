@@ -1,6 +1,4 @@
 export default {
-    
-
     //当前的播放歌曲信息
     currentSongInfo: {
         url: '',
@@ -20,7 +18,7 @@ export default {
     songList: [],
 
     //当前播放歌曲的下标
-    currentIndex: '',
+    currentIndex: 0,
 
     //当前播放到哪一刻 也豪秒为单位的值
     currentTime: '00:00',

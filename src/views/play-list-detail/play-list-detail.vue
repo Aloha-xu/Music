@@ -137,11 +137,11 @@ export default {
       this.headInfo = songListHeadInfo;
 
       //处理歌单中全部的歌曲的ids
-      const res = await getSongDetail(
+      const resIds = await getSongDetail(
         data.playlist.trackIds.map(({ id }) => id)
       );
 
-      const SongsInfo = res.data.songs;
+      const SongsInfo = resIds.data.songs;
       console.log(SongsInfo)
 
       //这里返回的url是不按传入的id按需返回的 所以需要进行url校正
@@ -212,24 +212,6 @@ export default {
         //更新当前播放的下标
         this.$store.commit("setCurrentIndex", v[1]);
 
-        // //获取所点击的歌曲的url
-        // const { data } = await getSongUrl(values.id);
-        // console.log(data)
-
-        //筛选出全部歌手名字
-        // let singers = values.singer.map(({ name }) => name);
-
-        //筛选出需要的歌曲信息以数组形式放到state
-        // let currentsonginfo = {};
-        // currentsonginfo.id = values.id;
-        // // let correctUrlIndex = data.data.findIndex((item)=>{ currentsonginfo.id == item.id})
-        // // currentsonginfo.url = data.data[correctUrlIndex].url;
-        // currentsonginfo.url = data.data[0].url;
-        // currentsonginfo.name = values.name;
-        // currentsonginfo.album = values.album.name;
-        // currentsonginfo.singer = singers;
-        // currentsonginfo.pic = values.pic;
-        // currentsonginfo.totleTime = values.totleTime;
         this.playList[v[1]].lyric = parseLyric(lyric.data.lrc.lyric);
 
         //修改当前播放的音乐信息

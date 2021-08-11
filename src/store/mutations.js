@@ -42,10 +42,6 @@ export default {
         state.songList = allSongs
     },
 
-    setfm(state,v) {
-        state.songList = v
-    },
-
     //列表循环  这里还没有写完列表循环与顺序循环的选择 我觉得列表循环是已有的列表中循环播放然而这个顺序循环就是按照你点进去的歌单 直接把这个歌单放到列表中 再播放 这个功能后续写
     //⭐⭐currentPlayIndex  currentIndex 这两个下标一样的 懒得改
 

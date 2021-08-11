@@ -31,10 +31,7 @@ export default {
     }
   },
   props:{
-    commentInfo:{
-      type:Array,
-      default:() =>[]
-    },
+    commentInfo:Array,
     id:String,
     type:Number,
     t:Number,

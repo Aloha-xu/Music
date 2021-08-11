@@ -6,16 +6,17 @@
         <div class="record">
           <div class="pic">
             <img :src="currentSongInfo.pic" class="current-pic" />
-            <img
-              :src="this.$store.state.songList[currentSongIndex + 1].pic"
-              class="next-pic"
-            />
-            <i class="el-icon-caret-right play-button" v-show="!playing"></i>
+            <i
+              class="el-icon-caret-right play-button"
+              v-show="!playing || !goblePlayingState"
+              @click="handlePlayingState"
+            ></i>
             <img
               src="../../assets/icon/controltools/stop.png"
               alt=""
-              v-show="playing"
+              v-show="playing && goblePlayingState"
               class="stop-button"
+              @click="handlePlayingState"
             />
           </div>
         </div>
@@ -39,7 +40,7 @@
           <div class="next" @click="nextSong">
             <i class="el-icon-caret-right" style="font-size: 30px"></i>
           </div>
-          <div class="more" >
+          <div class="more">
             <i class="el-icon-more" style="font-size: 30px"></i>
           </div>
         </div>
@@ -49,19 +50,13 @@
         <div class="album-name">
           专辑：<span>{{ currentSongInfo.album }}</span>
         </div>
-        <div
-          class="singer-name"
-          v-for="item in currentSongInfo.singer"
-          :key="item"
-        >
-          歌手：<span>{{ item }}</span>
+        <div class="singer-name">
+          歌手：<span v-for="item in currentSongInfo.singer" :key="item">{{
+            item
+          }}</span>
         </div>
         <!-- 纯音乐的时候显示为该音乐为纯音乐的文字 -->
-        <div
-          class="lyric"
-          ref="lyric"
-          v-if="!currentSongInfo.lyric.length == 0"
-        >
+        <div class="lyric" ref="lyric" v-show="currentSongInfo.lyric">
           <div
             v-for="(item, index) in currentSongInfo.lyric"
             :key="index"
@@ -70,11 +65,14 @@
             {{ item.content }}
           </div>
         </div>
-        <div class="noLyric" v-else>纯音乐</div>
+        <div class="noLyric" v-show="!currentSongInfo.lyric">纯音乐</div>
       </div>
     </div>
     <div class="comment">
-      <comment :commentInfo="commentInfo" @refeshCommrnt="getCommentInfo"></comment>
+      <comment
+        :commentInfo="commentInfo"
+        @refeshCommrnt="getCommentInfo"
+      ></comment>
     </div>
   </div>
 </template>
@@ -93,90 +91,58 @@ export default {
   data() {
     return {
       textarea: "",
-      songInfoGroup: [],
       commentInfo: [],
-      currentSongInfo: {},
-      urls: {},
-      //未筛选数据
-      allSongInfo: {},
-      //当前播放的第几首歌
-      currentSongIndex: 0,
+      currentSongInfo: null,
       playing: true,
-      songList:[]
+      playList: [],
+      tag: true,
     };
   },
   methods: {
+    //私人fm接口数据
     async getSongInfo() {
-
-      //私人fm接口数据
-      let { data } = await fm();
-      this.allSongInfo = data.data;
-
-      this.$store.commit("setAllSongListInfo", this.allSongInfo);
-
-      //全部urls
-      let urls = await getSongUrl(data.data.map(({ id }) => id));
-      this.urls = urls.data.data;
-
-      // //本来可以用mitations上面的已经写好的赛选数据的方法 但是返回的数据有一些不同
-      // for (let i = 0; i < data.data.length; i++) {
-      //   let currentSongInfo = {};
-      //   currentSongInfo.id = data.data[i].id;
-      //   currentSongInfo.url = "";
-      //   currentSongInfo.name = data.data[i].name;
-      //   currentSongInfo.album = data.data[i].album.name;
-      //   currentSongInfo.singer = data.data[i].artists.map(({ name }) => name);
-      //   currentSongInfo.pic = data.data[i].album.blurPicUrl;
-      //   currentSongInfo.totleTime = data.data[i].duration;
-      //   currentSongInfo.lyric = [];
-      //     this.songInfoGroup.push(currentSongInfo);
-      //   }
-
-      for (let i = 0; i < this.allSongInfo.length; i++) {
-            let currentSongInfo = {};
-            currentSongInfo.id = this.allSongInfo[i].id;
-            currentSongInfo.url = "";
-            currentSongInfo.name = this.allSongInfo[i].name;
-            currentSongInfo.album = this.allSongInfo[i].album.name;
-            currentSongInfo.singer = this.allSongInfo[i].artists.map(({ name }) => name);
-            currentSongInfo.pic = this.allSongInfo[i].album.blurPicUrl;
-            currentSongInfo.totleTime = this.allSongInfo[i].duration;
-            currentSongInfo.lyric = [];
-            this.songList.push(currentSongInfo)
-            }
-
-      this.$store.commit("setfm",this.songList);
-
-      
-
-      //设置第一首歌曲的信息
-      this.currentSongInfo =this.$store.state.songList[0];
-      let comment = await getMusicComment(this.currentSongInfo.id);
-      this.commentInfo = comment.data.comments;
-      let lyric = await getSongLyric(this.currentSongInfo.id);5
-      this.currentSongInfo.lyric = parseLyric(lyric.data.lrc.lyric);
-
-      // console.log(data);
-      // console.log(this.urls);
-      // console.log(comment);
-      // console.log(this.lyric);
-      // console.log(this.songInfoGroup);
-      // console.log(this.currentSongInfo);
-
+      const { data } = await fm();
+      const Urls = await getSongUrl(data.data.map(({ id }) => id));
+      for (let i = 0; i < data.data.length; i++) {
+        let currentSongInfo = {};
+        currentSongInfo.id = data.data[i].id;
+        currentSongInfo.url = "";
+        for (let j = 0; j < Urls.data.data.length; j++) {
+          if (Urls.data.data[j].id == currentSongInfo.id) {
+            currentSongInfo.url = Urls.data.data[j].url;
+          }
+        }
+        currentSongInfo.name = data.data[i].name;
+        currentSongInfo.album = data.data[i].album.name;
+        currentSongInfo.singer = data.data[i].artists.map(({ name }) => name);
+        currentSongInfo.pic = data.data[i].album.blurPicUrl;
+        currentSongInfo.totleTime = data.data[i].duration;
+        currentSongInfo.lyric = null;
+        this.playList.push(currentSongInfo);
+      }
+      this.currentSongInfo = this.playList[0];
+      this.getCommentInfo();
+      this.getLyricInfo();
+      this.$store.commit("setAllSongsToPlayList", this.playList);
       this.$store.commit("changeCurrentPlay", this.currentSongInfo);
-      this.$store.commit("play");
+      this.$store.commit("setIsLoad", true);
     },
 
-    async getCommentInfo(){
+    handlePlayingState() {
+      if (this.playing) {
+        this.$store.commit("stop");
+      } else {
+        this.$store.commit("play");
+      }
+      this.playing = !this.playing;
+    },
+
+    async getCommentInfo() {
       let comment = await getMusicComment(this.currentSongInfo.id);
       this.commentInfo = comment.data.comments;
     },
 
-
-    //获取特定id歌曲的评论与歌词
-    async getOtherInfo() {
-      let comment = await getMusicComment(this.currentSongInfo.id);
-      this.commentInfo = comment.data.comments;
+    async getLyricInfo() {
       let lyric = await getSongLyric(this.currentSongInfo.id);
       this.currentSongInfo.lyric = parseLyric(lyric.data.lrc.lyric);
     },
@@ -185,53 +151,23 @@ export default {
     nextSong() {
       //判断是否是最后一首
       //是 --》请求数据     不是 --》切下一首
-      if (this.currentSongIndex === 3) {
+      if (this.currentSongIndex === this.playList.length - 1) {
         //清除原有的数据
-        // this.currentSongInfo = {};
-        this.songInfoGroup = [];
-        // this.allSongInfo = {};
-        // this.commentInfo = [];
-        this.currentSongIndex = 0,
-        this.playing = false,
+        this.currentSongInfo = null;
+        this.playList = [];
+        this.$store.commit("setCurrentIndex", 0);
+        this.playing = true;
         //再一次请求数据
         this.getSongInfo();
-        this.updataInfo();
       } else {
-        this.currentSongInfo = this.$store.state.songList[this.currentSongIndex];
+        this.playing = true;
+        this.$store.commit("setCurrentIndex", this.currentSongIndex + 1);
+        this.currentSongInfo = this.playList[this.currentSongIndex];
         this.$store.commit("changeCurrentPlay", this.currentSongInfo);
-        this.getOtherInfo();
-        this.currentSongIndex++;
-      }
-      // //每点击下一首歌曲的时候 当currentSongIndex=3时 删掉最前面一首
-      //这个功能不写了
-      // if(this.currentSongIndex===3){
-      //   this.songInfoGroup.splice(1,1)
-      // }
-    },
-    updataInfo() {
-      //把歌单的全部歌曲添加到播放列表
-      // this.$store.state.songList = this.songInfoGroup;
-      //设置当前播放歌曲的下标 要同步两个界面的信息
-      this.$store.commit("setCurrentIndex", this.currentSongIndex);
-      //点击播放按钮后才把数据传到vuex
-      this.$store.commit("setAllSongListInfo", this.allSongInfo);
-      this.$store.commit("setAllSongUrls", this.urls);
-      //加载图片
-      this.$store.commit("setIsLoad", true);
-      // this.$store.commit("changeCurrentPlay", this.currentSongInfo);
-      // this.$store.commit("setSongListInfo", this.songInfoGroup);
-    },
-
-    //找到正确的url 这里不知道是对谁错 数据没验证
-    findCorrectUrl() {
-      for (let j = 0; j < this.urls.length; j++) {
-        if (this.urls[j].id == this.currentSongInfo.id) {
-          this.currentSongInfo.url = this.urls[j].url;
-          return;
-        }
+        this.getCommentInfo();
+        this.getLyricInfo();
       }
     },
-
     currentPlayTime(values, index) {
       let flag = false;
       //快进或者减慢歌词速度控制变量
@@ -249,15 +185,25 @@ export default {
     },
   },
   async created() {
-    //一开始进来的时候会自动播放请求到数据的第一首歌
-    //只是第一次created的时候
     this.getSongInfo();
-    this.updataInfo();
   },
   components: {
     Comment,
   },
+  activated() {
+    this.getSongInfo();
+    this.updataInfo();
+  },
   computed: {
+    goblePlayingState() {
+      return this.$store.state.playing;
+    },
+    currentSongIndex() {
+      return this.$store.state.currentIndex;
+    },
+  },
+  watch: {
+    tag: () => {},
   },
 };
 </script>

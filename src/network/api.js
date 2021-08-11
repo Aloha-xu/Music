@@ -766,8 +766,12 @@ export function getRecommentMv(){
 
 //获取私人fm歌单
 export function fm(){
+    let timestamp = new Date().getTime()
     return request({
-        url:"/personal_fm"
+        url:"/personal_fm",
+        params:{
+            timestamp
+        }
     })
 }
 
