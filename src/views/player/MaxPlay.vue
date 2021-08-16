@@ -37,10 +37,10 @@
       <div class="song-info">
         <div class="song-name">{{ songInfo.name }}</div>
         <div class="album-name">
-          专辑：<span>{{ songInfo.album }}</span>
+          专辑：<span>{{ songInfo.album.name }}</span>
         </div>
-        <div class="singer-name" v-for="item in songInfo.singer" :key="item">
-          歌手：<span>{{ item }}</span>
+        <div class="singer-name" v-for="item in songInfo.singer" :key="item.id">
+          歌手：<span>{{ item.name }}</span>
         </div>
         <!-- <div class="info_source">{{ songInfo.id }}</div> -->
         <!-- 纯音乐的时候显示为该音乐为纯音乐的文字 -->
@@ -107,10 +107,8 @@
 </template>
 
 <script>
-// import CommentCard from "../../components/common/comment-card.vue";
 import NewMusicCard from "../../components/common/findmusic/recommend/new-music/new-music-card.vue";
 import Comment from '../../components/common/play-list-detail/comment.vue';
-/* import { mapState} from "vuex"; */
 export default {
   name: "MaxPlay",
   components: {
@@ -161,7 +159,6 @@ export default {
       // 然后后面的就一行歌词 20px的位移
       //最后到剩下 6  7  行的样子就不需要移动了
       let currentTime = parseInt(this.$store.state.currentTime / 1000);
-      // console.log(currentTime);
       let lyric = this.$store.state.currentSongInfo.lyric;
       if(!lyric){
         for (let i = 6; i < lyric.length - 6; i++) {
@@ -194,13 +191,116 @@ export default {
         clearInterval(this.interval);
       }
     },
-    songInfo(){
-      this.$refs.lyric.scrollTo(0,0)
-    }
+    // songInfo(){
+    //   this.$refs.lyric.scrollTo(0,0)
+    // }
   },
 };
 </script>
 
-<style scoped>
-@import "./MaxPlay.css";
+<style scoped lang="scss">
+.max-play{
+    height: 100vh;
+    overflow: scroll;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    .content{
+        width: 1100px;
+        position: absolute;
+        display: flex;
+        .record-tools{
+            width: 50%;
+            height: 50%;
+            text-align: center;
+            padding-top: 40px;
+            .pic{
+                margin-top: 90px;
+                img{
+                    width: 200px;
+                    height: 200px;
+                    border-radius: 50%;
+                }
+            }
+            .tools{
+                display: flex;
+                margin-top: 10px;
+                justify-content: center;
+                .heart,.collect,.download,.share{
+                    padding: 10px;
+                    padding-top: 30px;
+                    padding-left: 40px;
+                }
+            }
+        }
+        .song-info{
+            width: 45%;
+            height: 50%;
+            padding-top: 40px;
+            .song-name{
+                font-size: x-large;
+            }
+            .album-name,.singer-name{
+                width: 200px;
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                margin: 15px 0;
+                span{
+                    color: rgb(101, 85, 247);
+                    cursor: pointer;
+                }
+            }
+            .lyric{
+                overflow: scroll;
+                overflow-x: hidden;
+                height: 350px;
+                .lyric-item{
+                font-size: medium;
+                margin: 10px 0;
+                }
+                .lyric-active{
+                    font-weight: 900;
+                    margin: 20px 0;
+                    font-size: large;
+                    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                }
+            }
+        }
+        .min-buttom{
+            padding-top: 40px;
+            width: 5%;
+        }
+    }
+    .simi-song{
+        width: 1100px;
+        margin-top: 40px;
+        position: absolute;
+        top: 450px;
+        span{
+            font-size: x-large;
+        }
+        .simi-content{
+            display: flex;
+            flex-wrap: wrap;
+            margin: 10px 0;
+            .simi-item{
+                width: 30%;
+            }
+        }
+    }
+    .comment_{
+        width: 1100px;
+        margin-top: 40px;
+        position: absolute;
+        top: 550px;
+        .title{
+            font-size: x-large;
+            padding-bottom: 20px;
+        }
+        
+    }
+}
 </style>

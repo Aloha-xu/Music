@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .simi-artist-compontent{
     width: 98%;
     margin-left: 20px;

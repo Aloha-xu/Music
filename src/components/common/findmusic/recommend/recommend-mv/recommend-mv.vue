@@ -50,7 +50,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .recommend-mv {
   width: 100%;
   margin-top: 20px;

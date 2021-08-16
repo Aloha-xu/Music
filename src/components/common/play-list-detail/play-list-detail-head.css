@@ -72,7 +72,7 @@
   color: gray;
 }
 .playlistdetail-head .right .album-info {
-  height: 200px;
+  height: 100px;
 }
 .playlistdetail-head .right .biaoqian {
   font-size: 13.5px;
@@ -80,6 +80,7 @@
 .playlistdetail-head .right .songlist-title {
   display: inline-block;
   margin-top: 5px;
+  margin-right: 5px;
   font-size: 13.5px;
   color: #73a6be;
 }

@@ -118,7 +118,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .friend{
    overflow: scroll;
    height: 90vh;

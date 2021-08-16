@@ -25,7 +25,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .el-carousel__item a {
   color: #475669;
   font-size: 14px;

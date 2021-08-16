@@ -40,7 +40,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .artist-desc{
     width: 96%;
     margin-left: 30px;

@@ -31,12 +31,11 @@
         ></mv-card>
       </div>
       <video-type-popover
-      :videoType="allvideoType"
-      @handleVideoTypeClick="handleVideoTypeClick"
-      v-show="isShowPopover"
-    ></video-type-popover>
+        :videoType="allvideoType"
+        @handleVideoTypeClick="handleVideoTypeClick"
+        v-show="isShowPopover"
+      ></video-type-popover>
     </div>
-    
   </div>
 </template>
 
@@ -65,7 +64,7 @@ export default {
       allvideoType: [],
       isShowPopover: false,
       videoInfo: [],
-      playType:'video'
+      playType: "video",
     };
   },
   methods: {
@@ -114,12 +113,71 @@ export default {
     }
     let videoInfo = await getVideoType(58107);
     this.videoInfo = videoInfo.data.datas;
-    
   },
-  
 };
 </script>
 
-<style scoped>
-@import "./video.css";
+<style scoped lang='scss'>
+.video {
+  display: flex;
+  justify-content: center;
+  overflow: scroll;
+  height: 82vh;
+  .content {
+    width: 1100px;
+    position: relative;
+    .navbar {
+      .type {
+        display: flex;
+        .alltype {
+          margin-left: 10px;
+          .el-button {
+            border-radius: 20px;
+          }
+          .el-button:focus,
+          .el-button:hover {
+            color: gray;
+            border-color: gray;
+            background-color: white;
+          }
+        }
+        .hottype {
+          width: 100%;
+          height: 30px;
+          margin-left: 400px;
+          line-height: 35px;
+          .item {
+            margin-left: 2px;
+            font-size: 13px;
+            color: gray;
+            display: inline-block;
+            padding: 0px 15px;
+          }
+          .item:hover {
+            color: rgb(56, 56, 56);
+          }
+          .active {
+            color: rgb(251, 51, 51);
+            background-color: rgb(255, 216, 216);
+            border-radius: 10px;
+          }
+        }
+      }
+    }
+    .all-card {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      .card {
+        width: 24%;
+        margin-left: 10px;
+      }
+    }
+    .video-type-popover {
+      position: absolute;
+      left: 10px;
+      top: 41px;
+    }
+  }
+}
 </style>

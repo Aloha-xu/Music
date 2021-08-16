@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .collecter{
   width: 100%;
   display: flex;

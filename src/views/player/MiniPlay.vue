@@ -7,10 +7,12 @@
       <div class="song-info">
         <span class="song-name">{{ currentSongInfo.name }}</span>
         <span class="heart" v-if="isLoad">
-          <img src="../../assets/icon/heart.svg" alt="">
+          <img src="../../assets/icon/heart.svg" alt="" />
         </span>
         <div class="artitse">
-          <i v-for="item in currentSongInfo.singer" :key="item">{{ item }}</i>
+          <i v-for="item in currentSongInfo.singer" :key="item.id">{{
+            item.name
+          }}</i>
         </div>
       </div>
     </div>
@@ -67,7 +69,22 @@
       </div>
     </div>
     <div class="other-tools">
-      <div class="voise"></div>
+      <div class="voise">
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            <i class="el-icon-mic"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-slider
+              v-model="volumeValue"
+              @change="handleCurrentVolume"
+              vertical
+              height="65px"
+            >
+            </el-slider>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
       <div class="song-list" @click="controlSongLists">
         <img src="../../assets/icon/controltools/showlist.png" alt="" />
       </div>
@@ -81,7 +98,6 @@
       @timeupdate="handleCurrentTime"
       ref="audio"
     ></audio>
-    <!-- 在这里写audio播放音乐 当player显示的时候 miniplayer还是在的 -->
 
     <!-- 歌单信息 -->
     <el-drawer
@@ -92,7 +108,7 @@
     >
       <div class="song-list">
         <div class="top">
-          <span class="totle-song">总共{{songList.length}}首</span>
+          <span class="totle-song">总共{{ songList.length }}首</span>
           <div class="collect" @click="handleCollectAll">
             <i class="el-icon-folder-add"></i>
             <span>收藏全部</span>
@@ -116,8 +132,8 @@
               :class="item.id === currentSongInfo.id ? 'active' : ''"
               @click="handleClickPlaySong(item, index)"
             >
-              <span v-for="item1 in item.singer" :key="item1"
-                >{{ item1 }}/</span
+              <span v-for="item1 in item.singer" :key="item1.id"
+                >{{ item1.name }}/</span
               >
             </div>
             <div class="el-icon-link link"></div>
@@ -134,9 +150,9 @@
 
 <script>
 import { mapState, mapMutations /* mapActions, mapGetters */ } from "vuex";
-import { forMatTime } from "../../utils/format";
-import {parseLyric} from '../../utils/lyric'
-import { getSimiPlayList,getMusicComment,getSongLyric } from "../../network/api";
+import { forMatTime } from "@/utils/format";
+import { parseLyric } from "@/utils/lyric";
+import { getSimiPlayList, getMusicComment, getSongLyric } from "@/network/api";
 export default {
   name: "MiniPlay",
   data() {
@@ -149,7 +165,8 @@ export default {
       drawer: false,
       //控制播放方式的开关
       wayOfPlay: 0,
-
+      //音量
+      volumeValue: 0,
     };
   },
   computed: {
@@ -184,7 +201,7 @@ export default {
       "changeCurrentPlay",
       "setCurrentIndex",
     ]),
-    
+
     start() {
       this.play();
     },
@@ -208,7 +225,7 @@ export default {
           this.setNextSong();
           break;
       }
-      this.getMaxPlayAllInfo()
+      this.getMaxPlayAllInfo();
       this.$refs.audio.play();
     },
 
@@ -226,6 +243,11 @@ export default {
       );
       //设置state的currentTime
       this.setCurrentTime(this.currentPlayTime * 1000);
+      console.log();
+    },
+
+    handleCurrentVolume() {
+      this.$refs.audio.volume = this.volumeValue / 100;
     },
 
     //处理播放与暂停按钮
@@ -269,7 +291,9 @@ export default {
           this.setNextSong();
           break;
       }
-      this.getMaxPlayAllInfo()
+      this.getMaxPlayAllInfo();
+      this.$store.state.isTagMinPlayerToNext =
+        !this.$store.state.isTagMinPlayerToNext;
     },
 
     async preSong() {
@@ -287,7 +311,7 @@ export default {
           this.setPreSong();
           break;
       }
-      this.getMaxPlayAllInfo()
+      this.getMaxPlayAllInfo();
     },
 
     controlSongLists() {
@@ -358,38 +382,253 @@ export default {
     },
 
     //处理点击显示最大化播放器
-    handleShowMaxPlayer(){
-      this.$store.state.isShowMaxPlayer=!this.$store.state.isShowMaxPlayer
+    handleShowMaxPlayer() {
+      if (this.$store.state.isShowFmPlayer) {
+        return;
+      }
+      this.$store.state.isShowMaxPlayer = !this.$store.state.isShowMaxPlayer;
     },
 
     async getMaxPlayAllInfo() {
       //获取歌词
-      let lyric=await getSongLyric(this.$store.state.currentSongInfo.id)
-      console.log(lyric)
-      this.$store.state.currentSongInfo.lyric=parseLyric(lyric.data.lrc.lyric)
+      let lyric = await getSongLyric(this.$store.state.currentSongInfo.id);
+      this.$store.state.currentSongInfo.lyric = parseLyric(
+        lyric.data.lrc.lyric
+      );
       //获取相似歌单
-      let simimusic = await getSimiPlayList(this.$store.state.currentSongInfo.id)
-      this.$store.state.SimiSongList=simimusic.data.playlists
+      let simimusic = await getSimiPlayList(
+        this.$store.state.currentSongInfo.id
+      );
+      this.$store.state.SimiSongList = simimusic.data.playlists;
       //获取单曲评论
-      let musicComments=await getMusicComment(this.$store.state.currentSongInfo.id,100)
-      this.$store.state.commentInfo = musicComments.data.comments
+      let musicComments = await getMusicComment(
+        this.$store.state.currentSongInfo.id,
+        100
+      );
+      this.$store.state.commentInfo = musicComments.data.comments;
     },
   },
-  created(){
-    this.$watch(
-      "playing",()=>{
-        if(!this.$store.state.playing){
-          this.$refs.audio.pause();
-        }else{
-          this.$refs.audio.play();
-        }
-        console.log("wo运行了")
+  created() {
+    this.$watch("playing", () => {
+      if (!this.$store.state.playing) {
+        this.$refs.audio.pause();
+      } else {
+        this.$refs.audio.play();
       }
-    )
-  }
+    });
+  },
 };
 </script>
 
-<style scoped>
-@import "./MiniPlay.css";
+<style scoped lang='scss'>
+@import '@/assets/css/base.scss';
+.mini-play {
+  width: 100%;
+  display: flex;
+  height: 75px;
+  background-color: $background-main-color1;
+  min-width: 1500px;
+  border-top: 2px solid rgb(197, 197, 197);
+  .song-info {
+    flex: 1;
+    .pic {
+      display: inline-block;
+      margin: 0 15px;
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 5px;
+      }
+    }
+    .song-info {
+      display: inline-block;
+      .song-name {
+        line-height: 60px;
+        font-size: 15px;
+      }
+      .heart {
+        line-height: 60px;
+      }
+      .artitse {
+        font-size: 13px;
+      }
+    }
+  }
+  .control-tools {
+    flex: 2;
+    .top {
+      display: flex;
+      padding-left: 100px;
+      margin-top: 5px;
+      .way-of-play,
+      .pre,
+      .play-stop,
+      .next,
+      .lyric {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        text-align: center;
+        margin-left: 14px;
+      }
+      .way-of-play:hover,
+      .lyric:hover,
+      .pre:hover,
+      .play-stop:hover,
+      .next:hover {
+        width: 35px;
+        height: 35px;
+        background-color: grey;
+        border-radius: 50%;
+      }
+    }
+    .bottom {
+      .current-time {
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: 10px;
+      }
+      .el-slider {
+        display: inline-block;
+        vertical-align: middle;
+        width: 400px;
+        .el-slider__runway {
+          background-color: gray;
+          height: 3px;
+          .el-slider__bar {
+            background-color: red;
+            height: 3px;
+          }
+          .el-slider__button-wrapper {
+            .el-slider__button {
+              background-color: red;
+              border: 2px solid red;
+              width: 10px;
+              height: 10px;
+            }
+          }
+        }
+      }
+      .totle-time {
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+  }
+  .other-tools {
+    flex: 1;
+    justify-content: center;
+    -ms-flex-item-align: center;
+    .voise {
+      .el-slider__button-wrapper {
+        .el-slider__button {
+          background-color: red;
+          border: 2px solid red;
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+    .song-list {
+      font-size: 50px;
+      img {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+  .drawer {
+    .song-list {
+      overflow: scroll;
+      height: 100%;
+      .top {
+        border-bottom: 1px solid gray;
+        padding: 18px 25px;
+        .totle-song {
+          color: rgb(175, 175, 175);
+          font-size: 13px;
+        }
+        .collect {
+          display: inline-block;
+          padding: 0 20px;
+          border-right: 1px solid grey;
+          margin-left: 50px;
+          cursor: pointer;
+          i {
+            margin-right: 5px;
+          }
+        }
+        .clear {
+          display: inline-block;
+          padding: 0 20px;
+          cursor: pointer;
+          i {
+            margin-right: 5px;
+          }
+        }
+      }
+      .content {
+        font-size: 12.5px;
+        .item {
+          display: flex;
+          height: 35px;
+          line-height: 35px;
+          cursor: pointer;
+          .song {
+            width: 190px;
+            padding-left: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .active {
+            color: red;
+          }
+          .link {
+            text-align: center;
+            line-height: 35px;
+          }
+          .singer {
+            width: 90px;
+            color: rgb(107, 107, 107);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .active {
+            color: red;
+          }
+          .dt {
+            color: rgb(175, 175, 175);
+            padding-left: 30px;
+          }
+          .delete {
+            text-align: center;
+            margin-left: 20px;
+            line-height: 35px;
+            i {
+              font-size: 15px;
+            }
+            i:hover {
+              color: red;
+              border-radius: 50%;
+            }
+          }
+        }
+        .item:hover {
+          background-color: rgb(221, 221, 221);
+          .dt {
+            color: black;
+          }
+          .singer {
+            color: black;
+          }
+          .song {
+            color: black;
+          }
+        }
+      }
+    }
+  }
+}
 </style>

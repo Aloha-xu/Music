@@ -235,6 +235,62 @@ export default {
 };
 </script>
 
-<style scoped>
-@import "./singer.css";
+<style scoped lang='scss'>
+.singer{
+    font-size: 13px;
+    color: rgb(87, 87, 87);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    overflow: scroll;
+    height: 82vh;
+    .centent{
+        width: 1100px;
+        .select-bar{
+            display: flex;
+            margin-bottom: 5px;
+            .left{
+                width: 4%;
+                padding: 7px 0px 10px 20px;
+            }
+            .right{
+                width: 90%;
+                padding: 0px 10px;
+                display: flex;
+                flex-wrap: wrap;
+                div{
+                    padding: 7px 25px;
+                }
+                .singer_active{
+                    background-color: rgb(255, 216, 216) !important;
+                     border-radius: 10px !important;
+                }
+            }
+        }
+        .card{
+            width: 1100px;
+            display: flex;
+            flex-wrap: wrap;
+            .item{
+                width: 15%;
+                margin-left: 10px;
+                margin-top: 15px;
+                .img{
+                    width: 100%;
+                    img{
+                        border-radius: 5px;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .name{
+                    font-size: 15px;
+                    margin-top: 5px;
+                }
+            }
+        }
+    }
+}
+
+
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="cloud-search">
-    <div class="title" v-show="setDelay && titleValue ">找到{{ titleValue }}</div>
+    <div class="title" v-show="setDelay">找到{{ titleValue }}</div>
     <div class="navbar">
       <div
         v-for="(item, index) in navbar"
@@ -17,6 +17,8 @@
       <search-detail-solo
         v-show="currentIndex === 0"
         :searchResult="searchResult"
+        :songsInfo="playList"
+        @handleSongClick="handleSongClick"
       ></search-detail-solo>
       <search-detail-singer
         v-show="currentIndex === 1"
@@ -58,7 +60,18 @@ import SearchDetailSolo from "../../components/common/search/search-detail-solo/
 import SearchDetailUser from "../../components/common/search/search-detail-user/search-detail-user.vue";
 import SearchDetailVideo from "../../components/common/search/search-detail-video/search-detail-video.vue";
 import Loading from "../../components/common/icon-loading/loading.vue";
-import { getCloudSearch, getSearchMultimatch } from "../../network/api";
+import {
+  getCloudSearch,
+  getSearchMultimatch,
+  getSongLyric,
+  getCheckMusic,
+  getSongDetail,
+  getSongUrl,
+  getSimiPlayList,
+  getMusicComment,
+} from "@/network/api";
+import { parseLyric } from "@/utils/lyric";
+
 export default {
   components: {
     searchDetailAlbum,
@@ -69,7 +82,7 @@ export default {
     SearchDetailSolo,
     SearchDetailUser,
     SearchDetailVideo,
-    Loading
+    Loading,
   },
   name: "CloudSearch",
   data() {
@@ -87,9 +100,7 @@ export default {
       currentIndex: 0,
       searchResult: [],
       titleValue: null,
-
       //每一个分页面下的数据
-      soloInfo: {},
       singerInfo: {},
       albumInfo: {},
       playlistInfo: {},
@@ -97,25 +108,16 @@ export default {
       mvInfo: {},
       lyricInfo: {},
       anchorInfo: {},
-
-      setDelay:false
+      setDelay: false,
+      playList: [],
     };
-  },
-  async created() {
-    this.getInfo();
-    setTimeout(() => {
-      this.setDelay = true
-    }, 1500);
-    setTimeout(() => {
-      this.itemClick(0)
-    }, 3000);
   },
   methods: {
     itemClick(value) {
       switch (value) {
         case 0:
           this.currentIndex = value;
-          this.titleValue = `${this.soloInfo.songCount}` + "首歌单";
+          this.titleValue = `${this.playList.length}` + "首歌单";
           break;
         case 1:
           this.currentIndex = value;
@@ -148,7 +150,30 @@ export default {
       }
     },
     async getInfo() {
-      let solo = await getCloudSearch(this.$route.query.keywords, 1);
+      if (!this.playList.length == 0) {
+        this.playList = [];
+      }
+      const { data } = await getCloudSearch(this.$route.query.keywords, 1);
+      const resIds = await getSongDetail(data.result.songs.map(({ id }) => id));
+      const SongsInfo = resIds.data.songs;
+      const Urls = await getSongUrl(SongsInfo.map(({ id }) => id));
+      for (let j = 0; j < SongsInfo.length; j++) {
+        let currentsonginfo = {};
+        currentsonginfo.id = SongsInfo[j].id;
+        currentsonginfo.url = "";
+        for (let j = 0; j < Urls.data.data.length; j++) {
+          if (Urls.data.data[j].id == currentsonginfo.id) {
+            currentsonginfo.url = Urls.data.data[j].url;
+          }
+        }
+        currentsonginfo.name = SongsInfo[j].name;
+        currentsonginfo.singer = SongsInfo[j].ar.map(({ name }) => name);
+        currentsonginfo.pic = SongsInfo[j].al.picUrl;
+        currentsonginfo.totleTime = SongsInfo[j].dt;
+        currentsonginfo.lyric = [];
+        currentsonginfo.album = SongsInfo[j].al.name;
+        this.playList.push(currentsonginfo);
+      }
       let searchResult = await getSearchMultimatch(this.$route.query.keywords);
       let albumInfo = await getCloudSearch(this.$route.query.keywords, 10);
       let singerInfo = await getCloudSearch(this.$route.query.keywords, 100);
@@ -157,9 +182,7 @@ export default {
       let mvInfo = await getCloudSearch(this.$route.query.keywords, 1004);
       let lyricInfo = await getCloudSearch(this.$route.query.keywords, 1006);
       let anchorInfo = await getCloudSearch(this.$route.query.keywords, 1009);
-      this.$store.commit("setAllSongListInfo", solo.data.result.songs);
       this.searchResult = searchResult.data.result.artist;
-      this.soloInfo = solo.data.result;
       this.singerInfo = singerInfo.data.result;
       this.albumInfo = albumInfo.data.result;
       this.playlistInfo = playlistInfo.data.result;
@@ -167,31 +190,97 @@ export default {
       this.anchorInfo = anchorInfo.data.result;
       this.userInfo = userInfo.data.result;
       this.mvInfo = mvInfo.data.result;
-      // console.log(singerInfo);
-      // console.log(albumInfo);
-      // console.log(playlistInfo);
-      // console.log(userInfo);
-      // console.log(mvInfo);
-      // console.log(lyricInfo);
-      // console.log(anchorInfo);
+    },
+    async handleSongClick(v) {
+      try {
+        const checkmusic = await getCheckMusic(v[0].id);
+        //判断音乐是否有版权
+        if (checkmusic.data.success) {
+          //获取歌曲的歌词
+          let lyric = await getSongLyric(v[0].id);
+
+          //更新当前播放的下标
+          this.$store.commit("setCurrentIndex", v[1]);
+
+          this.playList[v[1]].lyric = parseLyric(lyric.data.lrc.lyric);
+
+          //修改当前播放的音乐信息
+          this.$store.commit("changeCurrentPlay", this.playList[v[1]]);
+
+          //点击任意一首歌后把歌单歌曲添加到播放列表中
+          this.$store.commit("setAllSongsToPlayList", this.playList);
+
+          //isload图片
+          this.$store.commit("setIsLoad", "true");
+
+          //获取某一首歌的相似歌单信息
+          let simimusic = await getSimiPlayList(v[0].id);
+          this.$store.state.SimiSongList = simimusic.data.playlists;
+          //获取某一首歌的评论
+          let musicComments = await getMusicComment(v[0].id, 100);
+          this.$store.state.commentInfo = musicComments.data.comments;
+        }
+      } catch (error) {
+        alert("音乐没有版权");
+      }
     },
   },
   watch: {
     $route() {
       this.getInfo();
-      this.setDelay = false
-      this.currentIndex = 0
+      this.setDelay = false;
+      this.currentIndex = 0;
       setTimeout(() => {
-        this.setDelay = true
+        this.setDelay = true;
         this.itemClick(this.currentIndex);
-    }, 1500);
-    console.log("rotue进入");
+      }, 1500);
     },
-
+  },
+  async created() {
+    this.getInfo();
+    setTimeout(() => {
+      this.setDelay = true;
+    }, 1500);
+    setTimeout(() => {
+      this.itemClick(0);
+    }, 3000);
   },
 };
 </script>
 
-<style scoped>
-@import "./cloud-search.css";
+<style scoped lang='scss'>
+.cloud-search{
+    width: 100%;
+    .title{
+        font-size: 17px;
+        font-weight: 900;
+        margin: 20px;
+    }
+    .navbar{
+        display: flex;
+        margin-left: 20px;
+        margin-top: 20px;
+        .item{
+            font-size: 14px;
+            color: rgb(61, 61, 61);
+            padding-bottom: 5px;
+            margin-right: 30px;
+        }
+        .active{
+            color: black;
+            font-size: 14.5px;
+            font-weight: 900;
+        }
+    }
+    
+    .cloud-search-content{
+        overflow: scroll;
+        height: 80vh;
+        margin-left: 10px;
+    }
+    .icon-loading{
+        text-align: center;
+        margin-top: 50px;
+    }
+}
 </style>

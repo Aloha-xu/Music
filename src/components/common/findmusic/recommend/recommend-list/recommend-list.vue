@@ -49,6 +49,35 @@ export default {
 };
 </script>
 
-<style scoped>
-@import './recommend-list.css';
+<style scoped lang='scss'>
+.recommend-list{
+    .play-card{
+        display: flex;
+        flex-wrap: wrap; /*用了flex-wrap:wrap;自动换行属性后*/
+        justify-content: space-around;
+        .item{
+            width: 18.86%;
+            // min-width: 18.5%;
+        }
+        .item:nth-child(3){
+            margin-left: 15px;
+        }
+        .item:nth-child(7){
+            margin-left: 15px;
+        }
+        .item:nth-child(9){
+            margin-left: 15px;
+        }
+        .item:nth-child(3n-1){
+            margin-left: 15px;
+        }
+        .item:nth-child(4n){
+            margin-left: 15px;
+        }
+        .item:nth-child(5n){
+            margin-left: 15px;
+        }
+    }
+    
+}
 </style>

@@ -6,8 +6,7 @@
         <nav-bar></nav-bar>
       </el-aside>
       <keep-alive
-        exclude="PlayListDetail,AlbumListDetail,SingerListDetail,MvDetail,PrivateFM,UpDataPapg"
-      >
+        exclude="PlayListDetail,AlbumListDetail,SingerListDetail,MvDetail,PrivateFM,UpDataPapg">
         <router-view></router-view>
       </keep-alive>
     </el-container>
@@ -30,12 +29,12 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 #id {
   position: relative;
 }
 .navbar {
-  border-right: 1.5px solid rgb(173, 174, 175, 0.5);
+  border-right: 1.5px solid rgba(173, 174, 175, 0.5);
   height: 86vh;
   float: left;
   overflow: scroll;

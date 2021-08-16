@@ -96,6 +96,91 @@ export default {
 }
 </script>
 
-<style scoped>
-@import './singer-list-detail.css';
+<style scoped lang='scss'>
+.singer-list-detail{
+    width: 100%;
+    padding-top: 35px;
+    flex-wrap: wrap;
+    overflow: scroll;
+    height: 92vh;
+    min-width: 1700px;
+    .head{
+        width: 100%;
+        display: flex;
+        .pic{
+            margin-left: 30px;
+            img{
+                width: 180px;
+                height: 180px;
+                border-radius: 5px;
+            }
+        }
+        .text{
+            width: 100%;
+            .name{
+                font-size: 23px;
+                font-weight: 900;
+                margin-left: 20px;
+            }
+            .el-button.is-round{
+                padding: 5px 20px;
+            }
+            .el-button{
+                height: 30px;
+                margin-top: 15px;
+                margin-left: 18px;
+            }
+            
+            .el-button.is-round:hover{
+                background-color: rgb(246, 246, 246);
+                color: gray;
+            }
+            .other{
+                margin-top: 15px;
+                margin-left: 20px;
+                font-size: 13px;
+                .songs{
+                    margin-right: 20px;
+                }
+                .album{
+                    margin-right: 20px;
+                }
+                .mv{
+                    margin-right: 20px;
+                }
+            }
+
+        }
+    }
+    .content{
+        margin-top: 30px;
+        width: 100%;
+        .top{
+            display: flex;
+            margin-bottom: 18px;
+            margin-left: 30px;
+            .navbar{
+                display: flex;
+                .item{
+                    font-size: 16px;
+                    color: gray;
+                    padding-bottom: 5px;
+                    margin-right: 20px;
+                }
+                .active{
+                    color: black;
+                    font-size: 17px;
+                    font-weight: 900;
+                    border-bottom: 2.5px solid red;
+                }
+            }
+            .search{
+                margin-left: 1000px;
+                width: 190px;
+                background-color: aqua;
+            }
+        }
+        
+    }
+}
 </style>

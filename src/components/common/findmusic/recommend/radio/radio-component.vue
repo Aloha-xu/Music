@@ -39,7 +39,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .recommend-radio{
     width: 100%;
     margin-top: 20px;

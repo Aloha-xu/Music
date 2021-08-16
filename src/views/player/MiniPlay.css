@@ -93,6 +93,12 @@
   justify-content: center;
   -ms-flex-item-align: center;
 }
+.mini-play .other-tools .voise .el-slider__button-wrapper .el-slider__button {
+  background-color: red;
+  border: 2px solid red;
+  width: 10px;
+  height: 10px;
+}
 .mini-play .other-tools .song-list {
   font-size: 50px;
 }

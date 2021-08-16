@@ -21,7 +21,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .find-music{
   /* 把findmusic这个组件的宽度设置铺满横屏 不设置的话就只有该组件下navbar组件的长度大小 */
   width: 100%;

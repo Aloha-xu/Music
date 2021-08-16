@@ -63,6 +63,28 @@ export default {
 }
 </script>
 
-<style scoped>
-@import './rank.css';
+<style scoped lang='scss'>
+.rank{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: scroll;
+    height: 82vh;
+    .content{
+        width: 1100px;
+        .title{
+            font-weight: 900;
+    font-size: 20px;
+    margin-left: 5px;
+        }
+        .card{
+            display: flex;
+            flex-wrap: wrap;
+            .item{
+                width: 19%;
+                margin: 5px;
+            }
+        }
+    }
+}
 </style>

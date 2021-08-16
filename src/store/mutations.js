@@ -22,20 +22,11 @@ export default {
         console.log('play')
     },
 
-    //把歌单所有的歌曲放到state的currentSongListAllInfos中方法 数据没筛选
-    setAllSongListInfo(state, allSongList) {
-        state.SongListAllInfos = allSongList
-    },
-
     //已经赛选后的数据放到播放列表中
     setSongListInfo(state, songList) {
         state.songList = songList
     },
 
-    //添加歌曲url
-    setAllSongUrls(state, urls) {
-        state.SongListAllUrls = urls
-    },
 
     //把歌单的全部歌曲添加到播放列表
     setAllSongsToPlayList(state,allSongs) {
@@ -163,10 +154,6 @@ export default {
     //用户的全部的歌单信息
     setUserSonglistInfo(state, userSonglistInfo) {
         state.userSonglistInfo = userSonglistInfo
-    },
-
-    setSongListDetailInfo(state, songListDetailInfo) {
-        state.songListDetailInfo = songListDetailInfo
     },
 
     setShowMsgDarwer(state){

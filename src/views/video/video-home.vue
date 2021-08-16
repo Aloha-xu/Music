@@ -48,7 +48,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .mv-home {
   width: 100%;
 }

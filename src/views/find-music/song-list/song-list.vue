@@ -269,6 +269,6 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 @import "song-list.css";
 </style>

@@ -8,6 +8,5 @@ export default {
 }
 </script>
 
-<style scoped> 
-@import './search-detail-lyric.css';
+<style scoped lang='scss'> 
 </style>

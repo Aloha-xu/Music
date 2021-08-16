@@ -33,21 +33,20 @@
     <div class="cover">
       <img :src="cover" alt="" />
       <el-upload
-      class="avatar-uploader"
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-      :before-upload="beforeAvatarUpload"
-    >
-      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-      <div class="updata-button" v-else >编辑封面</div>
-      <!-- 上传封面 不写了 搞不懂 -->
-    </el-upload>
+        class="avatar-uploader"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload"
+      >
+        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+        <div class="updata-button" v-else>编辑封面</div>
+        <!-- 上传封面 不写了 搞不懂 -->
+      </el-upload>
     </div>
     <user-updata-type-popover
       :currentSongType="playlistType"
       v-show="false"
     ></user-updata-type-popover>
-    
   </div>
 </template>
 
@@ -129,6 +128,117 @@ export default {
 };
 </script>
 
-<style scoped>
-@import "./updata-papg.css";
+<style scoped lang='scss'>
+.updata-papg {
+  font-size: 13.5px;
+  color: rgb(71, 71, 71);
+  display: flex;
+  flex-wrap: wrap;
+  width: 800px;
+  height: 20px;
+  margin-left: 20px;
+  .title {
+    width: 100%;
+    font-size: 22px;
+    font-weight: 600;
+    padding-bottom: 25px;
+    padding-top: 20px;
+    color: black;
+  }
+  .playlist-info {
+    width: 550px;
+    .palylist-name {
+      margin: 15px 0;
+      .el-input {
+        width: 80%;
+      }
+    }
+    .types {
+      margin: 15px 0;
+      margin-left: 10px;
+      .basie-type {
+        display: inline-block;
+        width: 45px;
+        height: 20px;
+        border-radius: 20px;
+        color: rgb(145, 145, 145);
+        line-height: 20px;
+        text-align: center;
+        border: 1px solid rgb(145, 145, 145);
+        margin-right: 15px;
+      }
+      .add-type {
+        color: rgb(79, 149, 255);
+        cursor: pointer;
+      }
+      .add-type:hover {
+        color: rgb(40, 40, 221);
+      }
+    }
+    .desc {
+      margin: 15px 0;
+      margin-left: 10px;
+      .el-textarea {
+        width: 80%;
+      }
+    }
+    .save-button {
+      width: 85px;
+      height: 30px;
+      border-radius: 20px;
+      color: white;
+      background-color: rgb(223, 0, 0);
+      line-height: 30px;
+      text-align: center;
+      letter-spacing: 7px;
+      display: inline-block;
+      margin-left: 70px;
+      padding-left: 5px;
+      cursor: pointer;
+    }
+    .save-button:hover {
+      background-color: rgb(134, 0, 0);
+    }
+    .cancel-button {
+      width: 85px;
+      height: 30px;
+      border-radius: 20px;
+      color: black;
+      background-color: rgb(255, 255, 255);
+      line-height: 30px;
+      text-align: center;
+      letter-spacing: 7px;
+      display: inline-block;
+      border: 1px solid rgb(212, 212, 212);
+      margin-left: 30px;
+      padding-left: 5px;
+      cursor: pointer;
+    }
+    .cancel-button:hover {
+      background-color: rgb(245, 245, 245);
+    }
+  }
+  .cover {
+    width: 250px;
+    .updata-button {
+      width: 85px;
+      height: 30px;
+      border-radius: 20px;
+      color: black;
+      background-color: rgb(255, 255, 255);
+      line-height: 30px;
+      text-align: center;
+      display: inline-block;
+      border: 1px solid rgb(212, 212, 212);
+      margin-left: 30px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+    }
+  }
+}
 </style>

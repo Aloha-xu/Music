@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .into-details-button{
     display: flex;
     line-height: 30px;

@@ -211,7 +211,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .blackpink {
   overflow: scroll;
   height: 90vh;

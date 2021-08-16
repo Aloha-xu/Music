@@ -51,17 +51,10 @@
 <script>
 //获取数据不应该写在这 不想改了
 import {
-  // getSongUrl,
-  // getSongLyric,
-  // getSimiPlayList,
-  // getMusicComment,
-  // getCheckMusic,
   getLikeList,
   setLike,
-  getSongListDetail
 } from "../../../network/api";
 import { forMatTime } from "../../../utils/format";
-// import { parseLyric } from "../../../utils/lyric";
 export default {
   name: "SongListComponent",
   data() {
@@ -78,9 +71,7 @@ export default {
   },
   methods: {
     /* 点击指定红星添加收藏未做 */
-
     //点击后判断是否已经收藏了 控制收藏没有的的元素不可以为data的全局元素 否一点就全改变了
-
     async ClickHeart(id) {
       //把传进来的id与likelist对比    非-1则存在 红星 / -1 空红星
       let currentIndex = this.likeList.findIndex(item => item == id)
@@ -90,14 +81,6 @@ export default {
           await setLike(id,false)
           //⭐⭐⭐460 网络拥挤  没办法了 以后再写把
       }
-      //更新数据
-      this.id = this.$route.params.id;
-      const { data } = await getSongListDetail(this.id, 20);
-      this.$store.commit("setSongListDetailInfo", data.playlist);
-
-      // console.log(id);
-      // console.log(currentIndex)
-      // console.log(this.likeList)
     },
     // 处理点击播放音乐事件
     async HandleSongClick(values, index) {
@@ -184,11 +167,6 @@ export default {
     currentId() {
       return this.$store.state.currentSongInfo.id;
     },
-    //使用SongListAllInfos没有筛选的数据是因为赛选数据后就会发到播放列表显示出来 我没有写一个卡口
-    // songsInfo() {
-    //   return this.$store.state.SongListAllInfos;
-    // },
-    
   },
   async created() {
     let uInfo = JSON.parse(window.localStorage.getItem("currentUserInfo"));
@@ -200,6 +178,67 @@ export default {
 };
 </script>
 
-<style scoped >
-@import "./song-list-component.css";
+<style scoped lang="scss">
+.songlist-component{
+    .title-name{
+        display: flex;
+        margin-left: 100px;
+        height: 30px;
+        line-height: 30px;
+        span:nth-child(1){
+            flex: 6;
+        }
+        span:nth-child(2){
+            flex: 2;
+        }
+        span:nth-child(3){
+            flex: 3;
+        }
+        span:nth-child(4){
+            flex: 1;
+        }
+    }
+    .song-item{
+        margin-top: 5px;
+        font-size: 15px;
+        height: 30px;
+        line-height: 30px;
+        display: flex;
+        cursor: pointer;
+        .index-number{
+            margin: 0 10px 0 20px;
+            vertical-align: middle;
+        }
+        .no-active-heart,.active-heart{
+            margin: 0 5px;
+            width: 20px;
+            height: 30px;
+            vertical-align: middle;
+        }
+        p{
+            margin: 0 5px;
+            margin-top: 7px;
+            vertical-align: middle;
+        }
+        .song-name{
+            flex: 6;
+            overflow: hidden;text-overflow: ellipsis;
+            .active{
+                color: red;
+                // pointer-events: none;
+            }
+        }
+        .singer{
+            flex: 2;
+            overflow: hidden;text-overflow: ellipsis;
+        }
+        .album{
+            flex: 3;
+            overflow: hidden;text-overflow: ellipsis;
+        }
+        .time{
+            flex: 1;
+        }
+    }
+}
 </style>

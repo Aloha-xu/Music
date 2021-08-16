@@ -18,7 +18,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .mv-compontent{
     width: 98%;
     display: flex;

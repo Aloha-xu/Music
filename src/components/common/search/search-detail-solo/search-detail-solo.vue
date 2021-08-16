@@ -37,98 +37,30 @@
       <!-- 飙升榜的数据卡槽 -->
       <slot name="SoaringrateData"></slot>
       <div class="singer">
-        <span v-for="(item1, index1) in item.ar" :key="index1"
-          >{{ item1.name }}&nbsp;</span
+        <span v-for="(item1, index1) in item.singer" :key="index1"
+          >{{ item1 }}&nbsp;</span
         >
       </div>
-      <div class="album">{{ item.al.name }}</div>
-      <div class="time">{{ setSongTime(item.dt) }}</div>
+      <div class="album">{{ item.album }}</div>
+      <div class="time">{{ setSongTime(item.totleTime) }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import {
-  getSongUrl,
-  getSongLyric,
-  getCheckMusic,
-  getSongDetail,
-} from "../../../../network/api";
-import { forMatTime } from "../../../../utils/format";
-import { parseLyric } from "../../../../utils/lyric";
+import { forMatTime } from "@/utils/format";
 import searchDetailCard from '../search-detail-card/search-detail-card.vue';
 export default {
   components: { searchDetailCard },
   name: "SearchDetailSolo",
   methods: {
     /* 点击指定红星添加收藏未做 */
-    ClickHeart(index) {
-      console.log(index);
+    ClickHeart() {
       this.isClickHeart = !this.isClickHeart;
     },
     // 处理点击播放音乐事件
     async HandleSongClick(values, index) {
-
-      this.handleSongListDetailInfo()
-
-      let checkmusic = await getCheckMusic(values.id);
-      //判断音乐是否有版权
-      if (checkmusic.data.success) {
-
-        //获取歌曲的歌词
-        let lyric = await getSongLyric(values.id);
-
-        //更新当前播放的下标
-        this.$store.commit("setCurrentIndex", index);
-
-        //获取所点击的歌曲的url
-        const { data } = await getSongUrl(values.id);
-
-        //筛选出全部歌手名字
-        let singers = values.ar.map(({ name }) => name);
-
-        //筛选出需要的歌曲信息以数组形式放到state
-        let currentsonginfo = {};
-        currentsonginfo.url = data.data[0].url;
-        currentsonginfo.id = values.id;
-        currentsonginfo.name = values.name;
-        currentsonginfo.album = this.$store.state.songListDetailInfo.tracks[index].al.name;
-        currentsonginfo.singer = singers;
-        currentsonginfo.pic = values.al.picUrl;
-        currentsonginfo.totleTime = values.dt;
-        currentsonginfo.lyric = parseLyric(lyric.data.lrc.lyric);
-
-        //修改当前播放的音乐信息
-        this.$store.commit("changeCurrentPlay", currentsonginfo);
-
-        //清除原有的播放列表信息
-        this.$store.commit("clearSongList");
-
-        //点击任意一首歌后把歌单歌曲添加到播放列表中
-        this.$store.commit("setAllSongsToPlayList");
-
-        //isload图片
-        this.$store.commit("setIsLoad", "true");
-
-      } else {
-        alert(checkmusic.data.message);
-        // alert(`${checkmusic.data.message}`)
-        // alert("没版权")
-        //这个功能不知道有没有成功 等写了search功能再测试
-      }
-      
-    },
-    //获取并处理歌单列表全部信息
-    async handleSongListDetailInfo() {
-      //处理歌单中全部的歌曲的ids
-      const res = await getSongDetail(
-        this.$store.state.SongListAllInfos.map(({ id }) => id)
-      );
-      console.log(res)
-      let SongsInfo = res.data.songs;
-      let Urls = await getSongUrl(this.$store.state.SongListAllInfos.map(({ id }) => id));
-      this.$store.commit("setAllSongListInfo", SongsInfo);
-      this.$store.commit("setAllSongUrls", Urls);
+      this.$emit('handleSongClick',[values,index])
     },
     //计算歌曲时间
     setSongTime(time) {
@@ -144,10 +76,6 @@ export default {
     currentId() {
       return this.$store.state.currentSongInfo.id;
     },
-    //使用SongListAllInfos没有筛选的数据是因为赛选数据后就会发到播放列表显示出来 我没有写一个卡口
-    songsInfo() {
-      return this.$store.state.SongListAllInfos;
-    },
   },
   data(){
     return{
@@ -155,11 +83,83 @@ export default {
     }
   },
   props:{
-    searchResult:Array
+    searchResult:Array,
+    songsInfo:Array,
   }
 };
 </script>
 
-<style scoped>
-@import "./search-detail-solo.css";
+<style scoped lang='scss'>
+.search-detail-solo{
+    width: 100%;
+    .title-card{
+        font-size: 12.5px;
+        font-weight: 600;
+        margin: 10px 0 15px 20px;
+    }
+    .card{
+        background-color: rgb(233, 233, 233);
+        height: 70px;
+        padding: 10px 0 0 10px;
+        width: 300px;
+        border-radius: 5px;
+        margin: 10px 0 10px 20px;
+    }
+    .title-name{
+        display: flex;
+        margin-left: 100px;
+        height: 30px;
+        line-height: 30px;
+        span:nth-child(1){
+            flex: 6;
+        }
+        span:nth-child(2){
+            flex: 2;
+        }
+        span:nth-child(3){
+            flex: 3;
+        }
+        span:nth-child(4){
+            flex: 1;
+        }
+    }
+    .song-item{
+        margin-top: 5px;
+        font-size: 15px;
+        height: 30px;
+        line-height: 30px;
+        display: flex;
+        .index-number{
+            margin: 0 10px 0 20px;
+
+        }
+        img{
+            margin: 0 5px;
+        }
+        p{
+            margin: 0 5px;
+            margin-top: 7px;
+
+        }
+        .song-name{
+            flex: 6;
+            overflow: hidden;text-overflow: ellipsis;
+            .active{
+                color: red;
+                // pointer-events: none;
+            }
+        }
+        .singer{
+            flex: 2;
+            overflow: hidden;text-overflow: ellipsis;
+        }
+        .album{
+            flex: 3;
+            overflow: hidden;text-overflow: ellipsis;
+        }
+        .time{
+            flex: 1;
+        }
+    }
+}
 </style>

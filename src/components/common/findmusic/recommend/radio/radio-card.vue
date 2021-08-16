@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .card {
   position: relative;
   padding-bottom: 10px;

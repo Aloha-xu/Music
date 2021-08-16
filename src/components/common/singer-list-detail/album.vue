@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang='scss'>
 .album-compontent{
     width: 100%;
 }

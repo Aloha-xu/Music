@@ -45,6 +45,14 @@ export default {
 };
 </script>
 
-<style scoped>
-@import "./recommend.css";
+<style scoped lang='scss'>
+.recommend{
+    display: flex;
+    justify-content: center;
+    overflow: scroll;
+    height: 82vh;
+    .content{
+        width: 1100px;
+    }
+}
 </style>

@@ -4,6 +4,7 @@
       :values="headInfo"
       :isShowPlayListComponent="isShowPlayListComponent"
       @handleCollectSonglist="handleCollectSonglist"
+      @handlePlayAllSongs="handlePlayAllSongs"
     >
     </play-list-detail-head>
 
@@ -24,15 +25,15 @@
       </div>
       <song-list-component
         v-if="currentIndex === 0"
-        :songsInfo="songList"
+        :songsInfo="playList"
         @handleSongClick="handleSongClick"
       ></song-list-component>
       <collecter
         v-else-if="currentIndex === 2"
-        :collecter="songListDetailInfo.subscribers"
+        :collecter="collectorInfo"
       ></collecter>
       <comment
-        v-else
+        v-else-if="currentIndex === 1"
         :commentInfo="commentInfo"
         :id="this.id"
         :t="1"
@@ -50,17 +51,16 @@ import PlayListDetailHead from "@/components/common/play-list-detail/play-list-d
 import SongListComponent from "@/components/common/play-list-detail/song-list-component.vue";
 import {
   getSongListDetail,
-  getCollector,
   getSongDetail,
   getPlayListComment,
   getUserPlaylist,
   subPlaylist,
-  getSongListType,
   getSongUrl,
   getSongLyric,
   getSimiPlayList,
   getMusicComment,
   getCheckMusic,
+  getCollector
 } from "@/network/api";
 import { parseLyric } from "@/utils/lyric";
 export default {
@@ -73,18 +73,9 @@ export default {
       currentIndex: 0,
       navbar: ["歌曲列表", "评论", "收藏者"],
       isShowPlayListComponent: true,
-      //评论
       commentInfo: [],
-      //歌单类型分类
-      typeLists: {
-        0: { type: "", list: [] },
-        1: { type: "", list: [] },
-        2: { type: "", list: [] },
-        3: { type: "", list: [] },
-        4: { type: "", list: [] },
-      },
+      collectorInfo:[],
       /* 模板的渲染比route快 */
-      songList: [],
       playList: [],
       headInfo: null,
     };
@@ -97,24 +88,22 @@ export default {
           break;
         case 1:
           this.currentIndex = index;
+          this.getCommentInfo();
           break;
         case 2:
           this.currentIndex = index;
+          this.getCollector()
           break;
       }
     },
-    //获取收藏者信息 收藏者信息在getSongListDetail拿到20个了 这个接口可以不用
-    async getCollector() {
-      this.id = this.$route.params.id;
-      const { data } = await getCollector(this.id, 30, 30);
-      console.log(data);
-    },
+    
     //获取歌单头部信息
     async upDataSongListHeadInfo() {
       this.id = this.$route.params.id;
       const { data } = await getSongListDetail(this.id, 20);
-      this.headInfo.subscribed = data.playlist.subscribed
+      this.headInfo.subscribed = data.playlist.subscribed;
     },
+
     //获取并处理歌单列表全部信息
     async handleSongListDetailInfo() {
       this.id = this.$route.params.id;
@@ -142,25 +131,24 @@ export default {
       );
 
       const SongsInfo = resIds.data.songs;
-      console.log(SongsInfo)
 
       //这里返回的url是不按传入的id按需返回的 所以需要进行url校正
       const Urls = await getSongUrl(SongsInfo.map(({ id }) => id));
 
-
-      //判断songlist里面有没数据
-      if(!this.songList.length == 0){
-        this.songList = []
-      }
-      if(!this.playList.length == 0){
-        this.playList = []
+      if (!this.playList.length == 0) {
+        this.playList = [];
       }
 
       //这里筛选出来的数据是用来渲染歌单的歌曲列表的
       for (let i = 0; i < SongsInfo.length; i++) {
         let songinfo = {};
         songinfo.id = SongsInfo[i].id;
-        songinfo.url = Urls.data.data[i].url;
+        songinfo.url = "";
+        for (let j = 0; j < Urls.data.data.length; j++) {
+          if (Urls.data.data[j].id == songinfo.id) {
+            songinfo.url = Urls.data.data[j].url;
+          }
+        }
         songinfo.name = SongsInfo[i].name;
         songinfo.singer = [];
         for (let j = 0; j < SongsInfo[i].ar.length; j++) {
@@ -173,28 +161,7 @@ export default {
         songinfo.totleTime = SongsInfo[i].dt;
         songinfo.lyric = [];
         songinfo.album = { name: SongsInfo[i].al.name, id: SongsInfo[i].al.id };
-        this.songList.push(songinfo);
-      }
-
-      //这里筛选出来的数据是用push进去state的playlist的
-      for (let j = 0; j < SongsInfo.length; j++) {
-        let currentsonginfo = {};
-        currentsonginfo.id = SongsInfo[j].id;
-        currentsonginfo.url = "";
-        //进行url校正
-        //这里无法使用findindex 不知道为什么
-        for (let j = 0; j < Urls.data.data.length; j++) {
-          if (Urls.data.data[j].id == currentsonginfo.id) {
-            currentsonginfo.url = Urls.data.data[j].url;
-          }
-        }
-        currentsonginfo.name = SongsInfo[j].name;
-        currentsonginfo.singer = SongsInfo[j].ar.map(({ name }) => name);
-        currentsonginfo.pic = SongsInfo[j].al.picUrl;
-        currentsonginfo.totleTime = SongsInfo[j].dt;
-        currentsonginfo.lyric = [];
-        currentsonginfo.album = SongsInfo[j].al.name;
-        this.playList.push(currentsonginfo);
+        this.playList.push(songinfo);
       }
     },
 
@@ -202,38 +169,36 @@ export default {
     //v[0] 歌曲信息
     //v[1] 歌曲下标
     async handleSongClick(v) {
-      const checkmusic = await getCheckMusic(v[0].id);
-      //判断音乐是否有版权
-      if (checkmusic.data.success) {
-        //获取歌曲的歌词
-        let lyric = await getSongLyric(v[0].id);
-        console.log(lyric);
+      try {
+        const checkmusic = await getCheckMusic(v[0].id);
+        //判断音乐是否有版权
+        if (checkmusic.data.success) {
+          //获取歌曲的歌词
+          let lyric = await getSongLyric(v[0].id);
 
-        //更新当前播放的下标
-        this.$store.commit("setCurrentIndex", v[1]);
+          //更新当前播放的下标
+          this.$store.commit("setCurrentIndex", v[1]);
 
-        this.playList[v[1]].lyric = parseLyric(lyric.data.lrc.lyric);
+          this.playList[v[1]].lyric = parseLyric(lyric.data.lrc.lyric);
 
-        //修改当前播放的音乐信息
-        this.$store.commit("changeCurrentPlay", this.playList[v[1]]);
+          //修改当前播放的音乐信息
+          this.$store.commit("changeCurrentPlay", this.playList[v[1]]);
 
-        //点击任意一首歌后把歌单歌曲添加到播放列表中
-        this.$store.commit("setAllSongsToPlayList", this.playList);
+          //点击任意一首歌后把歌单歌曲添加到播放列表中
+          this.$store.commit("setAllSongsToPlayList", this.playList);
 
-        //isload图片
-        this.$store.commit("setIsLoad", "true");
+          //isload图片
+          this.$store.commit("setIsLoad", "true");
 
-        //获取某一首歌的相似歌单信息
-        let simimusic = await getSimiPlayList(v[0].id);
-        this.$store.state.SimiSongList = simimusic.data.playlists;
-        //获取某一首歌的评论
-        let musicComments = await getMusicComment(v[0].id, 100);
-        this.$store.state.commentInfo = musicComments.data.comments;
-      } else {
-        alert(checkmusic.data.message);
-        // alert(`${checkmusic.data.message}`)
-        // alert("没版权")
-        //这个功能不知道有没有成功 等写了search功能再测试
+          //获取某一首歌的相似歌单信息
+          let simimusic = await getSimiPlayList(v[0].id);
+          this.$store.state.SimiSongList = simimusic.data.playlists;
+          //获取某一首歌的评论
+          let musicComments = await getMusicComment(v[0].id, 100);
+          this.$store.state.commentInfo = musicComments.data.comments;
+        }
+      } catch (error) {
+        alert("音乐没有版权")
       }
     },
 
@@ -259,6 +224,14 @@ export default {
       //⭐⭐⭐⭐⭐⭐
       //数据没有更新是因为网易云api接口做了短时间内多次访问只会拿到前一个的数据 ----缓存处理 ---加时间戳可以解决
     },
+
+    //处理点击head组件的播放全部按钮 
+    handlePlayAllSongs(){
+      this.$store.commit("setAllSongsToPlayList", this.playList);
+      this.$store.commit("changeCurrentPlay", this.playList[0]);
+      this.$store.commit("setIsLoad", "true");
+    },
+    
     //刷新用户歌单信息函数
     async refreshUserSonglistInfo() {
       this.upDataSongListHeadInfo();
@@ -273,54 +246,20 @@ export default {
       const { data } = await getPlayListComment(this.id, 50);
       this.commentInfo = data.comments;
     },
-    /* 获取歌单分类 */
-    async getSongListType() {
-      const { data } = await getSongListType();
+    //获取收藏者信息 
+    async getCollector() {
+      this.id = this.$route.params.id;
+      const { data } = await getCollector(this.id, 30, 30);
+      this.collectorInfo = data.subscribers
       console.log(data);
-      //全部类别
-      // this.AllSongType = data.sub;
-      let i = 0;
-      let j = 0;
-      for (i; i <= 4; i++) {
-        this.typeLists[i].type = data.categories[i];
-        for (j; j <= 69; j++) {
-          let a = data.sub[j].category;
-          let b = data.sub[j].name;
-          this.whatcategory(a, b);
-        }
-      }
-      // console.log(this.typeLists);
-    },
-    //判断回来的数据是什么类别
-    whatcategory(v, i) {
-      switch (v) {
-        case 0:
-          this.typeLists[0].list.push(i);
-          break;
-        case 1:
-          this.typeLists[1].list.push(i);
-          break;
-        case 2:
-          this.typeLists[2].list.push(i);
-          break;
-        case 3:
-          this.typeLists[3].list.push(i);
-          break;
-        case 4:
-          this.typeLists[4].list.push(i);
-          break;
-      }
     },
   },
   async created() {
     this.itemClick(this.currentIndex);
     this.handleSongListDetailInfo();
-    this.getCommentInfo();
-    this.getSongListType();
-    // this.$store.state.allTypeInfo = this.typeLists;
+    
   },
-  computed: {
-  },
+  computed: {},
   watch: {
     $route() {
       let id = this.$route.params.id;
@@ -334,6 +273,47 @@ export default {
 };
 </script>
 
-<style scoped>
-@import "./play-list-detail.css";
+<style scoped lang="scss">
+.play-list-detail{
+    width: 100%;
+    flex-wrap: wrap;
+    overflow: scroll;
+    height: 100vh;
+    min-width: 1700px;
+    .play-list-detail-head{
+        // margin-bottom: 30px;
+    }
+    .play-list-detail-content{
+        width: 100%;
+        margin-top: 30px;
+        .top{
+            display: flex;
+            margin-bottom: 18px;
+            margin-left: 30px;
+            .navbar{
+                display: flex;
+                .item{
+                    font-size: 16px;
+                    color: gray;
+                    padding-bottom: 5px;
+                    margin-right: 20px;
+                }
+                .active{
+                    color: black;
+                    font-size: 17px;
+                    font-weight: 900;
+                    border-bottom: 2.5px solid red;
+                }
+            }
+            .search{
+                margin-left: 1000px;
+                width: 190px;
+                background-color: aqua;
+            }
+        }
+        .comment{
+            padding-left: 20px;
+        }
+    }
+}
 </style>>

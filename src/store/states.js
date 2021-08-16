@@ -26,20 +26,17 @@ export default {
     //是否加再图片
     isLoad: false,
 
-    //某一个歌单里面歌曲的全部信息 （未筛选的）
-    SongListAllInfos:[],
-
-    //某一个歌单的全部歌曲url
-    SongListAllUrls:[],
-
-    //歌单详细信息
-    songListDetailInfo: {},
-
     //随机数
     randomNumberIndex:0,
 
     //控制max-min播放器显示
     isShowMaxPlayer:false,
+
+    //控制minplayer的点击显示隐藏maxplayer
+    isShowFmPlayer:false,
+
+    //标识是minplayer点击下一首
+    isTagMinPlayerToNext:true,
 
     //某一首歌的相似歌单信息
     SimiSongList:{},

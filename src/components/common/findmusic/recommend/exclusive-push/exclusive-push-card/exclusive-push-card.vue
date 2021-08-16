@@ -30,7 +30,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .exclusiver-push-card .pic img{
     width: 100%;
     border-radius: 10px;

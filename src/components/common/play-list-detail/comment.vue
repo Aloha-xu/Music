@@ -57,7 +57,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .comment{
   width: 100%;
 }

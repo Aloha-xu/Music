@@ -46,6 +46,16 @@ export default {
 }
 </script>
 
-<style scoped>
-@import './new-music.css';
+<style scoped lang='scss'>
+.recommend-newmusic{
+    width: 100%;
+    margin-top: 20px;
+    .content{
+        display: flex;
+        flex-wrap: wrap;
+        .item{
+            width: 33.3%;
+        }
+    }
+}
 </style>

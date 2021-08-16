@@ -1,5 +1,4 @@
 <template>
-  <!-- 这个私人fm接口回来的数据在短时间内是相同的 没有写完minplay与私人fm接口数据的同步问题 -->
   <div class="private-fm">
     <div class="fm-content">
       <div class="record-tools">
@@ -51,8 +50,8 @@
           专辑：<span>{{ currentSongInfo.album }}</span>
         </div>
         <div class="singer-name">
-          歌手：<span v-for="item in currentSongInfo.singer" :key="item">{{
-            item
+          歌手：<span v-for="item in currentSongInfo.singer" :key="item.id">{{
+            item.name
           }}</span>
         </div>
         <!-- 纯音乐的时候显示为该音乐为纯音乐的文字 -->
@@ -98,6 +97,9 @@ export default {
       tag: true,
     };
   },
+  components: {
+    Comment,
+  },
   methods: {
     //私人fm接口数据
     async getSongInfo() {
@@ -114,7 +116,13 @@ export default {
         }
         currentSongInfo.name = data.data[i].name;
         currentSongInfo.album = data.data[i].album.name;
-        currentSongInfo.singer = data.data[i].artists.map(({ name }) => name);
+        currentSongInfo.singer = [];
+        for (let j = 0; j < data.data[i].artists.length; j++) {
+          currentSongInfo.singer[j] = {
+            name: data.data[i].artists[j].name,
+            id: data.data[i].artists[j].id,
+          };
+        }
         currentSongInfo.pic = data.data[i].album.blurPicUrl;
         currentSongInfo.totleTime = data.data[i].duration;
         currentSongInfo.lyric = null;
@@ -168,6 +176,7 @@ export default {
         this.getLyricInfo();
       }
     },
+
     currentPlayTime(values, index) {
       let flag = false;
       //快进或者减慢歌词速度控制变量
@@ -185,14 +194,15 @@ export default {
     },
   },
   async created() {
+    this.$store.state.isShowFmPlayer = true;
     this.getSongInfo();
-  },
-  components: {
-    Comment,
   },
   activated() {
+    this.$store.state.isShowFmPlayer = true;
     this.getSongInfo();
-    this.updataInfo();
+  },
+  beforeDestroy() {
+    this.$store.state.isShowFmPlayer = false;
   },
   computed: {
     goblePlayingState() {
@@ -201,13 +211,142 @@ export default {
     currentSongIndex() {
       return this.$store.state.currentIndex;
     },
+    isTagMinPlayerToNext() {
+      return this.$store.state.isTagMinPlayerToNext;
+    },
   },
+  //通过监听minplayer的下一首触发fm组件里面的next函数
   watch: {
-    tag: () => {},
+    isTagMinPlayerToNext() {
+      this.nextSong();
+    },
   },
 };
 </script>
 
-<style scoped>
-@import "./private-fm.css";
+<style scoped lang='scss'>
+.private-fm {
+  height: 100vh;
+  overflow: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  .fm-content {
+    width: 1100px;
+    display: flex;
+    .record-tools {
+      width: 50%;
+      .record {
+        width: 100%;
+        height: 320px;
+        .pic {
+          height: 320px;
+          margin-top: 80px;
+          position: relative;
+          .current-pic {
+            width: 300px;
+            height: 300px;
+            z-index: 998;
+            position: absolute;
+            left: 200px;
+            top: 0;
+          }
+          .next-pic {
+            width: 250px;
+            height: 250px;
+            position: absolute;
+            left: 170px;
+            top: 25px;
+          }
+          .play-button {
+            position: absolute;
+            left: 330px;
+            top: 125px;
+            z-index: 999;
+            background-color: white;
+            border: 1px solid white;
+            border-radius: 50%;
+            padding: 8px;
+            font-size: 30px;
+          }
+          .stop-button {
+            position: absolute;
+            left: 460px;
+            top: 260px;
+            z-index: 999;
+            background-color: white;
+            border: 1px solid white;
+            border-radius: 50%;
+            padding: 8px;
+            font-size: 30px;
+          }
+        }
+      }
+      .tools {
+        display: flex;
+        text-align: center;
+        margin-top: 10px;
+        margin-left: 100px;
+        justify-content: center;
+        .heart,
+        .more,
+        .next,
+        .delete {
+          margin: 10px;
+          margin-top: 25px;
+          margin-left: 25px;
+          border: 1px solid gray;
+          border-radius: 50%;
+          padding: 5px 6px;
+        }
+      }
+    }
+    .song-info {
+      width: 45%;
+      height: 50%;
+      padding-top: 40px;
+      .song-name {
+        font-size: x-large;
+      }
+      .album-name,
+      .singer-name {
+        width: 200px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 15px 0;
+        span {
+          color: rgb(101, 85, 247);
+          cursor: pointer;
+        }
+      }
+      .lyric {
+        overflow: scroll;
+        overflow-x: hidden;
+        height: 350px;
+        .lyric-item {
+          font-size: medium;
+          margin: 10px 0;
+        }
+        .lyric-active {
+          font-weight: 900;
+          margin: 20px 0;
+          font-size: large;
+          font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
+            sans-serif;
+        }
+      }
+    }
+  }
+  .comment {
+    width: 1100px;
+    margin-top: 40px;
+    top: 550px;
+    .title {
+      font-size: x-large;
+      padding-bottom: 20px;
+    }
+  }
+}
 </style>

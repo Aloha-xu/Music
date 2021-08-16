@@ -49,6 +49,17 @@ export default {
 };
 </script>
 
-<style scoped>
-@import "./exclusive-push.css";
+<style scoped lang="scss">
+.exclusive-push{
+    .content{
+        display: flex;
+        .item:nth-child(1){
+            margin-right: 15px;
+        }
+        .item:nth-child(2){
+            margin-right: 15px;
+        }
+    }
+}
+
 </style>
