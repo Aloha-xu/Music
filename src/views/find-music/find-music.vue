@@ -1,7 +1,7 @@
 <template>
   <div class="find-music">
     <!-- 选项导航栏 -->
-    <nav-bar></nav-bar>
+    <NavBar/>
     <keep-alive>
       <router-view></router-view>
     </keep-alive>
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import NavBar from "../../components/common/findmusic/navbar/NavBar.vue";
+import NavBar from "@/views/find-music/navbar.vue";
 export default {
   name: "FindMusic",
   components: {

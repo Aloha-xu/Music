@@ -4,7 +4,6 @@
         <div class="title">全球榜</div>
         <div class="card">
           <play-card v-for="item in RankInfo" :key="item.id" :pic="item.coverImgUrl" :playcount="item.playCount" :text="item.name" :id="item.id" class="item">
-            <span slot="yymmdd"></span>
           </play-card>
         </div>
     </div>

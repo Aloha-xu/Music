@@ -48,7 +48,6 @@
             :text="item.name"
             class="item"
           >
-            <div slot="creator">{{ item.creator.nickname }}</div>
           </play-card>
         </div>
       </div>
@@ -82,7 +81,7 @@
 
 <script>
 import PlayCard from "../../../components/common/play-card.vue";
-import AllTypePopover from "../../../components/common/popover/all-type-popover.vue";
+import AllTypePopover from "../all-type-popover.vue";
 import {
   getSongListType,
   getHotSongListType,

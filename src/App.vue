@@ -1,28 +1,28 @@
 <template>
   <div id="app">
-    <top-tab-bar></top-tab-bar>
+    <Header/>
     <el-container v-show="!this.$store.state.isShowMaxPlayer">
       <el-aside class="navbar" width="210px">
-        <nav-bar></nav-bar>
+        <NavBar/>
       </el-aside>
       <keep-alive
         exclude="PlayListDetail,AlbumListDetail,SingerListDetail,MvDetail,PrivateFM,UpDataPapg">
         <router-view></router-view>
       </keep-alive>
     </el-container>
-    <max-play v-show="this.$store.state.isShowMaxPlayer"></max-play>
-    <mini-play class="mini-play"></mini-play>
+    <MaxPlay v-show="this.$store.state.isShowMaxPlayer"></MaxPlay>
+    <MiniPlay class="mini-play"></MiniPlay>
   </div>
 </template>
 <script>
-import TopTabBar from "./components/common/top-tabbar/top-tabbar.vue";
-import NavBar from "./components/common/navbar/left-navbar";
+import Header from "./views/header/header.vue";
+import NavBar from './views/aside/navbar.vue'
 import MaxPlay from "./views/player/MaxPlay.vue";
 import MiniPlay from "./views/player/MiniPlay.vue";
 export default {
   name: "app",
   components: {
-    TopTabBar,
+    Header,
     NavBar,
     MaxPlay,
     MiniPlay,

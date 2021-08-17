@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import Comment from "../../components/common/play-list-detail/comment.vue";
+import Comment from "../../components/common/comment.vue";
 import { parseLyric } from "../../utils/lyric";
 import {
   fm,

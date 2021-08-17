@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getYMDHMS } from "../../utils/uctil";
+import { getYMDHMS } from "@/utils/uctil";
 export default {
   name: "CommentCard",
   props: {

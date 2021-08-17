@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import comment from "../../components/common/play-list-detail/comment.vue";
+import comment from "../../components/common/comment.vue";
 import { getYMD } from "../../utils/uctil";
 import {
   getMvDetail,

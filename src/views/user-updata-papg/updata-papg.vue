@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import userUpdataTypePopover from "../../components/common/popover/user-updata-type-popover.vue";
+import userUpdataTypePopover from "./user-updata-type-popover.vue";
 import { updataUserPlaylist, getUserPlaylist } from "../../network/api";
 export default {
   components: { userUpdataTypePopover },

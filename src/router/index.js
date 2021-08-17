@@ -59,11 +59,11 @@ const routes = [
         children: [
             {
                 path: '/mv',
-                component: () => import('../views/video/mv-component/mv.vue')
+                component: () => import('../views/video/mv.vue')
             },
             {
                 path: '/video',
-                component: () => import('../views/video/video-component/video.vue')
+                component: () => import('../views/video/video.vue')
             }
         ]
     },
@@ -113,11 +113,11 @@ const routes = [
     },
     {
         path: '/cloudsearch',
-        component: () => import('../views/cloud-search/cloud-search.vue'),
+        component: () => import('../views/search-detail/search-detail.vue'),
     },
     {
         path: '/allmvpapg',
-        component: () => import('../views/video/all-mv-papg/all-mv-papg.vue'),
+        component: () => import('../views/video/all-mv-papg.vue'),
     },
     {
         path: '/mvdetail/:id',

@@ -1,9 +1,0 @@
-.recommend {
-  display: flex;
-  justify-content: center;
-  overflow: scroll;
-  height: 82vh;
-}
-.recommend .content {
-  width: 1100px;
-}

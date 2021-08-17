@@ -12,13 +12,13 @@
         <div class="tools">
           <div class="heart">
             <img
-              src="../../assets/icon/heart.svg"
+              src="@/assets/icon/heart.svg"
               alt=""
               v-show="false"
               style="height: 30px; weight: 30px"
             />
             <img
-              src="../../assets/icon/heartactive.svg"
+              src="@/assets/icon/heartactive.svg"
               alt=""
               style="height: 30px; weight: 30px"
             />
@@ -107,8 +107,8 @@
 </template>
 
 <script>
-import NewMusicCard from "../../components/common/findmusic/recommend/new-music/new-music-card.vue";
-import Comment from '../../components/common/play-list-detail/comment.vue';
+import NewMusicCard from "@/views/find-music/recommend/new-music/new-music-card.vue";
+import Comment from '@/components/common/comment.vue';
 export default {
   name: "MaxPlay",
   components: {

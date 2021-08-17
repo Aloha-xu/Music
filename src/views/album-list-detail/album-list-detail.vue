@@ -40,9 +40,9 @@
 </template>
 
 <script>
-import Comment from "@/components/common/play-list-detail/comment.vue";
-import PlayListDetailHead from "@/components/common/play-list-detail/play-list-detail-head.vue";
-import SongListComponent from "@/components/common/play-list-detail/song-list-component.vue";
+import Comment from "@/components/common/comment.vue";
+import PlayListDetailHead from "@/components/common/play-list-detail-head.vue";
+import SongListComponent from "@/components/common/song-list-component.vue";
 import {
   getSongUrl,
   getAlbumListDetail,

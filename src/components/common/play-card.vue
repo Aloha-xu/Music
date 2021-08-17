@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-pic">
-      <img :src="pic" @click="cardClick"  class="playcard-img"/>
+      <img :src="pic" @click="cardClick" class="playcard-img" />
       <span class="palycount">
         <slot name="card_palycount">{{ playCount }}</slot>
       </span>
@@ -18,31 +18,34 @@
       {{ text }}
     </div>
     <div class="card-YY-MM-DD">
-        <slot name="yymmdd"></slot>
+      <slot name="yymmdd"></slot>
     </div>
-    <div class="track-count" v-show="trackCount">{{trackCount}}首</div>
+    <div class="track-count" v-show="trackCount">{{ trackCount }}首</div>
   </div>
 </template>
 <script>
 export default {
   name: "PlayCard",
   props: {
-    pic:{
-      type:String,
-      default:''
+    pic: {
+      type: String,
+      default: "",
     },
-    playcount:{
-      type:Number,
-      default:0
-    },text:{
-      type:String,
-      default:''
-    },id:{
-      type:Number,
-      default:0
-    },trackCount:{
-      type:Number,
-      default:0
+    playcount: {
+      type: Number,
+      default: 0,
+    },
+    text: {
+      type: String,
+      default: "",
+    },
+    id: {
+      type: Number,
+      default: 0,
+    },
+    trackCount: {
+      type: Number,
+      default: 0,
     },
   },
   data() {
@@ -54,7 +57,6 @@ export default {
     playCount() {
       return parseInt((this.playcount / 10000).toFixed(0)) + "万";
     },
-    
   },
   methods: {
     cardClick() {
@@ -64,17 +66,17 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped>
 .card {
   position: relative;
   padding-bottom: 10px;
   margin-top: 10px;
   border-radius: 5px;
 }
-.playcard-img{
-    width: 100%;
-    border-radius: 5px;
-    }
+.playcard-img {
+  width: 100%;
+  border-radius: 5px;
+}
 .palycount {
   position: absolute;
   top: 3px;
@@ -109,7 +111,7 @@ export default {
   font-weight: 300;
   margin-top: 10px;
 }
-.track-count{
+.track-count {
   font-size: 13px;
   font-weight: 300;
 }

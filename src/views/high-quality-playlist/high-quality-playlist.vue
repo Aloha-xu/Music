@@ -27,7 +27,7 @@
 <script>
 import { getTopSonglistType, getTopSonglist } from "../../network/api";
 import playCard from "../../components/common/play-card.vue";
-import VideoTypePopover from "../../components/common/popover/video-type-popover.vue";
+import VideoTypePopover from "../video/video-type-popover.vue";
 export default {
   components: { playCard, VideoTypePopover },
   name: "HighQualityPlaylist",

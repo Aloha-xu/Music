@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import Swiper from "../../../components/common/swiper/Swiper.vue";
-import RemcommendList from "../../../components/common/findmusic/recommend/recommend-list/recommend-list.vue";
-import { getBanner } from "../../../network/api";
-import ExclusivePush from "../../../components/common/findmusic/recommend/exclusive-push/exclusive-push.vue";
-import NewMusic from "../../../components/common/findmusic/recommend/new-music/new-music.vue";
-import RecommendMv from "../../../components/common/findmusic/recommend/recommend-mv/recommend-mv.vue";
-import Radio from "../../../components/common/findmusic/recommend/radio/radio-component.vue";
+import Swiper from "@/components/common/swiper.vue";
+import RemcommendList from "@/views/find-music/recommend/recommend-list/recommend-list.vue";
+import ExclusivePush from "@/views/find-music/recommend/exclusive-push/exclusive-push.vue";
+import NewMusic from "@/views/find-music/recommend/new-music/new-music.vue";
+import RecommendMv from "@/views/find-music/recommend/recommend-mv/recommend-mv.vue";
+import Radio from "@/views/find-music/recommend/radio/radio-component.vue";
+import { getBanner } from "@/network/api";
 export default {
   name: "Recommend",
   data() {
