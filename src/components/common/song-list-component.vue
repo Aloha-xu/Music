@@ -26,7 +26,7 @@
         @click="ClickHeart(item.id,index)"
         class="active-heart"
       />
-      <p class="el-icon-download"></p>
+      <p class="el-icon-download" @click="handleDownload(item)"></p>
       <div class="song-name" @click="HandleSongClick(item, index)">
         <span :class="item.id === currentId ? 'active' : ''">{{
           item.name
@@ -55,6 +55,7 @@ import {
   setLike,
 } from "@/network/api";
 import { forMatTime } from "@/utils/format";
+
 export default {
   name: "SongListComponent",
   data() {
@@ -83,8 +84,11 @@ export default {
       }
     },
     // 处理点击播放音乐事件
-    async HandleSongClick(values, index) {
+    HandleSongClick(values, index) {
       this.$emit('handleSongClick',[values,index])
+    },
+    handleDownload(values){
+      this.$emit('handleDownload',values)
     },
     //计算歌曲时间
     setSongTime(time) {

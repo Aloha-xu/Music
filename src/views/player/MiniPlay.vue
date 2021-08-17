@@ -455,7 +455,7 @@ export default {
     }
   }
   .control-tools {
-    flex: 2;
+    flex: 1;
     .top {
       display: flex;
       padding-left: 100px;

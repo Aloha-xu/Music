@@ -27,6 +27,7 @@
         v-if="currentIndex === 0"
         :songsInfo="playList"
         @handleSongClick="handleSongClick"
+        @handleDownload="handleDownload"
       ></song-list-component>
       <collecter
         v-else-if="currentIndex === 2"
@@ -63,6 +64,7 @@ import {
   getCollector
 } from "@/network/api";
 import { parseLyric } from "@/utils/lyric";
+import download from '@/utils/dowmload'
 export default {
   components: { PlayListDetailHead, SongListComponent, Collecter, Comment },
   name: "PlayListDetail",
@@ -200,6 +202,19 @@ export default {
       } catch (error) {
         alert("音乐没有版权")
       }
+    },
+
+    async handleDownload(v){
+      try {
+        const checkmusic = await getCheckMusic(v[0].id);
+        //判断音乐是否有版权
+        if (checkmusic.data.success) {
+          download(v.url,v.name)
+        }
+      } catch (error) {
+        alert("音乐没有版权,无法下载")
+      }
+      
     },
 
     //收藏歌单
