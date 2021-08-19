@@ -2,9 +2,11 @@
   <div class="song-list" ref="song_list">
     <!--歌单页面下的顶部歌单种类大卡片显示处  -->
     <div class="content">
-
       <!-- 精品歌单 -->
-      <div class="high-quality-playlist" @click="clickToHighQualityPlaylistPapg">
+      <div
+        class="high-quality-playlist"
+        @click="clickToHighQualityPlaylistPapg"
+      >
         <div class="backgroundimage">
           <img :src="TopSongListInfo[0].coverImgUrl" alt="" />
         </div>
@@ -250,9 +252,9 @@ export default {
         this.CurrentType = "";
       }
     },
-    clickToHighQualityPlaylistPapg(){
-      this.$router.push('/highqualityplaylist')
-    }
+    clickToHighQualityPlaylistPapg() {
+      this.$router.push("/highqualityplaylist");
+    },
   },
   async created() {
     this.getSongListType();
@@ -269,5 +271,127 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-@import "song-list.css";
+@import "@/assets/css/base.scss";
+.song-list {
+  display: flex;
+  justify-content: center;
+  overflow: scroll;
+  height: 82vh;
+  position: relative;
+  .content {
+    width: 1100px;
+    .high-quality-playlist {
+      cursor: pointer;
+      width: 1100px;
+      height: 170px;
+      overflow: hidden;
+      position: relative;
+      border: 1 solid white;
+      border-radius: 10px;
+      .backgroundimage {
+        height: 170px;
+        filter: blur(30px);
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .pic {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 150px;
+        width: 150px;
+        img {
+          width: 100%;
+          margin: 10px;
+          border-radius: 5px;
+        }
+      }
+      .text {
+        position: absolute;
+        top: 0;
+        left: 170px;
+        margin-left: 20px;
+        margin-top: 30px;
+        .logo {
+          border: 1px solid goldenrod;
+          border-radius: 20px;
+          padding: 5px;
+          width: 100px;
+          height: 20px;
+          text-align: center;
+          line-height: 20px;
+          color: gold;
+        }
+        .text-1 {
+          margin-top: 25px;
+          color: aliceblue;
+        }
+        .text-2 {
+          margin-top: 5px;
+          font-size: 12px;
+          color: rgb(207, 206, 206);
+        }
+      }
+    }
+    .center {
+      margin-top: 15px;
+      .type {
+        display: flex;
+        .alltype {
+          .el-button {
+            border-radius: 20px;
+            &:hover{
+              background-color: rgb(204, 204, 204);
+              color: black;
+            }
+          }
+        }
+        .hottype {
+          width: 100%;
+          height: 30px;
+          margin-left: 340px;
+          line-height: 35px;
+          .item {
+            margin-left: 2px;
+            font-size: 13px;
+            color: gray;
+            display: inline-block;
+            padding: 0px 15px;
+            &:hover {
+            color: rgb(56, 56, 56);
+          }
+          }
+          .el-button:focus,
+          .el-button:hover {
+            color: gray;
+            border-color: gray;
+            background-color: white;
+          }
+          .active {
+            color: $theme-color;
+            border-radius: 10px;
+          }
+        }
+      }
+      .allcard {
+        display: flex;
+        flex-wrap: wrap; /*用了flex-wrap:wrap;自动换行属性后*/
+        justify-content: space-around;
+        .item {
+          width: 18.86%;
+        }
+      }
+    }
+    .pagination {
+      height: 200px;
+    }
+  }
+  .alltypepopover {
+    position: absolute;
+    left: 75px;
+    top: 230px;
+  }
+}
 </style>

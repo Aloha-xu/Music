@@ -1245,5 +1245,25 @@ export function getUserDetail(uid){
 }
 
 
+export function getDynamic(pagesize,lasttime){
+    return request({
+        url:'/event',
+        params:{
+            pagesize,
+            lasttime
+        }
+    })
+}
 
 
+//说明 : 登录后调用此接口 , 传入用户 id, 可获取用户播放记录
+//必选参数 : uid : 用户 id
+//可选参数 : type : type=1 时只返回 weekData, type=0 时返回 allData
+export function getUserRecord(uid,type){
+    return request({
+        url:"/user/record",
+        params:{
+            uid,type
+        }
+    })
+}

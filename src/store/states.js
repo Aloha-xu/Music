@@ -17,6 +17,9 @@ export default {
     //播放列表的信息
     songList: [],
 
+    //歌曲播放记录存放表
+    recordSongList:[],
+
     //当前播放歌曲的下标
     currentIndex: 0,
 

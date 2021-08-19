@@ -4,7 +4,7 @@
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
-      active-text-color="red"
+      background-color="#fff"
     >
       <el-menu-item index="1-1" @click="ClickToFindMusicPapg">
         <span slot="title" class="slot">发现音乐</span>
@@ -21,31 +21,12 @@
       <el-menu-item index="1-5" @click="ClickToFMPapg">
         <span slot="title" class="slot">私人FM</span>
       </el-menu-item>
-      <p class="xu-top"></p>
-      <span class="my-music">我的音乐</span>
-      <p class="xu-btm"></p>
-      <el-menu-item index="2-1">
-        <i class="el-icon-menu"></i>
-        <span slot="title">本地音乐</span>
-      </el-menu-item>
-      <el-menu-item index="2-2">
-        <i class="el-icon-download"></i>
-        <span slot="title">下载管理</span>
-      </el-menu-item>
-      <el-menu-item index="2-3">
-        <i class="el-icon-cloudy"></i>
-        <span slot="title">我的音乐云盘</span>
-      </el-menu-item>
-      <el-menu-item index="2-4">
-        <i class="el-icon-headset"></i>
-        <span slot="title">我的电台</span>
-      </el-menu-item>
-      <el-menu-item index="2-5">
-        <i class="el-icon-star-off"></i>
-        <span slot="title">我的收藏</span>
+      <el-menu-item index="1-6" @click="ClickToRecordPapg">
+        <span slot="title" class="slot">最近播放</span>
       </el-menu-item>
     </el-menu>
     <div class="user-songlist">
+      <div class="main-pages"></div>
       <div class="created-playlist">
         <div class="titile">
           <span class="name" @click="handleShowPlaylist">创建的歌单</span>
@@ -61,7 +42,11 @@
           ></i>
           <i class="el-icon-plus"></i>
         </div>
-        <div class="user-love" v-show="isShowPlaylist" @click="handleToPlaylistPapg(heartSonglist.id,'heartplaylist')">
+        <div
+          class="user-love"
+          v-show="isShowPlaylist"
+          @click="handleToPlaylistPapg(heartSonglist.id, 'heartplaylist')"
+        >
           <img src="@/assets/icon/heart.svg" alt="" />
           <span class="name">我喜欢的音乐</span>
         </div>
@@ -70,10 +55,10 @@
           v-for="(item, index) in mySonglist"
           :key="index"
           v-show="isShowPlaylist"
-          @click="handleToPlaylistPapg(item.id,'myplaylist')"
+          @click="handleToPlaylistPapg(item.id, 'myplaylist')"
         >
           <i class="el-icon-service"></i>
-          <span class="name" >{{ item.name }}</span>
+          <span class="name">{{ item.name }}</span>
         </div>
       </div>
       <div class="collectd-playlist">
@@ -97,10 +82,10 @@
           v-for="(item, index) in collectSonglist"
           :key="index"
           v-show="isShowCollectPlaylist"
-          @click="handleToPlaylistPapg(item.id,'collectplaylist')"
+          @click="handleToPlaylistPapg(item.id, 'collectplaylist')"
         >
           <i class="el-icon-service"></i>
-          <span class="name" >{{ item.name }}</span>
+          <span class="name">{{ item.name }}</span>
         </div>
       </div>
     </div>
@@ -136,6 +121,9 @@ export default {
     ClickToFMPapg() {
       this.$router.push("/fm");
     },
+    ClickToRecordPapg() {
+      this.$router.push("/record");
+    },
     //歌单的信息需要写在topnavbar上面 传到vuex 实现跨页面同步数据
     //也可以动态监听 computed 或者 watch
     async handleShowPlaylist() {
@@ -160,15 +148,12 @@ export default {
       this.$store.commit("setUserSonglistInfo", playlist);
       this.$store.commit("updataSonglist");
     },
-    handleToPlaylistPapg(id,type){
-      if(type == 'myplaylist'){
-        this.$store.state.isShowUpdataComponent = true
-      }else[
-        this.$store.state.isShowUpdataComponent = false
-      ]
-        this.$router.push("/playlistdetail/"+id);
+    handleToPlaylistPapg(id, type) {
+      if (type == "myplaylist") {
+        this.$store.state.isShowUpdataComponent = true;
+      } else [(this.$store.state.isShowUpdataComponent = false)];
+      this.$router.push("/playlistdetail/" + id);
     },
-    
   },
   computed: {
     mySonglist() {
@@ -185,91 +170,94 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.left-navbar{
-    .el-menu-vertical-demo{
-        .slot {
-            margin-left: 10px;
-          }
-          .my-music {
-            font-size: 15px;
-            margin-left: 28px;
-            color: rgba(173, 174, 175, 0.5);
-          }
-          .xu-top {
-            margin: 20px 0 0 0;
-          }
-          .xu-btm {
-            margin: 5px 0 0 0;
-          }
-          span {
-            font-size: 15px;
-          }
+@import "@/assets/css/base.scss";
+.left-navbar {
+  .el-menu-vertical-demo {
+    border: 0px;
+    padding-left: 10px;
+    .el-menu-item {
+      height: 56px;
+      line-height: 56px;
+      margin-top: 10px;
     }
-    .user-songlist{
-        .created-playlist,.collectd-playlist{
-            cursor: pointer;
-            .titile{
-                padding: 10px 0;
-                padding-left: 20px;
-                .name{
-                    font-size: 15px;
-                    margin-left: 10px;
-                    margin-top: 15px;
-                    color: rgba(173, 174, 175, 0.5);
-                }
-                .el-icon-caret-right,.el-icon-caret-bottom{
-                    margin-left: 5px;
-                    font-size: 15px;
-                    color: rgba(149, 158, 167, 0.5);
-                }
-                .el-icon-caret-right:hover,.el-icon-caret-bottom:hover{
-                    color: rgb(78, 78, 78);
-                }
-                .el-icon-plus{
-                    margin-left: 40px;
-                    color: rgba(173, 174, 175, 0.5);
-                }
-                .el-icon-plus:hover{
-                    color: rgb(0, 0, 0);
-                }
-            }
-            .user-love{
-                height: 45px;
-                padding-left: 25px;
-                line-height: 45px;
-                img{
-                    vertical-align: middle;
-                }
-                span{
-                    vertical-align: middle;
-                    margin-left: 10px;
-                    
-                }
-            }
-            .playlist-item{
-                height: 45px;
-                padding-left: 25px;
-                line-height: 45px;
-                .el-icon-service{
-                    font-size: 17px;
-                    vertical-align: middle;
-                }
-                .name{
-                    display: inline-block;
-                    width: 150px;
-                    margin-left: 10px;
-                    vertical-align: middle;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                }
-            }
-            .titile:hover,.user-love:hover,.playlist-item:hover{
-                background-color: rgb(240, 240, 240);
-            }
+    .slot {
+      margin-left: 10px;
+    }
+    
+  }
+  .user-songlist {
+    .created-playlist,
+    .collectd-playlist {
+      cursor: pointer;
+      margin-top: 10px;
+      .titile {
+        padding: 10px 0;
+        padding-left: 20px;
+        height: 35px;
+        line-height: 35px;
+        .name {
+          font-size: 15px;
+          padding-left: 20px;
+          margin-top: 15px;
         }
+        .el-icon-caret-right,
+        .el-icon-caret-bottom {
+          margin-left: 5px;
+          font-size: 15px;
+        }
+        .el-icon-caret-right:hover,
+        .el-icon-caret-bottom:hover {
+          color: rgb(78, 78, 78);
+        }
+        .el-icon-plus {
+          margin-left: 40px;
+          color: rgba(173, 174, 175, 0.5);
+        }
+        .el-icon-plus:hover {
+          color: rgb(0, 0, 0);
+        }
+        &:hover {
+          background-color: rgb(204, 204, 204);
+          border-radius: 5px;
+        }
+      }
+      .user-love {
+        height: 45px;
+        line-height: 45px;
+        padding-left: 25px;
+        img {
+          vertical-align: middle;
+        }
+        span {
+          vertical-align: middle;
+          margin-left: 10px;
+        }
+        &:hover {
+          background-color: rgb(204, 204, 204);
+        }
+      }
+      .playlist-item {
+        height: 45px;
+        padding-left: 25px;
+        line-height: 45px;
+        .el-icon-service {
+          font-size: 17px;
+          vertical-align: middle;
+        }
+        .name {
+          display: inline-block;
+          width: 150px;
+          margin-left: 10px;
+          vertical-align: middle;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        &:hover {
+          background-color: rgb(204, 204, 204);
+        }
+      }
     }
+  }
 }
-
-  
 </style>

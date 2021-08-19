@@ -72,6 +72,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/base.scss";
 .alltype-popover {
   width: 50%;
   border: 2px solid rgb(177, 175, 175);
@@ -118,10 +119,11 @@ export default {
         .text {
           display: inline-block;
           font-size: 13px;
+          &:hover {
+          color: $theme-color;
         }
-        .text:hover {
-          color: red;
         }
+        
         .pic {
           margin-left: 5px;
           width: 20px;
@@ -132,8 +134,7 @@ export default {
         }
       }
       .active {
-        color: rgb(143, 27, 27) !important;
-        background-color: rgb(255, 216, 216);
+        color: $theme-color !important;
         border-radius: 5px;
       }
     }

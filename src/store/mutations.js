@@ -1,7 +1,7 @@
 //处理同步的操作
 export default {
 
-    refeshCurrentNavIndex(state,index){
+    refeshCurrentNavIndex(state, index) {
         state.navCurrentIndex = index
     },
 
@@ -29,8 +29,17 @@ export default {
 
 
     //把歌单的全部歌曲添加到播放列表
-    setAllSongsToPlayList(state,allSongs) {
+    setAllSongsToPlayList(state, allSongs) {
         state.songList = allSongs
+    },
+
+    setToRecordSongList(state, song) {
+        //判断里面是否已经存在这首歌曲
+        let flag = state.recordSongList.findIndex(item => song.id === item.id);
+        console.log(flag)
+        if (flag === -1) {
+            state.recordSongList.push(song)
+        }
     },
 
     //列表循环  这里还没有写完列表循环与顺序循环的选择 我觉得列表循环是已有的列表中循环播放然而这个顺序循环就是按照你点进去的歌单 直接把这个歌单放到列表中 再播放 这个功能后续写
@@ -47,6 +56,13 @@ export default {
         }
         //更换现在播放歌曲的下标
         state.currentIndex = state.currentIndex + 1
+
+        //把数据放到最近播放
+        let flag = state.recordSongList.findIndex(item => item.id === state.songList[currentPlayIndex + 1].id);
+        console.log(flag)
+        if (flag === -1) {
+            state.recordSongList.push(state.songList[currentPlayIndex + 1])
+        }
     },
 
     //列表循环上一首
@@ -65,15 +81,18 @@ export default {
     //随机播放下一首
     randomPlayWay(state) {
         state.randomNumberIndex = Math.floor((Math.random() * 100) + 1) //随机1-100的数字
-        // console.log(state.randomNumberIndex)
         while (state.randomNumberIndex > state.songList.length) {
             state.randomNumberIndex = Math.floor((Math.random() * 100) + 1)
-            // console.log(state.randomNumberIndex)
-            // console.log(randomNumberIndex)
         }
         state.currentSongInfo = state.songList[state.randomNumberIndex - 1]
         state.currentIndex = state.randomNumberIndex - 1
-        // console.log(state.randomNumberIndex)
+
+        //把数据放到最近播放
+        let flag = state.recordSongList.findIndex(item => item.id === state.currentSongInfo.id);
+        console.log(flag)
+        if (flag === -1) {
+            state.recordSongList.push(state.currentSongInfo)
+        }
     },
 
     //单曲循环
@@ -81,6 +100,13 @@ export default {
         let currentPlayIndex = state.songList.findIndex(item => item.id == state.currentSongInfo.id)
         state.currentPlayIndex = state.songList[currentPlayIndex]
         state.currentIndex = currentPlayIndex
+
+        //把数据放到最近播放
+        let flag = state.recordSongList.findIndex(item => item.id === state.currentPlayIndex.id);
+        console.log(flag)
+        if (flag === -1) {
+            state.recordSongList.push(state.currentPlayIndex)
+        }
     },
 
     //删除
@@ -139,27 +165,27 @@ export default {
     },
 
     //刷新用户的歌单
-    updataSonglist(state){
-        state.heartSonglist=state.userSonglistInfo.data.playlist[0]
-        state.mySonglist=[]
-        state.collectSonglist=[]
-      for(let i = 1 ;i<state.userSonglistInfo.data.playlist.length;i++){
-        if(!state.userSonglistInfo.data.playlist[i].subscribed){
-            state.mySonglist.push(state.userSonglistInfo.data.playlist[i])
-        }else{
-            state.collectSonglist.push(state.userSonglistInfo.data.playlist[i])
+    updataSonglist(state) {
+        state.heartSonglist = state.userSonglistInfo.data.playlist[0]
+        state.mySonglist = []
+        state.collectSonglist = []
+        for (let i = 1; i < state.userSonglistInfo.data.playlist.length; i++) {
+            if (!state.userSonglistInfo.data.playlist[i].subscribed) {
+                state.mySonglist.push(state.userSonglistInfo.data.playlist[i])
+            } else {
+                state.collectSonglist.push(state.userSonglistInfo.data.playlist[i])
+            }
         }
-      }
     },
     //用户的全部的歌单信息
     setUserSonglistInfo(state, userSonglistInfo) {
         state.userSonglistInfo = userSonglistInfo
     },
 
-    setShowMsgDarwer(state){
+    setShowMsgDarwer(state) {
         state.isShowMsgDrawer = !state.isShowMsgDrawer
     },
-    setShowMsgInnerDarwer(state){
+    setShowMsgInnerDarwer(state) {
         state.isShowInnerMsgDrawer = !state.isShowInnerMsgDrawer
     },
 }

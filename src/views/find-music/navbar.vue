@@ -57,6 +57,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/base.scss";
 .nav-bar {
   display: flex;
   width: 100%;
@@ -70,8 +71,7 @@ export default {
     width: 80px;
   }
   .active {
-    color: red;
-    border-bottom: 2px solid red;
+    border-bottom: 2px solid $theme-color;
     font-size: 17px;
     font-weight: 900;
   }

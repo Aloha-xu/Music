@@ -198,6 +198,8 @@ export default {
           //获取某一首歌的评论
           let musicComments = await getMusicComment(v[0].id, 100);
           this.$store.state.commentInfo = musicComments.data.comments;
+
+          this.$store.commit("setToRecordSongList",this.playList[v[1]]);
         }
       } catch (error) {
         alert("音乐没有版权")
@@ -256,11 +258,13 @@ export default {
       this.$store.commit("setUserSonglistInfo", playlist);
       this.$store.commit("updataSonglist");
     },
+
     async getCommentInfo() {
       this.id = this.$route.params.id;
       const { data } = await getPlayListComment(this.id, 50);
       this.commentInfo = data.comments;
     },
+
     //获取收藏者信息 
     async getCollector() {
       this.id = this.$route.params.id;
@@ -269,6 +273,7 @@ export default {
       console.log(data);
     },
   },
+  
   async created() {
     this.itemClick(this.currentIndex);
     this.handleSongListDetailInfo();

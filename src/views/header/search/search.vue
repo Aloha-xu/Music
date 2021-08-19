@@ -11,7 +11,7 @@
           @keyup.delete="handleShowHotSearch"
           @keydown="handleShowHotSearch"
         />
-        <input type="text" style="display:none">
+        <input type="text" style="display: none" />
       </form>
     </div>
     <div class="hot-search" v-show="isShowHotSearch">
@@ -22,10 +22,10 @@
         :key="index"
         @click="handleClickHotSong(item.searchWord)"
       >
-        <div class="left" :class="index < 4 ? 'active' : ''">
+        <div class="number" :class="index < 4 ? 'active' : ''">
           {{ index + 1 }}
         </div>
-        <div class="right">
+        <div class="txt">
           <div class="top">
             <span class="search-word">{{ item.searchWord }}</span>
             <span class="score">{{ item.score }}</span>
@@ -132,7 +132,10 @@ export default {
     },
 
     handleToSearchDetailPapg() {
-      this.$router.push({path:"/cloudsearch",query:{keywords:this.searchValues}});
+      this.$router.push({
+        path: "/cloudsearch",
+        query: { keywords: this.searchValues },
+      });
     },
 
     handleToSingerDetailPapg(id) {
@@ -147,8 +150,11 @@ export default {
       if (this.isShowHotSearch) {
         this.isShowHotSearch = false;
       }
-      this.searchValues = searchValues
-        this.$router.push({path:"/cloudsearch",query:{keywords:this.searchValues}});
+      this.searchValues = searchValues;
+      this.$router.push({
+        path: "/cloudsearch",
+        query: { keywords: this.searchValues },
+      });
     },
 
     handlePlaySong() {},
@@ -171,130 +177,137 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.search{
-    position: relative;
-    .input-text{
-        input{
-            width: 180px;
-            height: 30px;
-            border-radius: 10px;
-            border: none;
-            background-image: url("../../../assets/icon/search-active.svg");
-            background-repeat: no-repeat;
-            background-position: 145px;
-            //去掉input获取焦点时候的边框
-            outline: none;
-        }
+.search {
+  position: relative;
+  .input-text {
+    input {
+      width: 180px;
+      height: 30px;
+      border-radius: 10px;
+      border: none;
+      background-image: url("../../../assets/icon/search-active.svg");
+      background-repeat: no-repeat;
+      background-position: 145px;
+      //去掉input获取焦点时候的边框
+      outline: none;
+      padding-left: 10px;
     }
-    .hot-search{
-        position: absolute;
-        left: -50px;
-        top: 48.5px;
-        width: 360px;
-        height: 460px;
-        background-color: rgb(247, 246, 246);
-        border-radius: 10px;
-        z-index: 999;
-        overflow: scroll;
-        overflow-x: hidden;
-        .title{
-            padding-left: 25px;
-            font-size: 15px;
-            font-weight: 700;
-        }
-        .item{
-            height: 50px;
-            width: 360px;
-            display: flex;
-            margin-bottom: 5px;
-            cursor: pointer;
-            .left{
-                width: 50px;
-                height: 50px;
-                line-height: 50px;
-                text-align: center;
-                display: inline-block;
-                padding-left: 6px;
-                font-size: larger;
-            }
-            .active{
-                color: red;
-            }
-            .right{
-                width: 310px;
-                height: 50px;
-                line-height: 30px;
-                font-size: 13px;
-                display: flex;
-                flex-direction: column;
-                .top{
-                    height: 20px;
-                    .search-word{
-                        font-weight: 900;
-                    }
-                    .score{
-                        font-weight: 100;
-                        font-size: xx-small;
-                        color: gray;
-                        padding-left: 10px;
-                    }
-                }
-                .content{
-                    color: rgb(80, 80, 80);
-                    white-space:nowrap;
-                    overflow:hidden;
-                    text-overflow:ellipsis;
-                }
-            }
-        }
-        .item:hover{
-            background-color: rgb(216, 213, 213);
-        }
+  }
+  .hot-search {
+    position: absolute;
+    left: -50px;
+    top: 48.5px;
+    width: 360px;
+    height: 460px;
+    background-color: rgb(256, 256, 256);
+    border-radius: 10px;
+    z-index: 999;
+    overflow: scroll;
+    overflow-x: hidden;
+
+    .title {
+      padding-left: 30px;
+      font-size: 15px;
+      font-weight: 700;
     }
-    .cloud-search{
-        position: absolute;
-        left: -50px;
-        top: 48.5px;
-        width: 360px;
-        height: 460px;
-        background-color: rgb(247, 246, 246);
-        border-radius: 10px;
-        z-index: 999;
+    .item {
+      height: 50px;
+      width: 340px;
+      margin: 0 10px;
+      border-radius: 5px;
+      display: flex;
+      margin-bottom: 5px;
+      cursor: pointer;
+      .number {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        display: inline-block;
+        font-size: larger;
+      }
+      .active {
+        color: red;
+      }
+      .txt {
+        width: 290px;
+        height: 50px;
+        line-height: 30px;
         font-size: 13px;
-        color: rgb(53, 53, 53);
-        font-weight: 500;
-        .search-all{
-            height: 40px;
-            line-height: 40px;
-            margin-left: 10px;
-            cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        .top {
+          height: 20px;
+          .search-word {
+            font-weight: 900;
+          }
+          .score {
+            font-weight: 100;
+            font-size: xx-small;
+            color: gray;
+            padding-left: 10px;
+          }
         }
-        .songs,.albums,.artists{
-            cursor: pointer;
-            .search-title{
-                height: 28px;
-                line-height: 28px;
-                vertical-align: middle;
-                padding-left: 15px;
-                background-color: rgb(226, 226, 226);
-                img{
-                vertical-align: middle;
-                padding-right: 4px;
-                }
-            }
-            .item{
-                height: 28px;
-                line-height: 28px;
-                padding-left: 40px;
-                font-size: 12px;
-                white-space:nowrap;
-                overflow:hidden;
-                text-overflow:ellipsis;
-            }
-            .item:hover{
-                background-color: rgb(226, 226, 226);
-            }
+        .content {
+          color: rgb(80, 80, 80);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
+      }
+      &:hover {
+        background-color: rgb(238, 238, 238);
+      }
     }
+  }
+  .cloud-search {
+    position: absolute;
+    left: -50px;
+    top: 48.5px;
+    width: 360px;
+    height: 460px;
+    background-color: rgb(247, 246, 246);
+    border-radius: 10px;
+    z-index: 999;
+    font-size: 13px;
+    color: rgb(53, 53, 53);
+    font-weight: 500;
+    .search-all {
+      height: 40px;
+      line-height: 40px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .songs,
+    .albums,
+    .artists {
+      cursor: pointer;
+      .search-title {
+        height: 28px;
+        line-height: 28px;
+        vertical-align: middle;
+        padding-left: 15px;
+        background-color: rgb(226, 226, 226);
+        img {
+          vertical-align: middle;
+          padding-right: 4px;
+        }
+      }
+      .item {
+        width:310px;
+        height: 28px;
+        line-height: 28px;
+        padding-left: 40px;
+        padding-right: 10px;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &:hover {
+          background-color: rgb(238, 238, 238);
+        }
+      }
+    }
+  }
 }
 </style>

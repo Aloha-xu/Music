@@ -27,7 +27,7 @@
         <span class="create-time">{{ values.createTime }}</span>
       </div>
       <div class="tools">
-        <el-button round type="danger">
+        <el-button round>
           <span class="el-icon-caret-right" @click="handlePlayAllSongs"
             >播放全部</span
           >
@@ -151,6 +151,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/css/base.scss";
 .playlistdetail-head {
   position: relative;
   width: 100%;
@@ -215,12 +216,22 @@ export default {
       .el-button {
         height: 30px;
       }
-      .el-button .play-all:hover {
-        background-color: rgb(221, 20, 20);
+      .el-button:nth-child(1){
+        height: 30px;
+        background-color: $theme-color;
+        color: white;
+        &:hover{
+          //未做
+        }
+      }
+      .play-all {
+        color: white;
+        
       }
       .el-button.is-round:nth-child(n + 2):hover {
         background-color: rgb(246, 246, 246);
         color: gray;
+        border-color:rgba($color: gray, $alpha: 0.5) ;
       }
     }
     .album-info {

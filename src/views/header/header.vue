@@ -36,17 +36,23 @@
           <span>{{ currentUserInfo.nickname }}</span>
         </div>
         <div class="tool">
-          <img
-            src="@/assets/icon/email.svg"
-            alt=""
-            @click="ShowMsgDarwer"
-          />
-          <img src="@/assets/icon/clothes.svg" @click="handelChangeBackgroundColor" />
+          <img src="@/assets/icon/email.svg" alt="" @click="ShowMsgDarwer" />
+          <el-popover placement="bottom" width="330" trigger="click">
+            <div class="theme-txt">主题</div>
+            <div class="clothes">
+              <div class="theme-item" v-for="(item,index) in 6" :key="index" @click="handleTheme(index,item)"></div>
+            </div>
+            <img
+              slot="reference"
+              src="@/assets/icon/clothes.svg"
+              @click="handelChangeBackgroundColor"
+            />
+          </el-popover>
           <img src="@/assets/icon/setting.svg" alt="" />
         </div>
       </div>
     </div>
-    <!-- 通知栏的弹出框 -->
+    <!-- 通知栏的drawer -->
     <el-drawer
       :visible="drawer"
       size="365px"
@@ -107,7 +113,10 @@
           <div class="inner-popover">
             <i class="el-icon-arrow-left" @click="handleOutInneerPopover"></i>
             <div class="name">{{ toUserInfo.name }}</div>
-            <div class="content" v-show="!beforMsgs.length == 0 || !newMsgs.length == 0">
+            <div
+              class="content"
+              v-show="!beforMsgs.length == 0 || !newMsgs.length == 0"
+            >
               <div class="befor-msg">
                 <div
                   class="msg-card"
@@ -157,7 +166,12 @@
                 </div>
               </div>
             </div>
-            <div class="tip" v-show="beforMsgs.length == 0 && newMsgs.length == 0">暂无私聊</div>
+            <div
+              class="tip"
+              v-show="beforMsgs.length == 0 && newMsgs.length == 0"
+            >
+              暂无私聊
+            </div>
             <el-input
               type="text"
               v-model="text"
@@ -170,6 +184,8 @@
         </el-drawer>
       </div>
     </el-drawer>
+
+    <!-- 衣服popover -->
   </div>
 </template>
 
@@ -186,7 +202,7 @@ import {
 } from "@/network/api";
 import { getYMD, getYestaryToday } from "@/utils/uctil";
 import Search from "./search/search.vue";
-import v from '@/assets/css/base.scss';
+import v from "@/assets/css/base.scss";
 export default {
   components: { Search },
   name: "Header",
@@ -211,23 +227,38 @@ export default {
     };
   },
   methods: {
-    handelChangeBackgroundColor(){
-      console.log(v.backgroundmaincolor1)
-    }
-    ,
+    handleTheme(index,item){
+      console.log(index,item)
+      if(index === 0 ){
+        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#242427');
+      }
+      else if(index === 1){
+        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#EC4141');
+      }
+      else if(index === 2){
+        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#67BFFD');
+      }
+      else if(index === 3){
+        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#54C77B');
+      }
+      else if(index === 4){
+        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#FAA4C6');
+      }
+      else{
+        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#F8CF7F');
+      }
+      
+    },
+    handelChangeBackgroundColor() {
+      console.log(v.backgroundmaincolor1);
+    },
     back() {
-      //在使用this.$router.back();这种方式前进与后退路由的时候，在跳转到别的页面之后返回到上一个界面后，无法再前进到之前跳转的页面
-      // this.$router.back();
       history.back();
-      // console.log(history)
     },
     go() {
-      // this.$router.back(1);
       history.go(1);
-      // console.log(history)
-
     },
-    
+
     handleInputSearch() {},
     async handleChangeSearch(searchValues) {
       const SearchSuggest = await getSearchSuggest(searchValues);
@@ -266,7 +297,7 @@ export default {
       let afterMsg = JSON.parse(msg);
       return afterMsg.msg;
     },
-    getYMD(time) {  
+    getYMD(time) {
       return getYMD(time);
     },
     getYestaryToday(time) {
@@ -274,7 +305,7 @@ export default {
     },
 
     //展示darwer通知页面
-    ShowMsgDarwer(){
+    ShowMsgDarwer() {
       this.$store.commit("setShowMsgDarwer");
     },
     //获取通知消息
@@ -285,30 +316,29 @@ export default {
     },
     //点击具体消息进去对应的私聊
     clickToInnerDrawer(uId, name, cover) {
-      this.toUserInfo = {uId, name, cover};
+      this.toUserInfo = { uId, name, cover };
       this.getPrivateMsg(uId);
       this.$store.commit("setShowMsgInnerDarwer");
     },
     //drawer的回调事件
     handleOpen() {
       //通过用户个人界面进去进行私聊 先处理聊天对象的信息 否者就模板渲染比数据快 数据就渲染不上去了
-      this.toUserInfo = this.$store.state.toUserInfo
+      this.toUserInfo = this.$store.state.toUserInfo;
       this.getPrivateMsg(this.toUserInfo.uId);
     },
     handleClose() {
       this.$store.commit("setShowMsgDarwer");
     },
-    handleInnerOpen(){
+    handleInnerOpen() {
       //计时器定时更新数据
       this.msgInterval = setInterval(() => {
         this.getPrivateMsg(this.toUserInfo.uId);
       }, 5000);
     },
-    handleInnerClose(){
+    handleInnerClose() {
       //返回darwer时候刷新数据
-      this.getNotices()
+      this.getNotices();
     },
-
 
     //获取历史聊天记录
     async getPrivateMsg(uId) {
@@ -379,271 +409,301 @@ export default {
   async created() {
     const { data } = await getHotSearchDetail();
     this.HotSearchDetail = data.data;
-    this.getNotices()
+    this.getNotices();
     //通过vuex传入touser的信息
-    this.toUserInfo = this.$store.state.toUserInfo
+    this.toUserInfo = this.$store.state.toUserInfo;
   },
   computed: {
     drawer() {
       return this.$store.state.isShowMsgDrawer;
     },
-    innerDrawer(){
+    innerDrawer() {
       return this.$store.state.isShowInnerMsgDrawer;
-    }
+    },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.box{
-    background-color: red;
+@import "@/assets/css/base.scss";
+$background-theme-color: (
+  1: #242427,
+  2: #EC4141,
+  3: #67BFFD, 
+  4: #54C77B,
+  5: #FAA4C6,
+  6: #F8CF7F,
+);
+.box {
+  background-color: $theme-color;
+  height: 60px;
+  display: flex;
+  width: 100%;
+  .left {
+    width: 510px;
     height: 60px;
     display: flex;
-    width: 100%;
-    .left{
-        width: 50%;
-        height: 60px;
-        display: flex;
-        .logo{
-            width: 250px;
-            line-height: 80px;
-            img{
-                height: 35px;
-            }
-        }
-        .back_go_tool{
-            width: 170px;
-            text-align: center;
-            line-height: 71.5px;
-            img{
-                height: 25px;
-                border-radius: 10px;
-                margin-left: 10px;
-            }
-        }
-        .search{
-            width: 400px;
-            line-height: 60px;
-        }
+    .logo {
+      width: 200px;
+      line-height: 80px;
+      img {
+        height: 35px;
+      }
     }
-    .right{
-        width: 50%;
-        height: 60px;
-        display: flex;
-        justify-content: flex-end;
-        .tool{
-            height: 60px;
-            flex: 1;
-            display: flex;
-            flex-direction: row-reverse;
-            margin-left: 20px;
-            img{
-                margin-right: 20px;
-                margin-left: 20px;
-                height: 25px;
-                margin-top: 17px;
-            }
-        }
-        .user-info{
-            height: 60px;
-            display: flex;
-            .out-login{
-                line-height: 55px;
-                .el-icon-user{
-                    font-size: 32px;
-                    vertical-align: middle;
-                }
-                span{
-                    vertical-align: middle;
-                    font-size: 16px;
-                    font-weight: 400;
-                }
-            }
-            .login{
-                line-height: 55px;
-                span{
-                    vertical-align: middle;
-                }
-                img{
-                    height: 25px;
-                    margin-right: 10px;
-                    border-radius: 10px;
-                    vertical-align: middle;
-                }
-
-            }
-        }
-    }
-    .notice-popover{
-        .title{
-            font-size: 25px;
-            margin-left: 20px;
-            margin-top: 20px;
-        }
-        .tabs{
-            margin: 25px 15px;
-            font-size: 12px;
-            border: 1px solid gray;
-            border-radius: 15px;
-            width: 320px;
-            cursor: pointer;
-            .item{
-                display: inline-block;
-                width: 80px;
-                height: 30px;
-                line-height: 30px;
-                text-align: center;
-                border-radius: 15px;
-            }
-            .item:hover{
-                background-color: rgb(233, 233, 233);
-            }
-            .active{
-                background-color: rgb(206, 206, 206);
-            }
-        }
-        .content{
-            .private{
-                .notice-card{
-                    display: flex;
-                    font-size: 12px;
-                    padding-top: 10px;
-                    padding-left: 15px;
-                    height: 55px;
-                    cursor: pointer;
-                    img{
-                        width: 40px;
-                        height: 40px;
-                        border-radius: 50%;
-                        vertical-align: middle;
-                    }
-                    .text{
-                        width: 290px;
-                        display: flex;
-                        flex-wrap: wrap;
-                        margin-left: 10px;
-                        vertical-align: middle;
-                        border-bottom: 1px solid rgb(233, 233, 233);
-                        .name{
-                            color: rgba(0, 140, 255, 0.856);
-                            width: 60%;
-                        }
-                        .time{
-                            font-size: 9px;
-                            color:  rgb(233, 233, 233);
-                            width: 40%;
-                        }
-                        .new-notice{
-                            overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
-                        }
-                    }
-                }
-                .notice-card:hover{
-                    background-color: rgb(233, 233, 233);
-                    border-radius: 5px;
-                }
-            }
-        }
-    }
-}
-    .inner-popover{
-        font-size: 15px;
-        position: relative;
-        .el-icon-arrow-left{
-        font-size: 18px;
+    .back_go_tool {
+      width: 70px;
+      text-align: center;
+      line-height: 71.5px;
+      img {
+        height: 25px;
+        border-radius: 10px;
         margin-left: 10px;
+      }
     }
-        .name{
+    .search {
+      width: 200px;
+      line-height: 60px;
+      padding-left: 10px;
+    }
+  }
+  .right {
+    width: 60%;
+    height: 60px;
+    display: flex;
+    justify-content: flex-end;
+    .tool {
+      height: 60px;
+      flex: 1;
+      display: flex;
+      flex-direction: row-reverse;
+      margin-left: 20px;
+      img {
+        margin-right: 20px;
+        margin-left: 20px;
+        height: 25px;
+        margin-top: 17px;
+      }
+    }
+    .user-info {
+      height: 60px;
+      display: flex;
+      .out-login {
+        line-height: 55px;
+        .el-icon-user {
+          font-size: 32px;
+          vertical-align: middle;
+        }
+        span {
+          vertical-align: middle;
+          font-size: 16px;
+          font-weight: 400;
+        }
+      }
+      .login {
+        line-height: 55px;
+        span {
+          vertical-align: middle;
+        }
+        img {
+          height: 25px;
+          margin-right: 10px;
+          border-radius: 10px;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+  .notice-popover {
+    .title {
+      font-size: 25px;
+      margin-left: 20px;
+      margin-top: 20px;
+    }
+    .tabs {
+      margin: 25px 15px;
+      font-size: 12px;
+      border: 1px solid gray;
+      border-radius: 15px;
+      width: 320px;
+      cursor: pointer;
+      .item {
         display: inline-block;
-        height: 50px;
-        line-height: 50px;
-        margin-left: 120px;
-    }
-        .content{
-            overflow: scroll;
-            height: 82vh;
-            .befor-msg,.new-msg{
-                .msg-card{
-                    .time{
-                    font-size: 12px;
-                    text-align: center;
-                    border-radius: 10px;
-                    padding: 5px 10px;
-                    color: rgb(158, 158, 158);
-                    margin: 10px 0 ;
-                }
-                .msg{
-                    font-size: 13.5px;
-                    margin: 10px 0 ;
-                    display: flex;
-                    img{
-                        width: 35px;
-                        height: 35px;
-                        border-radius: 50%;
-                        margin-left: 10px;
-                        vertical-align: middle;
-                    }
-                    .text{
-                        .text-content{
-                            margin-left: 10px;
-                            border-radius: 10px;
-                            background-color: rgb(216, 216, 216);
-                            padding: 12px 10px ;
-                            vertical-align: middle;
-                        }
-                    }
-                    
-                }
-                .active {
-                    flex-direction: row-reverse ;
-                    margin-right: 10px;
-                }
-            }
-        }
-    }
-        .tip{
-            text-align: center;
-            margin-top: 50px;
-            overflow: scroll;
-            height: 82vh;
-        }
-        @media (max-width:1920px) {
-            .content{
-                height: 82vh;
-            }
-        }
-        @media (min-width:1921px) {
-            .content{
-                height: 87vh;
-            }
-        }
-    .el-input{
-        position: absolute;
-        .el-input__inner{
-            margin-left: 15px;
-            height: 70px;
-            width: 90%;
-        }
-    }
-    .send-button{
-        position: absolute;
-        right: 15px;
-        bottom: -120px;
-        border: 1px solid rgb(209, 209, 209);
-        padding: 10px;
+        width: 80px;
+        height: 30px;
+        line-height: 30px;
         text-align: center;
         border-radius: 15px;
-        cursor: pointer;
+      }
+      .item:hover {
+        background-color: rgb(233, 233, 233);
+      }
+      .active {
+        background-color: rgb(206, 206, 206);
+      }
     }
+    .content {
+      .private {
+        .notice-card {
+          display: flex;
+          font-size: 12px;
+          padding-top: 10px;
+          padding-left: 15px;
+          height: 55px;
+          cursor: pointer;
+          img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            vertical-align: middle;
+          }
+          .text {
+            width: 290px;
+            display: flex;
+            flex-wrap: wrap;
+            margin-left: 10px;
+            vertical-align: middle;
+            border-bottom: 1px solid rgb(233, 233, 233);
+            .name {
+              color: rgba(0, 140, 255, 0.856);
+              width: 60%;
+            }
+            .time {
+              font-size: 9px;
+              color: rgb(233, 233, 233);
+              width: 40%;
+            }
+            .new-notice {
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
+          }
+        }
+        .notice-card:hover {
+          background-color: rgb(233, 233, 233);
+          border-radius: 5px;
+        }
+      }
+    }
+  }
 }
-    
-.send-button:hover{
-    background-color: rgb(212, 212, 212);
+.inner-popover {
+  font-size: 15px;
+  position: relative;
+  .el-icon-arrow-left {
+    font-size: 18px;
+    margin-left: 10px;
+  }
+  .name {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    margin-left: 120px;
+  }
+  .content {
+    overflow: scroll;
+    height: 82vh;
+    .befor-msg,
+    .new-msg {
+      .msg-card {
+        .time {
+          font-size: 12px;
+          text-align: center;
+          border-radius: 10px;
+          padding: 5px 10px;
+          color: rgb(158, 158, 158);
+          margin: 10px 0;
+        }
+        .msg {
+          font-size: 13.5px;
+          margin: 10px 0;
+          display: flex;
+          img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-left: 10px;
+            vertical-align: middle;
+          }
+          .text {
+            .text-content {
+              margin-left: 10px;
+              border-radius: 10px;
+              background-color: rgb(216, 216, 216);
+              padding: 12px 10px;
+              vertical-align: middle;
+            }
+          }
+        }
+        .active {
+          flex-direction: row-reverse;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+  .tip {
+    text-align: center;
+    margin-top: 50px;
+    overflow: scroll;
+    height: 82vh;
+  }
+  @media (max-width: 1920px) {
+    .content {
+      height: 82vh;
+    }
+  }
+  @media (min-width: 1921px) {
+    .content {
+      height: 87vh;
+    }
+  }
+  .el-input {
+    position: absolute;
+    .el-input__inner {
+      margin-left: 15px;
+      height: 70px;
+      width: 90%;
+    }
+  }
+  .send-button {
+    position: absolute;
+    right: 15px;
+    bottom: -120px;
+    border: 1px solid rgb(209, 209, 209);
+    padding: 10px;
+    text-align: center;
+    border-radius: 15px;
+    cursor: pointer;
+  }
 }
-#el-drawer__title{
-    margin: 0;
-    padding: 0;
+
+.send-button:hover {
+  background-color: rgb(212, 212, 212);
+}
+#el-drawer__title {
+  margin: 0;
+  padding: 0;
+}
+.clothes {
+  width: 330px;
+  height: 270px;
+  @for $i from 1 through 6 {
+    .theme-item:nth-child(#{$i}) {
+      display: inline-block;
+      width: 90px;
+      height: 90px;
+      border-radius: 5px;
+      margin-left: 15px;
+      margin-bottom: 5px;
+      background-color: map-get($map: $background-theme-color, $key:$i );
+    }
+  }
+}
+.theme-txt{
+  margin-left: 15px;
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 15px;
 }
 </style>

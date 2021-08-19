@@ -150,13 +150,13 @@ a{
 }
 ::-webkit-scrollbar-thumb:vertical {
   height: 5px;
-  background-color: rgba(144, 147, 153, 0.5);
+  background-color: rgba(207, 207, 207, 0.5);
   border-radius: 15px;
   -webkit-border-radius:  15px;
 }
 ::-webkit-scrollbar-thumb:horizontal {
   width: 6px;
-  background-color: rgba(144, 147, 153, 0.5);
+  background-color: rgba(207, 207, 207, 0.5);
   border-radius:  15px;  
   -webkit-border-radius: 15px;
 }
@@ -170,17 +170,26 @@ body{
   overflow-y: hidden;
 }
 
-$macolor:blue;
 
-$background-main-color1:#8f9396;    //背景色
-$background-main-color2:#be2e2e;    //背景色
+$background-theme-color-1:#242427;    //炫酷黑
+$background-theme-color-2:#EC4141;    //红
+$background-theme-color-3:#67BFFD;    //蓝
+$background-theme-color-4:#54C77B;    //绿
+$background-theme-color-5:#FAA4C6;    //粉
+$background-theme-color-6:#F8CF7F;    //金
 
-// @mixin mainBackgroundColor ($color){
-//   background-color: $color;   //背景色默认为参数
-//     [background-main-color="background-main-color2"] & {    //如果条件成立，背景色则用$background-main-color2
-//         background-color: $background-main-color2;    //这个$background-main-color2已经在theme.scss中定义过了。  
-//     }
-// }
-:export{
-  backgroundmaincolor1:$background-main-color1;
-}
+//浅色 未定颜色
+$background-theme-color-hover-1:rgba(#242427,0.5);    //炫酷黑
+$background-theme-color-hover-2:rgba(#EC4141,0.5);    //红
+$background-theme-color-hover-3:rgba(#67BFFD,0.5);    //蓝
+$background-theme-color-hover-4:rgba(#54C77B,0.5);    //绿
+$background-theme-color-hover-5:rgba(#FAA4C6,0.5);    //粉
+$background-theme-color-hover-6:rgba(#F8CF7F,0.5);    //金
+
+$theme-color:var(--theme,#EC4141);
+
+
+
+$bg-grey:#F9F9F9;
+$active-grey:#F0F1F2;
+$click-grey:#E5E5E5;

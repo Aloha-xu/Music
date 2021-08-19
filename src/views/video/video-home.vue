@@ -49,28 +49,27 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+@import "@/assets/css/base.scss";
 .mv-home {
   width: 100%;
-}
-.mv-home .top-nav {
-  display: flex;
-  width: 100%;
-  text-align: center;
-  color: black;
-  height: 60pxpx;
-  line-height: 45px;
-  font-size: 15px;
-  margin: 8px 0px 10px 15px;
-}
-.mv-home .top-nav .video-item,
-.mv-home .top-nav .mv-item {
-  width: 80px;
-}
-/* 易错点 */
-.mv-home .top-nav > .active {
-  color: red;
-  border-bottom: 2px solid red;
-  font-size: 17px;
-  font-weight: 900;
+  .top-nav {
+    display: flex;
+    width: 100%;
+    text-align: center;
+    color: black;
+    height: 60pxpx;
+    line-height: 45px;
+    font-size: 15px;
+    margin: 8px 0px 10px 15px;
+    .video-item,
+    .mv-item {
+      width: 80px;
+    }
+    .active {
+      border-bottom: 2px solid $theme-color;
+      font-size: 17px;
+      font-weight: 900;
+    }
+  }
 }
 </style>

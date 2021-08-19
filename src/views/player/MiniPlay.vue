@@ -207,8 +207,7 @@ export default {
     },
 
     ended() {
-      //当前播放结束
-      console.log("end");
+      //当前歌曲播放结束
       //看看是哪一种播放顺序
       //1.列表播放顺序
       switch (this.wayOfPlay) {
@@ -421,12 +420,11 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-@import '@/assets/css/base.scss';
 .mini-play {
   width: 100%;
   display: flex;
   height: 75px;
-  background-color: $background-main-color1;
+  background-color: rgb(248,248,248);
   min-width: 1500px;
   border-top: 2px solid rgb(197, 197, 197);
   .song-info {

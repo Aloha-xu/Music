@@ -72,6 +72,10 @@ const routes = [
         component: () => import('../views/private-fm/private-fm.vue')
     },
     {
+        path: '/record',
+        component: () => import('../views/user-record/user-record.vue')
+    },
+    {
         path: '/collect',
         component: () => import('../views/mine/collect/collect.vue')
     },
