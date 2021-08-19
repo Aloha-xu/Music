@@ -130,9 +130,9 @@
             <div
               class="singer"
               :class="item.id === currentSongInfo.id ? 'active' : ''"
-              @click="handleClickPlaySong(item, index)"
+              
             >
-              <span v-for="item1 in item.singer" :key="item1.id"
+              <span v-for="item1 in item.singer" :key="item1.id" @click="handleToSingerPapg(item1)"
                 >{{ item1.name }}/</span
               >
             </div>
@@ -200,6 +200,7 @@ export default {
       "singlePlayWay",
       "changeCurrentPlay",
       "setCurrentIndex",
+      "setToRecordSongList",
     ]),
 
     start() {
@@ -378,6 +379,12 @@ export default {
     handleClickPlaySong(values, index) {
       this.changeCurrentPlay(values);
       this.setCurrentIndex(index);
+      this.setToRecordSongList(values);
+
+    },
+
+    handleToSingerPapg(values){
+      this.$router.push('/singerlistdetail/'+ values.id)
     },
 
     //处理点击显示最大化播放器

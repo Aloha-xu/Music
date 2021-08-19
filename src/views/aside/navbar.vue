@@ -5,6 +5,7 @@
       @open="handleOpen"
       @close="handleClose"
       background-color="#fff"
+      active-text-color='black'
     >
       <el-menu-item index="1-1" @click="ClickToFindMusicPapg">
         <span slot="title" class="slot">发现音乐</span>

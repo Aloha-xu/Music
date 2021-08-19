@@ -75,7 +75,7 @@ export default {
 @import "@/assets/css/base.scss";
 .alltype-popover {
   width: 50%;
-  border: 2px solid rgb(177, 175, 175);
+  border: 2px solid $active-grey;
   background-color: rgb(253, 253, 253);
   border-radius: 10px;
   .top {
@@ -83,7 +83,7 @@ export default {
     padding-left: 25px;
     padding-top: 20px;
     padding-bottom: 20px;
-    border-bottom: 2px solid rgb(189, 188, 188);
+    border-bottom: 2px solid $active-grey;
   }
   .center {
     margin-top: 10px;
@@ -120,10 +120,10 @@ export default {
           display: inline-block;
           font-size: 13px;
           &:hover {
-          color: $theme-color;
+            color: $theme-color;
+          }
         }
-        }
-        
+
         .pic {
           margin-left: 5px;
           width: 20px;

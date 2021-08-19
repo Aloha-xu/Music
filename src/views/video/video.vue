@@ -3,7 +3,7 @@
     <div class="content">
       <div class="navbar">
         <div class="type">
-          <div class="alltype" @click="handleShowPopover">
+          <div class="alltype-btn" @click="handleShowPopover">
             <el-button>{{ currentPopoverType }}</el-button>
           </div>
           <div class="hottype">
@@ -118,6 +118,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+@import "@/assets/css/base.scss";
 .video {
   display: flex;
   justify-content: center;
@@ -129,23 +130,27 @@ export default {
     .navbar {
       .type {
         display: flex;
-        .alltype {
+        .alltype-btn {
           margin-left: 10px;
+          height: 35px;
+          line-height: 35px;
+          flex: 5;
           .el-button {
             border-radius: 20px;
+            height: 30px;
+            line-height: 5px;
           }
           .el-button:focus,
           .el-button:hover {
-            color: gray;
-            border-color: gray;
-            background-color: white;
+            color: black;
+            border-color: $active-grey;
+            background-color: $active-grey;
           }
         }
         .hottype {
-          width: 100%;
+          flex:6;
           height: 30px;
-          margin-left: 400px;
-          line-height: 35px;
+          line-height: 30px;
           .item {
             margin-left: 2px;
             font-size: 13px;

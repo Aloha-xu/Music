@@ -2,19 +2,23 @@
   <div class="mv">
     <div class="content">
       <div class="new-mv">
-        <into-details-button
-          :intoDetailsButtonName="newMvName"
-          class="new-MV-into-button"
-          @intoDetailsClick="ClickNewMv"
-        ></into-details-button>
-        <span
-          v-for="item in area"
-          :key="item"
-          class="type"
-          :class="item === currentArea ? 'active' : ''"
-          @click="SongTypeClick(item)"
-          >{{ item }}</span
-        >
+        <div class="navbar">
+          <into-details-button
+            :intoDetailsButtonName="newMvName"
+            class="new-MV-into-button"
+            @intoDetailsClick="ClickNewMv"
+          ></into-details-button>
+          <div class="area-type">
+            <span
+              v-for="item in area"
+              :key="item"
+              class="item"
+              :class="item === currentArea ? 'active' : ''"
+              @click="SongTypeClick(item)"
+              >{{ item }}</span
+            >
+          </div>
+        </div>
         <div class="card">
           <mv-card
             v-for="item in newMvInfo.data"
@@ -96,14 +100,17 @@ export default {
       const res1 = await getNewMv(this.currentArea, 8);
       this.newMvInfo = res1.data;
     },
-    ClickNewMv(){
-      this.$router.push({path:'/allmvpapg',query:{area:this.currentArea}})
+    ClickNewMv() {
+      this.$router.push({
+        path: "/allmvpapg",
+        query: { area: this.currentArea },
+      });
     },
-    ClickHotMv(){
-      this.$router.push({path:'/allmvpapg',query:{order:'最热'}})
+    ClickHotMv() {
+      this.$router.push({ path: "/allmvpapg", query: { order: "最热" } });
     },
-    ClickWyMv(){
-      this.$router.push({path:'/allmvpapg',query:{type:'网易出品'}})
+    ClickWyMv() {
+      this.$router.push({ path: "/allmvpapg", query: { type: "网易出品" } });
     },
   },
   async created() {
@@ -118,130 +125,136 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.mv{
-    display: flex;
-    justify-content: center;
-    overflow: scroll;
-    height: 83vh;
-    .content{
-        width: 1100px;
-        .new-mv{
-            .new-MV-into-button{
-                line-height: 30px;
-                font-weight: 900;
-                font-size: 18px;
-            }
-            .type{
-                margin-left: 2px;
-                font-size: 13px;
-                color: gray;
-                padding: 0px 15px;
-                display: inline-block;
-                height: 20px;
-                line-height: 20px;
-            }
-            .type:hover{
-                color: rgb(56, 56, 56);
-            }
-            .active{
-                color: rgb(251, 51, 51) !important;
-                background-color: rgb(255, 216, 216);
-                border-radius: 10px;
-            }
-            .card{
-                display: flex;
-                flex-wrap: wrap;
-                .item{
-                    width: 24%;
-                    img{
-                        height: 150px;
-                        object-fit: cover;
-                    }
-                }
-                .item:nth-child(1){
-                    margin-right: 10px;
-                }
-                .item:nth-child(2){
-                    margin-right: 10px;
-
-                }
-                .item:nth-child(3){
-                    margin-right: 10px;
-                }
-                .item:nth-child(5){
-                    margin-right: 10px;
-                }
-                .item:nth-child(6){
-                    margin-right: 10px;
-                }
-                .item:nth-child(7){
-                    margin-right: 10px;
-                }
-            }
+@import "@/assets/css/base.scss";
+.mv {
+  display: flex;
+  justify-content: center;
+  overflow: scroll;
+  height: 83vh;
+  .content {
+    width: 1100px;
+    .new-mv {
+      .navbar {
+        display: flex;
+        .new-MV-into-button {
+          flex: 5;
+          line-height: 30px;
+          font-weight: 900;
+          font-size: 18px;
         }
-        .hot-mv{
-            .card{
-                display: flex;
-                flex-wrap: wrap;
-                .item{
-                    width: 24%;
-                    img{
-                        height: 150px;
-                        object-fit: cover;
-                    }
-                }
-                .item:nth-child(1){
-                    margin-right: 10px;
-                }
-                .item:nth-child(2){
-                    margin-right: 10px;
-                }
-                .item:nth-child(3){
-                    margin-right: 10px;
-                }
-                .item:nth-child(5){
-                    margin-right: 10px;
-                }
-                .item:nth-child(6){
-                    margin-right: 10px;
-                }
-                .item:nth-child(7){
-                    margin-right: 10px;
-                }
+        .area-type {
+          flex: 2;
+          .item {
+            margin-left: 2px;
+            font-size: 13px;
+            color: gray;
+            padding: 0px 15px;
+            display: inline-block;
+            height: 20px;
+            line-height: 20px;
+            &:hover {
+              color: rgb(56, 56, 56);
             }
+          }
+          .active {
+            color: rgb(251, 51, 51) !important;
+            background-color: rgb(255, 216, 216);
+            border-radius: 10px;
+          }
         }
-        .wy-mv{
-            .card{
-                display: flex;
-                flex-wrap: wrap;
-                .item{
-                    width: 24%;
-                    img{
-                        height: 150px;
-                        object-fit: cover;
-                    }
-                }
-                .item:nth-child(1){
-                    margin-right: 10px;
-                }
-                .item:nth-child(2){
-                    margin-right: 10px;
-
-                }
-                .item:nth-child(3){
-                    margin-right: 10px;
-                }
-                .item:nth-child(5){
-                    margin-right: 10px;
-                }
-                .item:nth-child(6){
-                    margin-right: 10px;
-                }
-                .item:nth-child(7){
-                    margin-right: 10px;
-                }
-            }
+      }
+      .card {
+        display: flex;
+        flex-wrap: wrap;
+        .item {
+          width: 24%;
+          img {
+            height: 150px;
+            object-fit: cover;
+          }
         }
+        .item:nth-child(1) {
+          margin-right: 10px;
+        }
+        .item:nth-child(2) {
+          margin-right: 10px;
+        }
+        .item:nth-child(3) {
+          margin-right: 10px;
+        }
+        .item:nth-child(5) {
+          margin-right: 10px;
+        }
+        .item:nth-child(6) {
+          margin-right: 10px;
+        }
+        .item:nth-child(7) {
+          margin-right: 10px;
+        }
+      }
     }
+    .hot-mv {
+      .card {
+        display: flex;
+        flex-wrap: wrap;
+        .item {
+          width: 24%;
+          img {
+            height: 150px;
+            object-fit: cover;
+          }
+        }
+        .item:nth-child(1) {
+          margin-right: 10px;
+        }
+        .item:nth-child(2) {
+          margin-right: 10px;
+        }
+        .item:nth-child(3) {
+          margin-right: 10px;
+        }
+        .item:nth-child(5) {
+          margin-right: 10px;
+        }
+        .item:nth-child(6) {
+          margin-right: 10px;
+        }
+        .item:nth-child(7) {
+          margin-right: 10px;
+        }
+      }
+    }
+    .wy-mv {
+      .card {
+        display: flex;
+        flex-wrap: wrap;
+        .item {
+          width: 24%;
+          img {
+            height: 150px;
+            object-fit: cover;
+          }
+        }
+        .item:nth-child(1) {
+          margin-right: 10px;
+        }
+        .item:nth-child(2) {
+          margin-right: 10px;
+        }
+        .item:nth-child(3) {
+          margin-right: 10px;
+        }
+        .item:nth-child(5) {
+          margin-right: 10px;
+        }
+        .item:nth-child(6) {
+          margin-right: 10px;
+        }
+        .item:nth-child(7) {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
 }
 </style>

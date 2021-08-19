@@ -61,6 +61,17 @@ import {
 export default {
   components: { Album, MV, ArtistDesc, SimiArtist },
   name: "SingerListDetail",
+  data() {
+    return {
+      ArtistInfo: [],
+      ArtistMVInfo: [],
+      ArtistDescInfo: [],
+      SimiArtistInfo: [],
+      ArtistAlbumInfo: [],
+      navbar: ["专辑", "MV", "歌手详情", "相似歌手"],
+      currentIndex: 0,
+    };
+  },
   methods: {
     itemClick(index) {
       switch (index) {
@@ -78,32 +89,30 @@ export default {
           break;
       }
     },
+    async init() {
+      this.itemClick(this.currentIndex);
+      this.id = this.$route.params.id;
+      const { data } = await getArtistDetail(this.id);
+      this.ArtistInfo = data.data.artist;
+      const MVdata = await getArtistMV(this.id);
+      this.ArtistMVInfo = MVdata.data.mvs;
+      const ArtistDescInfo = await getArtistDesc(this.id);
+      this.ArtistDescInfo = ArtistDescInfo.data;
+      const SimiArtistInfo = await getSimiArtist(this.id);
+      this.SimiArtistInfo = SimiArtistInfo.data.artists;
+      const ArtistAlbumInfo = await getArtistAlbum(this.id);
+      this.ArtistAlbumInfo = ArtistAlbumInfo.data.hotAlbums;
+    },
   },
-  data() {
-    return {
-      ArtistInfo: [],
-      ArtistMVInfo: [],
-      ArtistDescInfo: [],
-      SimiArtistInfo: [],
-      ArtistAlbumInfo: [],
-      navbar: ["专辑", "MV", "歌手详情", "相似歌手"],
-      currentIndex: 0,
-    };
+
+  created() {
+    this.init();
   },
-  async created() {
-    this.itemClick(this.currentIndex);
-    this.id = this.$route.params.id;
-    const { data } = await getArtistDetail(this.id);
-    this.ArtistInfo = data.data.artist;
-    const MVdata = await getArtistMV(this.id);
-    this.ArtistMVInfo = MVdata.data.mvs;
-    const ArtistDescInfo = await getArtistDesc(this.id);
-    this.ArtistDescInfo = ArtistDescInfo.data;
-    const SimiArtistInfo = await getSimiArtist(this.id);
-    this.SimiArtistInfo = SimiArtistInfo.data.artists;
-    const ArtistAlbumInfo = await getArtistAlbum(this.id);
-    this.ArtistAlbumInfo = ArtistAlbumInfo.data.hotAlbums;
-    console.log(ArtistAlbumInfo);
+  
+  watch: {
+    $route() {
+      this.init();
+    },
   },
 };
 </script>

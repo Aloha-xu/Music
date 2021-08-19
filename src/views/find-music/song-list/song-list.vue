@@ -25,7 +25,7 @@
         <!-- 歌单种类选择栏 -->
         <div class="type">
           <!-- ⭐切换歌曲类型时候字体数量变化时右边的热门词语会往左边跑 -->
-          <div class="alltype" @click="HandleShowPopover">
+          <div class="alltype-btn" @click="HandleShowPopover">
             <el-button>{{ CurrentPopoverType }}</el-button>
           </div>
           <div class="hottype">
@@ -117,11 +117,11 @@ export default {
       CurrentPage: 1,
       //歌单类型分类
       TypeLists: {
-        0: { type: "", list: [] },
-        1: { type: "", list: [] },
-        2: { type: "", list: [] },
-        3: { type: "", list: [] },
-        4: { type: "", list: [] },
+        0: { type: "语种", list: [] },
+        1: { type: "风格", list: [] },
+        2: { type: "场景", list: [] },
+        3: { type: "情感", list: [] },
+        4: { type: "主题", list: [] },
       },
       //是否显示全部歌单popover
       isShowPopover: false,
@@ -131,20 +131,17 @@ export default {
     /* 获取歌单分类 */
     async getSongListType() {
       const { data } = await getSongListType();
-      console.log(data);
       //全部类别
       this.AllSongType = data.sub;
       let i = 0;
       let j = 0;
       for (i; i <= 4; i++) {
-        this.TypeLists[i].type = data.categories[i];
-        for (j; j <= 69; j++) {
+        for (j; j <= 68; j++) {
           let a = data.sub[j].category;
           let b = data.sub[j].name;
           this.whatcategory(a, b);
         }
       }
-      // console.log(this.TypeLists);
     },
     /* 获取歌单(网友的) */
     async getSongList(cat, limit, offset) {
@@ -339,7 +336,8 @@ export default {
       margin-top: 15px;
       .type {
         display: flex;
-        .alltype {
+        .alltype-btn {
+          flex: 3;
           .el-button {
             border-radius: 20px;
             &:hover{
@@ -351,8 +349,8 @@ export default {
         .hottype {
           width: 100%;
           height: 30px;
-          margin-left: 340px;
           line-height: 35px;
+          flex:4.5;
           .item {
             margin-left: 2px;
             font-size: 13px;

@@ -294,7 +294,7 @@ export default {
         }
       }
       .item {
-        width:310px;
+        width: 310px;
         height: 28px;
         line-height: 28px;
         padding-left: 40px;
