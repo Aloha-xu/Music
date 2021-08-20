@@ -1,12 +1,13 @@
 <template>
   <div id="app">
-    <Header/>
+    <Header v-show="!this.$store.state.isShowMaxPlayer"/>
     <el-container v-show="!this.$store.state.isShowMaxPlayer">
       <el-aside class="navbar" width="210px">
-        <NavBar/>
+        <NavBar />
       </el-aside>
       <keep-alive
-        exclude="PlayListDetail,AlbumListDetail,SingerListDetail,MvDetail,PrivateFM,UpDataPapg">
+        exclude="PlayListDetail,AlbumListDetail,SingerListDetail,MvDetail,PrivateFM,UpDataPapg"
+      >
         <router-view></router-view>
       </keep-alive>
     </el-container>
@@ -16,7 +17,7 @@
 </template>
 <script>
 import Header from "./views/header/header.vue";
-import NavBar from './views/aside/navbar.vue'
+import NavBar from "./views/aside/navbar.vue";
 import MaxPlay from "./views/player/MaxPlay.vue";
 import MiniPlay from "./views/player/MiniPlay.vue";
 export default {
@@ -26,7 +27,7 @@ export default {
     NavBar,
     MaxPlay,
     MiniPlay,
-  }
+  },
 };
 </script>
 <style scoped lang="scss">

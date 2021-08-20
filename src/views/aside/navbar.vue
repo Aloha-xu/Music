@@ -2,8 +2,6 @@
   <div class="left-navbar">
     <el-menu
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
       background-color="#fff"
       active-text-color='black'
     >
@@ -105,8 +103,6 @@ export default {
     };
   },
   methods: {
-    handleOpen() {},
-    handleClose() {},
     ClickToFindMusicPapg() {
       this.$router.push("/findmusic");
     },

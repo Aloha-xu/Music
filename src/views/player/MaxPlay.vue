@@ -1,13 +1,17 @@
 <template>
   <div class="max-play">
-    <!-- 歌曲信息 -->
-    <!-- <div class="backgroundPic" :style="returnBackgroundUrl()">
-        <img :src="songInfo.pic" alt="" />
-    </div> -->
     <div class="content">
-      <div class="record-tools">
+      <div
+        class="record-tools"
+        @focus="handleShowRecordTools"
+        @blur="handleShowRecordTools"
+      >
         <div class="pic">
-          <img :src="songInfo.pic" alt="" />
+          <div class="grey-box">
+            <div class="black-box">
+              <img :src="songInfo.pic" alt="" />
+            </div>
+          </div>
         </div>
         <div class="tools">
           <div class="heart">
@@ -60,16 +64,8 @@
         </div>
         <div class="noLyric" v-else>纯音乐</div>
       </div>
-      <div class="min-buttom">
-        <i class="el-icon-remove-outline"></i>
-      </div>
-    </div>
-    <!-- 包含这首歌的歌单 -->
-    <div class="include_songlist"></div>
-    <!-- 相似的歌曲 -->
-    <div class="simi-song">
-      <span>相似的歌曲：</span>
-      <div class="simi-content">
+      <!-- 相似的歌曲 -->
+      <div class="simi-song">
         <new-music-card
           v-for="(item, index) in SimiSongListInfo"
           :key="index"
@@ -84,23 +80,6 @@
     <!-- 评论 -->
     <div class="comment_">
       <div class="title">评论：</div>
-      <!-- <el-input
-        type="textarea"
-        placeholder="请输入内容"
-        v-model="textarea"
-        maxlength="140"
-        show-word-limit
-      >
-      </el-input>
-      <comment-card
-        v-for="(item, index) in commentInfo"
-        :key="index"
-        :likedCount="item.likedCount"
-        :name="item.user.nickname"
-        :pic="item.user.avatarUrl"
-        :text="item.content"
-        :time="item.time"
-      ></comment-card> -->
       <comment :commentInfo="commentInfo"></comment>
     </div>
   </div>
@@ -108,7 +87,7 @@
 
 <script>
 import NewMusicCard from "@/views/find-music/recommend/new-music/new-music-card.vue";
-import Comment from '@/components/common/comment.vue';
+import Comment from "@/components/common/comment.vue";
 export default {
   name: "MaxPlay",
   components: {
@@ -120,10 +99,13 @@ export default {
       textarea: "",
       playing: this.$store.state.playing,
       interval: null,
-
+      isShowRecordTools: false,
     };
   },
   methods: {
+    handleShowRecordTools() {
+      this.isShowRecordTools = !this.isShowRecordTools;
+    },
     returnBackgroundUrl() {
       return {
         backgroundImage: `url(${this.$store.state.currentSongInfo.pic})`,
@@ -160,7 +142,7 @@ export default {
       //最后到剩下 6  7  行的样子就不需要移动了
       let currentTime = parseInt(this.$store.state.currentTime / 1000);
       let lyric = this.$store.state.currentSongInfo.lyric;
-      if(!lyric){
+      if (!lyric) {
         for (let i = 6; i < lyric.length - 6; i++) {
           if (lyric[i].time === currentTime) {
             this.$refs.lyric.scrollBy(0, 20);
@@ -199,108 +181,146 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.max-play{
-    height: 100vh;
-    overflow: scroll;
+@import "@/assets/css/base.scss";
+.max-play {
+  height: 100vh;
+  overflow: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  background-image: linear-gradient(
+    rgba(229, 229, 229, 0.5),
+    rgba(255, 255, 255, 1)
+  );
+  .content {
+    width: 100%;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    position: relative;
-    .content{
-        width: 1100px;
-        position: absolute;
+    .record-tools {
+      display: flex;
+      flex: 1;
+      align-items: center; //纵轴对齐
+      flex-direction: column;
+      overflow: hidden;
+      height: 500px;
+      .pic {
         display: flex;
-        .record-tools{
-            width: 50%;
-            height: 50%;
-            text-align: center;
-            padding-top: 40px;
-            .pic{
-                margin-top: 90px;
-                img{
-                    width: 200px;
-                    height: 200px;
-                    border-radius: 50%;
-                }
-            }
-            .tools{
-                display: flex;
-                margin-top: 10px;
-                justify-content: center;
-                .heart,.collect,.download,.share{
-                    padding: 10px;
-                    padding-top: 30px;
-                    padding-left: 40px;
-                }
-            }
-        }
-        .song-info{
-            width: 45%;
-            height: 50%;
-            padding-top: 40px;
-            .song-name{
-                font-size: x-large;
-            }
-            .album-name,.singer-name{
-                width: 200px;
-                display: inline-block;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                margin: 15px 0;
-                span{
-                    color: rgb(101, 85, 247);
-                    cursor: pointer;
-                }
-            }
-            .lyric{
-                overflow: scroll;
-                overflow-x: hidden;
-                height: 350px;
-                .lyric-item{
-                font-size: medium;
-                margin: 10px 0;
-                }
-                .lyric-active{
-                    font-weight: 900;
-                    margin: 20px 0;
-                    font-size: large;
-                    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-                }
-            }
-        }
-        .min-buttom{
-            padding-top: 40px;
-            width: 5%;
-        }
-    }
-    .simi-song{
-        width: 1100px;
-        margin-top: 40px;
-        position: absolute;
-        top: 450px;
-        span{
-            font-size: x-large;
-        }
-        .simi-content{
+        justify-content: center;
+        padding-top: 100px;
+        .grey-box {
+          width: 375px;
+          height: 375px;
+          border-radius: 50%;
+          background-color: $click-grey;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .black-box {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background-color: black;
             display: flex;
-            flex-wrap: wrap;
-            margin: 10px 0;
-            .simi-item{
-                width: 30%;
+            justify-content: center;
+            align-items: center;
+            img {
+              width: 300px;
+              height: 300px;
+              border-radius: 50%;
+              animation: rotate360 infinite 20s linear;
             }
+          }
         }
-    }
-    .comment_{
-        width: 1100px;
-        margin-top: 40px;
-        position: absolute;
-        top: 550px;
-        .title{
-            font-size: x-large;
-            padding-bottom: 20px;
+      }
+      .tools {
+        display: flex;
+        margin-top: 10px;
+        justify-content: center;
+        .heart,
+        .collect,
+        .download,
+        .share {
+          padding: 10px;
+          padding-top: 30px;
+          padding-left: 40px;
         }
-        
+      }
+      &:hover {
+        overflow: hidden;
+        height: 600px;
+      }
     }
+    .song-info {
+      flex: 1;
+      padding-top: 40px;
+      text-align: center;
+      .song-name {
+        font-size: 30px;
+        font-weight: 400;
+      }
+      .album-name,
+      .singer-name {
+        width: 200px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 15px 0;
+        span {
+          cursor: pointer;
+          &:hover {
+            color: rgb(101, 85, 247);
+          }
+        }
+      }
+      .lyric {
+        overflow: scroll;
+        overflow-x: hidden;
+        height: 350px;
+        padding-top: 10px;
+        .lyric-item {
+          font-size: medium;
+          margin: 20px 0;
+        }
+        .lyric-active {
+          font-weight: 900;
+          font-size: large;
+          font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
+            sans-serif;
+        }
+      }
+    }
+    .simi-song {
+      height: 600px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 10px  0  0  50px; 
+      justify-content: center; //横轴对齐
+      .simi-item{
+        width: 450px;
+      }
+    }
+  }
+
+  .comment_ {
+    width: 1100px;
+    margin-top: 40px;
+    position: absolute;
+    top: 550px;
+    .title {
+      font-size: x-large;
+      padding-bottom: 20px;
+    }
+  }
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
