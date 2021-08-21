@@ -67,6 +67,9 @@
         ></el-slider>
         <div class="totle-time">{{ totleTime }}</div>
       </div>
+      <div class="bg-jump" v-show="playing">
+        <canvas id="wrap"></canvas>
+      </div>
     </div>
     <div class="other-tools">
       <div class="voise">
@@ -98,7 +101,6 @@
       @timeupdate="handleCurrentTime"
       ref="audio"
     ></audio>
-
     <!-- 歌单信息 -->
     <el-drawer
       :visible.sync="drawer"
@@ -130,9 +132,11 @@
             <div
               class="singer"
               :class="item.id === currentSongInfo.id ? 'active' : ''"
-              
             >
-              <span v-for="item1 in item.singer" :key="item1.id" @click="handleToSingerPapg(item1)"
+              <span
+                v-for="item1 in item.singer"
+                :key="item1.id"
+                @click="handleToSingerPapg(item1)"
                 >{{ item1.name }}/</span
               >
             </div>
@@ -167,6 +171,8 @@ export default {
       wayOfPlay: 0,
       //音量
       volumeValue: 0,
+      //默认的主题颜色
+      themeColor: "#EC4141",
     };
   },
   computed: {
@@ -202,6 +208,48 @@ export default {
       "setCurrentIndex",
       "setToRecordSongList",
     ]),
+
+    init() {
+      let wrap = document.getElementById("wrap");
+      let cxt = wrap.getContext("2d");
+      //获取API
+      // var AudioContext = AudioContext || webkitAudioContext ;//兼容
+      let context = new AudioContext();
+      //加载媒体
+      let audio = this.$refs.audio;
+      audio.crossOrigin = "anonymous";
+      //创建节点
+      let source = context.createMediaElementSource(audio);
+      let analyser = context.createAnalyser();
+      //连接：source → analyser → destination
+      source.connect(analyser);
+      analyser.connect(context.destination);
+      let color;
+      //创建数据
+      let output = new Uint8Array(100);
+      (function drawSpectrum() {
+        analyser.getByteFrequencyData(output); //获取频域数据
+        cxt.clearRect(0, 0, wrap.width, wrap.height);
+        color = String(
+          window
+            .getComputedStyle(document.getElementsByTagName("body")[0])
+            .getPropertyValue("--theme")
+        ).trim();
+        //画线条
+        for (let i = 0; i < 100; i++) {
+          let value = output[i]; //<===获取数据
+          cxt.beginPath();
+          cxt.lineWidth = 1;
+          cxt.strokeStyle = color;
+          cxt.globalAlpha = 0.5;
+          cxt.moveTo(3 * i, wrap.height);
+          cxt.lineTo(3 * i, value / 4);
+          cxt.stroke();
+        }
+        //请求下一帧
+        requestAnimationFrame(drawSpectrum);
+      })();
+    },
 
     start() {
       this.play();
@@ -380,11 +428,10 @@ export default {
       this.changeCurrentPlay(values);
       this.setCurrentIndex(index);
       this.setToRecordSongList(values);
-
     },
 
-    handleToSingerPapg(values){
-      this.$router.push('/singerlistdetail/'+ values.id)
+    handleToSingerPapg(values) {
+      this.$router.push("/singerlistdetail/" + values.id);
     },
 
     //处理点击显示最大化播放器
@@ -423,6 +470,9 @@ export default {
       }
     });
   },
+  mounted() {
+    this.init();
+  },
 };
 </script>
 
@@ -431,7 +481,7 @@ export default {
   width: 100%;
   display: flex;
   height: 75px;
-  background-color: rgb(248,248,248);
+  background-color: rgb(248, 248, 248);
   min-width: 1500px;
   border-top: 2px solid rgb(197, 197, 197);
   .song-info {
@@ -461,15 +511,21 @@ export default {
   }
   .control-tools {
     flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     .top {
       display: flex;
-      padding-left: 100px;
       margin-top: 5px;
+      z-index: 999;
+      justify-content: center;
       .way-of-play,
       .pre,
       .play-stop,
       .next,
       .lyric {
+        z-index: 999;
         width: 35px;
         height: 35px;
         line-height: 35px;
@@ -488,6 +544,10 @@ export default {
       }
     }
     .bottom {
+      z-index: 999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       .current-time {
         display: inline-block;
         vertical-align: middle;
@@ -517,6 +577,17 @@ export default {
       .totle-time {
         display: inline-block;
         vertical-align: middle;
+      }
+    }
+    .bg-jump {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      z-index: 1;
+      #wrap {
+        width: 100%;
+        height: 70%;
       }
     }
   }

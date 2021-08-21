@@ -25,6 +25,7 @@
               src="@/assets/icon/heartactive.svg"
               alt=""
               style="height: 30px; weight: 30px"
+              @click="init()"
             />
           </div>
           <div class="collect">
@@ -82,6 +83,7 @@
       <div class="title">评论：</div>
       <comment :commentInfo="commentInfo"></comment>
     </div>
+    
   </div>
 </template>
 
@@ -97,12 +99,12 @@ export default {
   data() {
     return {
       textarea: "",
-      playing: this.$store.state.playing,
       interval: null,
       isShowRecordTools: false,
     };
   },
   methods: {
+    
     handleShowRecordTools() {
       this.isShowRecordTools = !this.isShowRecordTools;
     },
@@ -161,6 +163,9 @@ export default {
     commentInfo() {
       return this.$store.state.commentInfo;
     },
+    playing() {
+      return this.$store.state.playing;
+    },
   },
   created() {
     this.interval = setInterval(() => {
@@ -173,9 +178,6 @@ export default {
         clearInterval(this.interval);
       }
     },
-    // songInfo(){
-    //   this.$refs.lyric.scrollTo(0,0)
-    // }
   },
 };
 </script>
@@ -276,6 +278,7 @@ export default {
       .lyric {
         overflow: scroll;
         overflow-x: hidden;
+        overflow-y: hidden;
         height: 350px;
         padding-top: 10px;
         .lyric-item {
@@ -288,6 +291,9 @@ export default {
           font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
             sans-serif;
         }
+        &:hover {
+          overflow-y: auto;
+        }
       }
     }
     .simi-song {
@@ -295,9 +301,9 @@ export default {
       flex: 1;
       display: flex;
       flex-direction: column;
-      padding: 10px  0  0  50px; 
+      padding: 10px 0 0 50px;
       justify-content: center; //横轴对齐
-      .simi-item{
+      .simi-item {
         width: 450px;
       }
     }
@@ -313,6 +319,8 @@ export default {
       padding-bottom: 20px;
     }
   }
+
+  
 }
 
 @keyframes rotate360 {

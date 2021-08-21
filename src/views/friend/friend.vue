@@ -5,21 +5,21 @@
 </template>
 
 <script>
-import Dynamic from './dynamic.vue';
+import Dynamic from "./dynamic.vue";
 export default {
   components: { Dynamic },
   name: "Friend",
   data() {
     return {};
   },
-  methods:{
+  methods: {
     
-  }
+  },
 };
 </script>
 
 <style scoped lang='scss'>
-.friend{
+.friend {
   width: 100%;
 }
 </style>

@@ -7,15 +7,9 @@
 
 可以把一些可以提取出来的api放到store的action中
 完善 palylist的歌曲小图标 vip 无版权 试听 SQ 等等
-
-
 朋友页面
-
-
 playList逻辑 点击非歌单的时候 不会把点击的那个歌单的全部歌曲放到playlist中去，
 只会把点击的指定的歌曲放到playist中 并且判断里面是否已经存在了这首歌id 存在就直接红色标出
 
-
-
-bug修复先到这里
-2021.8.17
+---minplay样式修改
+---给maxipaly来一个炫酷灯彩模式
