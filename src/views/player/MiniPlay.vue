@@ -1,20 +1,20 @@
 <template>
   <div class="mini-play">
-    <div class="song-info">
+    <div class="song-des">
       <div class="pic" @click="handleShowMaxPlayer">
         <img :src="currentSongInfo.pic" v-if="isLoad" />
       </div>
       <div class="song-info">
-        <span class="song-name">{{ currentSongInfo.name }}</span>
-        <span class="heart" v-if="isLoad">
-          <img src="../../assets/icon/heart.svg" alt="" />
-        </span>
+        <div class="song-name">{{ currentSongInfo.name }}</div>
         <div class="artitse">
           <i v-for="item in currentSongInfo.singer" :key="item.id">{{
             item.name
           }}</i>
         </div>
       </div>
+      <div class="heart" v-if="isLoad">
+          <img src="../../assets/icon/heart.svg" alt="" />
+        </div>
     </div>
     <div class="control-tools">
       <div class="top">
@@ -477,6 +477,7 @@ export default {
 </script>
 
 <style scoped lang='scss'>
+@import "@/assets/css/base.scss";
 .mini-play {
   width: 100%;
   display: flex;
@@ -484,11 +485,15 @@ export default {
   background-color: rgb(248, 248, 248);
   min-width: 1500px;
   border-top: 2px solid rgb(197, 197, 197);
-  .song-info {
+  .song-des {
     flex: 1;
+    display: flex;
+    line-height: 75px;
+    height: 75px;
     .pic {
-      display: inline-block;
-      margin: 0 15px;
+      justify-items: center;
+      align-items: center;
+      display: flex;
       img {
         width: 50px;
         height: 50px;
@@ -496,18 +501,30 @@ export default {
       }
     }
     .song-info {
-      display: inline-block;
+      display: flex;
+      flex-direction: column;
+      line-height: 75px;
+      height: 75px;
+      padding-left: 5px;
       .song-name {
-        line-height: 60px;
+        padding-top: 10px;
+        line-height: 30px;
+        height: 30px;
         font-size: 15px;
-      }
-      .heart {
-        line-height: 60px;
+        cursor: pointer;
       }
       .artitse {
+        line-height: 30px;
+        height: 30px;
         font-size: 13px;
+        cursor: pointer;
+
       }
     }
+    .heart {
+      padding-left: 5px;
+        line-height: 60px;
+      }
   }
   .control-tools {
     flex: 1;
@@ -539,7 +556,7 @@ export default {
       .next:hover {
         width: 35px;
         height: 35px;
-        background-color: grey;
+        background-color: $active-grey;
         border-radius: 50%;
       }
     }
