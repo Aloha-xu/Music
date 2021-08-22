@@ -30,11 +30,7 @@
         <span :class="item.id === currentId ? 'active' : ''">{{
           item.name
         }}</span>
-        <!-- SQ MV logo的卡槽 -->
-        <slot name="SQlogo"></slot>
-        <slot name="MVlogo"></slot>
       </div>
-      <!-- 飙升榜的数据卡槽 -->
       <slot name="SoaringrateData"></slot>
       <div class="singer">
         <span v-for="(item1, index1) in item.singer" :key="index1"

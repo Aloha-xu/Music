@@ -4,7 +4,7 @@
       <img :src="scover" alt="" />
     </div>
     <div class="name">{{ name }}</div>
-    <div class="song-number" v-show="playlistType || false">{{ number }}首</div>
+    <div class="number" v-show="playlistType || false">{{ number }}首</div>
     <div class="creater">
       <span v-show="false || djType || playlistType">by </span>
       {{ creater }}
@@ -34,42 +34,50 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.search-detail-card{
-    .pic{
-        display: inline-block;
-        vertical-align: middle;
-        img{
-            width: 60px;
-            height: 60px;
-            vertical-align: middle;
-            border-radius: 5px;
-        }
+.search-detail-card {
+  height: 100%;
+  .pic {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 10px;
+    height: 100%;
+    img {
+      width: 60px;
+      height: 60px;
+      vertical-align: middle;
+      border-radius: 10px;
     }
-    .name{
-        width: 50%;
-        font-size: 14px;
-        padding-left: 10px;
-        display: inline-block;
-        vertical-align: middle;
+  }
+  .name {
+    height: 100%;
+    width: 50%;
+    font-size: 14px;
+    padding-left: 10px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .number {
+    height: 100%;
+    width: 15%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .creater {
+    height: 100%;
+    width: 15%;
+    display: inline-block;
+    vertical-align: middle;
+    span {
+      font-size: 14px;
+      color: rgb(207, 207, 207);
     }
-    .song-number{
-        width: 15%;
-        display: inline-block;
-        vertical-align: middle;
-    }
-    .creater{
-        width: 15%;
-        display: inline-block;
-        vertical-align: middle;
-        span{
-            font-size: 14px;
-            color: rgb(207, 207, 207);
-        }
-    }
-    .other{
-        width: 10%;
-        display: inline-block;
-        vertical-align: middle;
-    }
+  }
+  .other {
+    height: 100%;
+    width: 10%;
+    display: inline-block;
+    vertical-align: middle;
+
+  }
 }
 </style>

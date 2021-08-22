@@ -40,7 +40,12 @@
           <el-popover placement="bottom" width="330" trigger="click">
             <div class="theme-txt">主题</div>
             <div class="clothes">
-              <div class="theme-item" v-for="(item,index) in 6" :key="index" @click="handleTheme(index,item)"></div>
+              <div
+                class="theme-item"
+                v-for="(item, index) in 6"
+                :key="index"
+                @click="handleTheme(index, item)"
+              ></div>
             </div>
             <img
               slot="reference"
@@ -227,27 +232,33 @@ export default {
     };
   },
   methods: {
-    handleTheme(index,item){
-      console.log(index,item)
-      if(index === 0 ){
-        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#242427');
+    handleTheme(index, item) {
+      console.log(index, item);
+      if (index === 0) {
+        document
+          .getElementsByTagName("body")[0]
+          .style.setProperty("--theme", "#242427");
+      } else if (index === 1) {
+        document
+          .getElementsByTagName("body")[0]
+          .style.setProperty("--theme", "#EC4141");
+      } else if (index === 2) {
+        document
+          .getElementsByTagName("body")[0]
+          .style.setProperty("--theme", "#67BFFD");
+      } else if (index === 3) {
+        document
+          .getElementsByTagName("body")[0]
+          .style.setProperty("--theme", "#54C77B");
+      } else if (index === 4) {
+        document
+          .getElementsByTagName("body")[0]
+          .style.setProperty("--theme", "#FAA4C6");
+      } else {
+        document
+          .getElementsByTagName("body")[0]
+          .style.setProperty("--theme", "#F8CF7F");
       }
-      else if(index === 1){
-        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#EC4141');
-      }
-      else if(index === 2){
-        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#67BFFD');
-      }
-      else if(index === 3){
-        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#54C77B');
-      }
-      else if(index === 4){
-        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#FAA4C6');
-      }
-      else{
-        document.getElementsByTagName('body')[0].style.setProperty('--theme', '#F8CF7F');
-      }
-      
     },
     handelChangeBackgroundColor() {
       console.log(v.backgroundmaincolor1);
@@ -282,7 +293,6 @@ export default {
     //处理点击登陆 没有写弹出框 输入账号密码 二维码 短信 之类的登陆方式窗口
     async handleLogin() {
       const { data } = await getLogin();
-      console.log(data);
       this.currentUserInfo = data.profile;
       window.localStorage.setItem(
         "currentUserInfo",
@@ -428,11 +438,11 @@ export default {
 @import "@/assets/css/base.scss";
 $background-theme-color: (
   1: #242427,
-  2: #EC4141,
-  3: #67BFFD, 
-  4: #54C77B,
-  5: #FAA4C6,
-  6: #F8CF7F,
+  2: #ec4141,
+  3: #67bffd,
+  4: #54c77b,
+  5: #faa4c6,
+  6: #f8cf7f,
 );
 .box {
   background-color: $theme-color;
@@ -696,11 +706,11 @@ $background-theme-color: (
       border-radius: 5px;
       margin-left: 15px;
       margin-bottom: 5px;
-      background-color: map-get($map: $background-theme-color, $key:$i );
+      background-color: map-get($map: $background-theme-color, $key: $i);
     }
   }
 }
-.theme-txt{
+.theme-txt {
   margin-left: 15px;
   font-size: 18px;
   font-weight: 800;
