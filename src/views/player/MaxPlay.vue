@@ -52,6 +52,7 @@
         <div
           class="lyric"
           ref="lyric"
+          id="lyric"
           v-if="!this.$store.state.currentSongInfo.lyric.length == 0"
         >
           <div
@@ -83,7 +84,6 @@
       <div class="title">评论：</div>
       <comment :commentInfo="commentInfo"></comment>
     </div>
-    
   </div>
 </template>
 
@@ -104,7 +104,6 @@ export default {
     };
   },
   methods: {
-    
     handleShowRecordTools() {
       this.isShowRecordTools = !this.isShowRecordTools;
     },
@@ -124,33 +123,16 @@ export default {
     syncLyricToTime(values, index) {
       let flag = false;
       //快进或者减慢歌词速度控制变量
-      let controlLyricSpeedValues = -0.5;
-      let currentTime =
-        this.$store.state.currentTime / 1000 + controlLyricSpeedValues;
+      // let controlLyricSpeedValues = -0.5;
+      let currentTime = parseInt(this.currentPlayTime / 1000);
       if (
         currentTime >= values.time &&
-        currentTime < this.$store.state.currentSongInfo.lyric[index + 1].time &&
-        index <= this.$store.state.currentSongInfo.lyric.length
+        currentTime < this.songInfo.lyric[index + 1].time &&
+        index <= this.songInfo.lyric.length
       ) {
         flag = true;
       }
       return flag;
-    },
-
-    handleCurrentScorllLocation() {
-      //通过audio时间与歌词数量判断移动的距离x
-      // 6   7  行歌词前就不用动scroll
-      // 然后后面的就一行歌词 20px的位移
-      //最后到剩下 6  7  行的样子就不需要移动了
-      let currentTime = parseInt(this.$store.state.currentTime / 1000);
-      let lyric = this.$store.state.currentSongInfo.lyric;
-      if (!lyric) {
-        for (let i = 6; i < lyric.length - 6; i++) {
-          if (lyric[i].time === currentTime) {
-            this.$refs.lyric.scrollBy(0, 20);
-          }
-        }
-      }
     },
   },
   computed: {
@@ -166,19 +148,23 @@ export default {
     playing() {
       return this.$store.state.playing;
     },
-  },
-  created() {
-    this.interval = setInterval(() => {
-      this.handleCurrentScorllLocation();
-    }, 1000);
-  },
-  watch: {
-    playing() {
-      if (!this.playing) {
-        clearInterval(this.interval);
-      }
+    currentPlayTime() {
+      return this.$store.state.currentTime;
     },
   },
+  watch:{
+    currentPlayTime(){
+      let offset = 36
+      let lyric = this.$refs.lyric
+      let currentIndex = this.songInfo.lyric.findIndex(
+        (item) => parseInt(this.currentPlayTime / 1000) === item.time 
+      );
+      if ((currentIndex <= 4) || ((currentIndex+4) === this.songInfo.lyric.length)) {
+        return;
+      }
+      lyric.scrollTop = (currentIndex - 4) * offset;
+    }
+  }
 };
 </script>
 
@@ -255,6 +241,7 @@ export default {
     .song-info {
       flex: 1;
       padding-top: 40px;
+      padding-bottom: 10px;
       text-align: center;
       .song-name {
         font-size: 30px;
@@ -280,7 +267,6 @@ export default {
         overflow-x: hidden;
         overflow-y: hidden;
         height: 350px;
-        padding-top: 10px;
         .lyric-item {
           font-size: medium;
           margin: 20px 0;
@@ -308,7 +294,6 @@ export default {
       }
     }
   }
-
   .comment_ {
     width: 1100px;
     margin-top: 40px;
@@ -319,8 +304,6 @@ export default {
       padding-bottom: 20px;
     }
   }
-
-  
 }
 
 @keyframes rotate360 {

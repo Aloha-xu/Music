@@ -98,6 +98,7 @@ export default {
     // 处理点击播放音乐事件
     HandleSongClick(values, index) {
       this.$emit("handleSongClick", [values, index]);
+      this.$store.state.isShowFmPlayer= false
     },
     handleDownload(values) {
       this.$emit("handleDownload", values);

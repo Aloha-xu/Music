@@ -8,9 +8,9 @@ export default {
         singer: '',
         pic: '',
         totleTime: 0,//ms单位
-        lyric:[],
+        lyric: [],
     },
-    
+
     //是否播放
     playing: false,
 
@@ -18,7 +18,7 @@ export default {
     songList: [],
 
     //歌曲播放记录存放表
-    recordSongList:[],
+    recordSongList: [],
 
     //当前播放歌曲的下标
     currentIndex: 0,
@@ -26,53 +26,54 @@ export default {
     //当前播放到哪一刻 也豪秒为单位的值
     currentTime: '00:00',
 
-    //是否加再图片
-    isLoad: false,
-
     //随机数
-    randomNumberIndex:0,
-
-    //控制max-min播放器显示
-    isShowMaxPlayer:false,
-
-    //控制minplayer的点击显示隐藏maxplayer
-    isShowFmPlayer:false,
-
-    //标识是minplayer点击下一首
-    isTagMinPlayerToNext:true,
+    randomNumberIndex: 0,
 
     //某一首歌的相似歌单信息
-    SimiSongList:{},
+    SimiSongList: {},
 
     //某一首歌的评论数据
-    commentInfo:{},
+    commentInfo: [],
 
     //当前导航下标 发现音乐下的推荐、歌单、主播电台
     navCurrentIndex: 0,
 
     //用户的全部歌单信息
-    userSonglistInfo:[],
+    userSonglistInfo: [],
 
     //自己创建的歌单
-    mySonglist:null,
+    mySonglist: null,
 
     //心动歌单
-    heartSonglist:null,
+    heartSonglist: null,
 
     //收藏的歌单
-    collectSonglist:null,
+    collectSonglist: null,
 
     //全部的标签数据 弹出框
-    allTypeInfo:{},
+    allTypeInfo: {},
+
+    toUserInfo: {},
+
+    //是否加再图片
+    isLoad: false,
+
+    //控制max-min播放器显示
+    isShowMaxPlayer: false,
+
+    //控制minplayer的点击显示隐藏maxplayer
+    isShowFmPlayer: false,
+
+    //标识是minplayer点击下一首
+    isTagMinPlayerToNext: true,
 
     //控制palylistdetail页面下的updata组件是否显示
-    isShowUpdataComponent:false,
+    isShowUpdataComponent: false,
 
     //控制top-tabbar页面下的drawer组件是否显示
-    isShowMsgDrawer:false,
+    isShowMsgDrawer: false,
 
     //控制top-tabbar页面下的innerdrawer组件是否显示
-    isShowInnerMsgDrawer:false,
+    isShowInnerMsgDrawer: false,
 
-    toUserInfo:{},
 }

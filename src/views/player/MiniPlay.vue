@@ -342,6 +342,7 @@ export default {
       this.getMaxPlayAllInfo();
       this.$store.state.isTagMinPlayerToNext =
         !this.$store.state.isTagMinPlayerToNext;
+        this.currentPlayTime = 0
     },
 
     async preSong() {
@@ -360,6 +361,7 @@ export default {
           break;
       }
       this.getMaxPlayAllInfo();
+      this.currentPlayTime = 0
     },
 
     controlSongLists() {
@@ -437,6 +439,7 @@ export default {
     //处理点击显示最大化播放器
     handleShowMaxPlayer() {
       if (this.$store.state.isShowFmPlayer) {
+        this.$router.push("/fm");
         return;
       }
       this.$store.state.isShowMaxPlayer = !this.$store.state.isShowMaxPlayer;
@@ -494,6 +497,7 @@ export default {
       justify-items: center;
       align-items: center;
       display: flex;
+      padding-left: 20px;
       img {
         width: 50px;
         height: 50px;

@@ -6,12 +6,12 @@
         <NavBar />
       </el-aside>
       <keep-alive
-        exclude="PlayListDetail,AlbumListDetail,SingerListDetail,MvDetail,PrivateFM,UpDataPapg"
+        exclude="PlayListDetail,AlbumListDetail,SingerListDetail,MvDetail,UpDataPapg"
       >
         <router-view></router-view>
       </keep-alive>
     </el-container>
-    <MaxPlay v-show="this.$store.state.isShowMaxPlayer"></MaxPlay>
+    <MaxPlay v-if="this.$store.state.isShowMaxPlayer"></MaxPlay>
     <MiniPlay class="mini-play"></MiniPlay>
   </div>
 </template>

@@ -55,11 +55,17 @@
           }}</span>
         </div>
         <!-- 纯音乐的时候显示为该音乐为纯音乐的文字 -->
-        <div class="lyric" ref="lyric" v-show="currentSongInfo.lyric">
+        <div
+          class="lyric"
+          ref="lyric"
+          id="lyric"
+          v-show="currentSongInfo.lyric"
+        >
           <div
             v-for="(item, index) in currentSongInfo.lyric"
             :key="index"
             class="lyric-item"
+            :class="syncLyricToTime(item, index) ? 'lyric-active' : ''"
           >
             {{ item.content }}
           </div>
@@ -177,32 +183,18 @@ export default {
       }
     },
 
-    currentPlayTime(values, index) {
+    syncLyricToTime(values, index) {
       let flag = false;
-      //快进或者减慢歌词速度控制变量
-      let controlLyricSpeedValues = -0.5;
-      let currentTime =
-        this.$store.state.currentTime / 1000 + controlLyricSpeedValues;
+      let currentTime = parseInt(this.$store.state.currentTime / 1000);
       if (
         currentTime >= values.time &&
-        currentTime < this.$store.state.currentSongInfo.lyric[index + 1].time &&
-        index <= this.$store.state.currentSongInfo.lyric.length
+        currentTime < this.currentSongInfo.lyric[index + 1].time &&
+        index <= this.currentSongInfo.lyric.length
       ) {
         flag = true;
       }
       return flag;
     },
-  },
-  async created() {
-    this.$store.state.isShowFmPlayer = true;
-    this.getSongInfo();
-  },
-  activated() {
-    this.$store.state.isShowFmPlayer = true;
-    this.getSongInfo();
-  },
-  beforeDestroy() {
-    this.$store.state.isShowFmPlayer = false;
   },
   computed: {
     goblePlayingState() {
@@ -214,12 +206,41 @@ export default {
     isTagMinPlayerToNext() {
       return this.$store.state.isTagMinPlayerToNext;
     },
+    //watch监听computed
+    //如果这里写currentPlayTime代码就会报错 重复key
+    //我觉得就是watch监听了maxplay的currentPlayTime--有一个key
+    //如果这里也用watch监听currentPlayTime他的话就重复了
+    currentTime() {
+      return this.$store.state.currentTime;
+    },
   },
+  async created() {
+    this.$store.state.isShowFmPlayer = true;
+    this.getSongInfo();
+  },
+  activated() {
+    this.$store.state.isShowFmPlayer = true;
+    this.getSongInfo();
+  },
+  // beforeDestroy() {
+  //   this.$store.state.isShowFmPlayer = false;
+  // },
   //通过监听minplayer的下一首触发fm组件里面的next函数
   watch: {
     isTagMinPlayerToNext() {
       this.nextSong();
     },
+    currentTime(){
+      let offset = 36
+      let lyric = this.$refs.lyric
+      let currentIndex = this.$store.state.currentSongInfo.lyric.findIndex(
+        (item) => parseInt(this.currentTime / 1000) === item.time 
+      );
+      if ((currentIndex <= 4) || ((currentIndex+4) === this.$store.state.currentSongInfo.lyric.length)) {
+        return;
+      }
+      lyric.scrollTop = (currentIndex - 4) * offset;
+    }
   },
 };
 </script>
@@ -305,6 +326,7 @@ export default {
       width: 45%;
       height: 50%;
       padding-top: 40px;
+      text-align: center;
       .song-name {
         font-size: x-large;
       }
@@ -324,17 +346,20 @@ export default {
       .lyric {
         overflow: scroll;
         overflow-x: hidden;
+        overflow-y: hidden;
         height: 350px;
         .lyric-item {
           font-size: medium;
-          margin: 10px 0;
+          margin: 20px 0;
         }
         .lyric-active {
           font-weight: 900;
-          margin: 20px 0;
           font-size: large;
           font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
             sans-serif;
+        }
+        &:hover {
+          overflow-y: auto;
         }
       }
     }
