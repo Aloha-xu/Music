@@ -13,49 +13,49 @@
         </div>
       </div>
       <div class="heart" v-if="isLoad">
-          <img src="../../assets/icon/heart.svg" alt="" />
-        </div>
+        <img src="@/assets/icon/heart.svg" alt="" />
+      </div>
     </div>
     <div class="control-tools">
       <div class="top">
         <div class="way-of-play" @click="handleChangePlayWay">
           <img
-            src="../../assets/icon/controltools/list.png"
+            src="@/assets/icon/controltools/list.png"
             v-if="wayOfPlay == 0"
           />
           <img
-            src="../../assets/icon/controltools/random.png"
+            src="@/assets/icon/controltools/random.png"
             v-if="wayOfPlay == 1"
           />
           <img
-            src="../../assets/icon/controltools/single.png"
+            src="@/assets/icon/controltools/single.png"
             v-if="wayOfPlay == 2"
           />
           <img
-            src="../../assets/icon/controltools/order.png"
+            src="@/assets/icon/controltools/order.png"
             v-if="wayOfPlay == 3"
           />
         </div>
         <div class="pre" @click="preSong">
-          <img src="../../assets/icon/controltools/pre.png" alt="" />
+          <img src="@/assets/icon/controltools/pre.png" alt="" />
         </div>
         <div class="play-stop" @click="handlePlay">
           <img
-            src="../../assets/icon/controltools/play.png"
+            src="@/assets/icon/controltools/play.png"
             alt=""
             v-show="!playing"
           />
           <img
-            src="../../assets/icon/controltools/stop.png"
+            src="@/assets/icon/controltools/stop.png"
             alt=""
             v-show="playing"
           />
         </div>
         <div class="next" @click="nextSong">
-          <img src="../../assets/icon/controltools/next.png" alt="" />
+          <img src="@/assets/icon/controltools/next.png" alt="" />
         </div>
         <div class="lyric">
-          <img src="../../assets/icon/controltools/ci.png" alt="" />
+          <img src="@/assets/icon/controltools/ci.png" alt="" />
         </div>
       </div>
       <div class="bottom">
@@ -82,14 +82,14 @@
               v-model="volumeValue"
               @change="handleCurrentVolume"
               vertical
-              height="65px"
+              height="100px"
             >
             </el-slider>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
       <div class="song-list" @click="controlSongLists">
-        <img src="../../assets/icon/controltools/showlist.png" alt="" />
+        <img src="@/assets/icon/controltools/showlist.png" alt="" />
       </div>
     </div>
     <audio
@@ -169,10 +169,8 @@ export default {
       drawer: false,
       //控制播放方式的开关
       wayOfPlay: 0,
-      //音量
-      volumeValue: 0,
-      //默认的主题颜色
-      themeColor: "#EC4141",
+      //音量 1--100
+      volumeValue: 50,
     };
   },
   computed: {
@@ -342,7 +340,7 @@ export default {
       this.getMaxPlayAllInfo();
       this.$store.state.isTagMinPlayerToNext =
         !this.$store.state.isTagMinPlayerToNext;
-        this.currentPlayTime = 0
+      this.currentPlayTime = 0;
     },
 
     async preSong() {
@@ -361,7 +359,7 @@ export default {
           break;
       }
       this.getMaxPlayAllInfo();
-      this.currentPlayTime = 0
+      this.currentPlayTime = 0;
     },
 
     controlSongLists() {
@@ -475,6 +473,21 @@ export default {
   },
   mounted() {
     this.init();
+    setInterval(() => {
+      let themeColor = String(
+        window
+          .getComputedStyle(document.getElementsByTagName("body")[0])
+          .getPropertyValue("--theme")
+      ).trim();
+      let a = document.getElementsByClassName("el-slider__bar")[0].style;
+      let b = document.getElementsByClassName("el-slider__bar")[1].style;
+      let a1 = document.getElementsByClassName("el-slider__button")[0].style;
+      let b1 = document.getElementsByClassName("el-slider__button")[1].style;
+      a.background = themeColor;
+      b.background = themeColor;
+      a1.borderColor = themeColor;
+      b1.borderColor = themeColor;
+    }, 5000);
   },
 };
 </script>
@@ -509,7 +522,7 @@ export default {
       flex-direction: column;
       line-height: 75px;
       height: 75px;
-      padding-left: 5px;
+      padding-left: 15px;
       .song-name {
         padding-top: 10px;
         line-height: 30px;
@@ -522,13 +535,12 @@ export default {
         height: 30px;
         font-size: 13px;
         cursor: pointer;
-
       }
     }
     .heart {
       padding-left: 5px;
-        line-height: 60px;
-      }
+      line-height: 55px;
+    }
   }
   .control-tools {
     flex: 1;
@@ -578,22 +590,6 @@ export default {
         display: inline-block;
         vertical-align: middle;
         width: 400px;
-        .el-slider__runway {
-          background-color: gray;
-          height: 3px;
-          .el-slider__bar {
-            background-color: red;
-            height: 3px;
-          }
-          .el-slider__button-wrapper {
-            .el-slider__button {
-              background-color: red;
-              border: 2px solid red;
-              width: 10px;
-              height: 10px;
-            }
-          }
-        }
       }
       .totle-time {
         display: inline-block;
@@ -614,20 +610,22 @@ export default {
   }
   .other-tools {
     flex: 1;
-    justify-content: center;
-    -ms-flex-item-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
     .voise {
-      .el-slider__button-wrapper {
-        .el-slider__button {
-          background-color: red;
-          border: 2px solid red;
-          width: 10px;
-          height: 10px;
-        }
+      flex: 1;
+      line-height: 75px;
+      .el-icon-mic {
+        font-size: 25px;
       }
     }
     .song-list {
+      flex: 1;
       font-size: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       img {
         width: 25px;
         height: 25px;

@@ -2,8 +2,8 @@
   <div class="user-record">
     <div class="heard">
       <span class="title">最近播放</span>
-      <span class="totle-songs">共{{songsInfo.length}}首</span>
-      <span class="clean-btn">清空列表</span>
+      <span class="totle-songs">共{{ songsInfo.length }}首</span>
+      <span class="clean-btn" @click="cleanSongList">清空列表</span>
     </div>
     <div class="play-all-btn">
       <el-button round @click="handlePlayAllSongs">
@@ -50,8 +50,7 @@ import { getSimiPlayList, getMusicComment, getCheckMusic } from "@/network/api";
 export default {
   name: "UserRecord",
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     async init() {},
@@ -93,6 +92,9 @@ export default {
       this.$store.commit("changeCurrentPlay", this.songsInfo[0]);
       this.$store.commit("setIsLoad", "true");
     },
+    cleanSongList(){
+      this.$store.commit("clearRecordSongList");
+    }
   },
   created() {
     this.init();
@@ -101,9 +103,9 @@ export default {
     songsInfo() {
       return this.$store.state.recordSongList;
     },
-    currentId(){
-        return this.$store.state.currentSongInfo.id;
-    }
+    currentId() {
+      return this.$store.state.currentSongInfo.id;
+    },
   },
 };
 </script>
@@ -111,40 +113,41 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/css/base.scss";
 .user-record {
-    overflow: scroll;
-    height: 87vh;
+  overflow: scroll;
+  height: 87vh;
   width: 100%;
   .heard {
     height: 50px;
     padding-left: 50px;
-      padding-top: 20px;
-    .title{
-        font-size: 21px;
-        font-weight: 800;
+    padding-top: 20px;
+    .title {
+      font-size: 21px;
+      font-weight: 800;
     }
-    .totle-songs{
-        font-size: 14px;
-        font-weight: 300;
-        margin-left: 5px;
+    .totle-songs {
+      font-size: 14px;
+      font-weight: 300;
+      margin-left: 5px;
     }
-    .clean-btn{
-        float: right;
-        padding-right: 20px;
-        color: $background-theme-color-3;
-        &:hover{
-            color: rgb(42, 42, 161);
-        }
+    .clean-btn {
+      cursor: pointer;
+      float: right;
+      padding-right: 20px;
+      color: $background-theme-color-3;
+      &:hover {
+        color: rgb(42, 42, 161);
+      }
     }
   }
   .play-all-btn {
-      padding-left: 50px;
-      padding-bottom: 20px;
-      .el-button {
-          padding: 5px 10px;
-        height: 30px;
-        background-color: $theme-color;
-        color: white;
-      }
+    padding-left: 50px;
+    padding-bottom: 20px;
+    .el-button {
+      padding: 5px 10px;
+      height: 30px;
+      background-color: $theme-color;
+      color: white;
+    }
   }
   .song-list {
     .title-name {
@@ -176,7 +179,7 @@ export default {
       &:hover {
         background-color: $active-grey;
       }
-      
+
       .song-name {
         flex: 15;
         overflow: hidden;
@@ -196,8 +199,8 @@ export default {
       }
     }
     .active {
-        background-color: $click-grey;
-      }
+      background-color: $click-grey;
+    }
   }
 }
 </style>

@@ -145,6 +145,7 @@ export default {
         .area-type {
           flex: 2;
           .item {
+            cursor: pointer;
             margin-left: 2px;
             font-size: 13px;
             color: gray;

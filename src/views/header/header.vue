@@ -544,11 +544,8 @@ $background-theme-color: (
         text-align: center;
         border-radius: 15px;
       }
-      .item:hover {
-        background-color: rgb(233, 233, 233);
-      }
       .active {
-        background-color: rgb(206, 206, 206);
+        background-color: $theme-color;
       }
     }
     .content {

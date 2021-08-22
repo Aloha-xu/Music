@@ -134,6 +134,11 @@ export default {
         state.songList = []
     },
 
+    //清空播放列表
+    clearRecordSongList(state) {
+        state.recordSongList = []
+    },
+
     //设置更新当前时间
     setCurrentTime(state, currentTime) {
         state.currentTime = currentTime

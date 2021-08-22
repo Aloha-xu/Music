@@ -341,7 +341,7 @@ export default {
           .el-button {
             border-radius: 20px;
             &:hover{
-              background-color: rgb(204, 204, 204);
+              background-color: $theme-color;
               color: black;
             }
           }
@@ -352,13 +352,14 @@ export default {
           line-height: 35px;
           flex:4.5;
           .item {
+            cursor: pointer;
             margin-left: 2px;
             font-size: 13px;
             color: gray;
             display: inline-block;
             padding: 0px 15px;
             &:hover {
-            color: rgb(56, 56, 56);
+            color: $click-grey;
           }
           }
           .el-button:focus,

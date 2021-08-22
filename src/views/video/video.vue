@@ -152,6 +152,7 @@ export default {
           height: 30px;
           line-height: 30px;
           .item {
+            cursor: pointer;
             margin-left: 2px;
             font-size: 13px;
             color: gray;

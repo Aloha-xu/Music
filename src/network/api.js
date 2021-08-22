@@ -1208,12 +1208,7 @@ export function SendOrDelComment(t,type,id,content,commentId){
 
 
 
-//账号密码登陆接口
-export function getLogin(){
-    return request({
-        url:"/login/cellphone?phone=17324205074&password=86868868z."
-    })
-}
+
 
 export function refresh(){
     return request({

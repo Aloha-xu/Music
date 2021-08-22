@@ -7,7 +7,6 @@
       @handlePlayAllSongs="handlePlayAllSongs"
     >
     </play-list-detail-head>
-
     <div class="play-list-detail-content">
       <div class="top">
         <div class="navbar">

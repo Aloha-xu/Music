@@ -72,6 +72,7 @@ import {
 } from "@/network/api";
 import { parseLyric } from "@/utils/lyric";
 
+//一个弊端 solo页面 第一次进去的时候会很慢 因为请求太多数据了
 export default {
   components: {
     SearchDetailAlbum,
