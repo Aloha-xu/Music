@@ -103,9 +103,6 @@ section {
 }
 body {
   line-height: 1;
-  /* min-width: 1025px; */
-  min-width: 1350px;/* min-width的作用就是防止浏览器过小破坏样式 */
-  max-height: 1080px;
 }
 ol,
 ul {
@@ -135,7 +132,6 @@ a{
   clear: both;
 }
 
-
 /* 修改滚动条样式 全局 */
 ::-webkit-scrollbar {
   width: 6px;
@@ -160,6 +156,7 @@ a{
   border-radius:  15px;  
   -webkit-border-radius: 15px;
 }
+
 
 img{
   cursor:pointer;/* 移动导图标就出现手 */

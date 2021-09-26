@@ -250,38 +250,38 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.cloud-search{
-    width: 100%;
-    .title{
-        font-size: 17px;
-        font-weight: 900;
-        margin: 20px;
+.cloud-search {
+  width: 100%;
+  height: 100%;
+  .title {
+    font-size: 17px;
+    font-weight: 900;
+    padding: 20px;
+  }
+  .navbar {
+    display: flex;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    .item {
+      font-size: 14px;
+      color: rgb(61, 61, 61);
+      padding-bottom: 5px;
+      margin-right: 30px;
     }
-    .navbar{
-        display: flex;
-        margin-left: 20px;
-        margin-top: 20px;
-        .item{
-            font-size: 14px;
-            color: rgb(61, 61, 61);
-            padding-bottom: 5px;
-            margin-right: 30px;
-        }
-        .active{
-            color: black;
-            font-size: 14.5px;
-            font-weight: 900;
-        }
+    .active {
+      color: black;
+      font-size: 14.5px;
+      font-weight: 900;
     }
-    
-    .cloud-search-content{
-        overflow: scroll;
-        height: 80vh;
-        margin-left: 10px;
-    }
-    .icon-loading{
-        text-align: center;
-        margin-top: 50px;
-    }
+  }
+  .cloud-search-content {
+    overflow: scroll;
+    height: calc(100% - 114px);
+  }
+  .icon-loading {
+    text-align: center;
+    padding-top: 50px;
+  }
 }
 </style>

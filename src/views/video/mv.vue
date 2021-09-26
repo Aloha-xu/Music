@@ -130,7 +130,7 @@ export default {
   display: flex;
   justify-content: center;
   overflow: scroll;
-  height: 83vh;
+  height: calc(100% - 65px);
   .content {
     width: 1100px;
     .new-mv {

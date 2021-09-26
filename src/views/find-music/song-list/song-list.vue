@@ -1,72 +1,66 @@
 <template>
   <div class="song-list" ref="song_list">
-    <!--歌单页面下的顶部歌单种类大卡片显示处  -->
-    <div class="content">
-      <!-- 精品歌单 -->
-      <div
-        class="high-quality-playlist"
-        @click="clickToHighQualityPlaylistPapg"
-      >
-        <div class="backgroundimage">
-          <img :src="TopSongListInfo[0].coverImgUrl" alt="" />
-        </div>
-        <div class="pic">
-          <img :src="TopSongListInfo[0].coverImgUrl" alt="" />
-        </div>
-        <div class="text">
-          <div class="logo">精品歌单</div>
-          <div class="text-1">{{ TopSongListInfo[0].name }}</div>
-          <div class="text-2">{{ TopSongListInfo[0].copywriter }}</div>
-        </div>
+    <!-- 精品歌单 -->
+    <div class="high-quality-playlist" @click="clickToHighQualityPlaylistPapg">
+      <div class="backgroundimage">
+        <img :src="TopSongListInfo[0].coverImgUrl" alt="" />
       </div>
+      <div class="pic">
+        <img :src="TopSongListInfo[0].coverImgUrl" alt="" />
+      </div>
+      <div class="text">
+        <div class="logo">精品歌单</div>
+        <div class="text-1">{{ TopSongListInfo[0].name }}</div>
+        <div class="text-2">{{ TopSongListInfo[0].copywriter }}</div>
+      </div>
+    </div>
 
-      <!-- 显示各种歌单种类的内容 -->
-      <div class="center">
-        <!-- 歌单种类选择栏 -->
-        <div class="type">
-          <!-- ⭐切换歌曲类型时候字体数量变化时右边的热门词语会往左边跑 -->
-          <div class="alltype-btn" @click="HandleShowPopover">
-            <el-button>{{ CurrentPopoverType }}</el-button>
-          </div>
-          <div class="hottype">
-            <span
-              v-for="item in HotSongType"
-              :key="item"
-              @click="SongTypeClick(item)"
-              class="item"
-              :class="item === CurrentType ? 'active' : ''"
-              >{{ item }}</span
-            >
-          </div>
+    <!-- 显示各种歌单种类的内容 -->
+    <div class="center">
+      <!-- 歌单种类选择栏 -->
+      <div class="type">
+        <!-- ⭐切换歌曲类型时候字体数量变化时右边的热门词语会往左边跑 -->
+        <div class="alltype-btn" @click="HandleShowPopover">
+          <el-button>{{ CurrentPopoverType }}</el-button>
         </div>
-        <!-- 选择的歌单类型的详细歌单卡片 -->
-        <div class="allcard">
-          <play-card
-            v-for="item in SongListInfo"
-            :key="item.id"
-            :id="item.id"
-            :pic="item.coverImgUrl"
-            :playcount="item.playCount"
-            :text="item.name"
+        <div class="hottype">
+          <span
+            v-for="item in HotSongType"
+            :key="item"
+            @click="SongTypeClick(item)"
             class="item"
+            :class="item === CurrentType ? 'active' : ''"
+            >{{ item }}</span
           >
-          </play-card>
         </div>
       </div>
+      <!-- 选择的歌单类型的详细歌单卡片 -->
+      <div class="allcard">
+        <play-card
+          v-for="item in SongListInfo"
+          :key="item.id"
+          :id="item.id"
+          :pic="item.coverImgUrl"
+          :playcount="item.playCount"
+          :text="item.name"
+          class="item"
+        >
+        </play-card>
+      </div>
+    </div>
 
-      <!-- 页码组件 -->
-      <div class="pagination">
-        <div class="block">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :page-size="100"
-            layout="total, prev, pager, next"
-            :total="TotalSongs"
-            :current-page.sync="CurrentPage"
-          >
-          </el-pagination>
-        </div>
+    <!-- 页码组件 -->
+    <div class="pagination">
+      <div class="block">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :page-size="100"
+          layout="total, prev, pager, next"
+          :total="TotalSongs"
+          :current-page.sync="CurrentPage"
+        >
+        </el-pagination>
       </div>
     </div>
 
@@ -270,122 +264,116 @@ export default {
 <style scoped lang='scss'>
 @import "@/assets/css/base.scss";
 .song-list {
-  display: flex;
-  justify-content: center;
-  overflow: scroll;
-  height: 82vh;
   position: relative;
-  .content {
+  width: 1100px;
+  .high-quality-playlist {
+    cursor: pointer;
     width: 1100px;
-    .high-quality-playlist {
-      cursor: pointer;
-      width: 1100px;
+    height: 170px;
+    overflow: hidden;
+    position: relative;
+    border: 1 solid white;
+    border-radius: 10px;
+    .backgroundimage {
       height: 170px;
-      overflow: hidden;
-      position: relative;
-      border: 1 solid white;
-      border-radius: 10px;
-      .backgroundimage {
-        height: 170px;
-        filter: blur(30px);
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-      .pic {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 150px;
-        width: 150px;
-        img {
-          width: 100%;
-          margin: 10px;
-          border-radius: 5px;
-        }
-      }
-      .text {
-        position: absolute;
-        top: 0;
-        left: 170px;
-        margin-left: 20px;
-        margin-top: 30px;
-        .logo {
-          border: 1px solid goldenrod;
-          border-radius: 20px;
-          padding: 5px;
-          width: 100px;
-          height: 20px;
-          text-align: center;
-          line-height: 20px;
-          color: gold;
-        }
-        .text-1 {
-          margin-top: 25px;
-          color: aliceblue;
-        }
-        .text-2 {
-          margin-top: 5px;
-          font-size: 12px;
-          color: rgb(207, 206, 206);
-        }
+      filter: blur(30px);
+      img {
+        width: 100%;
+        height: 100%;
       }
     }
-    .center {
-      margin-top: 15px;
-      .type {
-        display: flex;
-        .alltype-btn {
-          flex: 3;
-          .el-button {
-            border-radius: 20px;
-            &:hover{
-              background-color: $theme-color;
-              color: black;
-            }
+    .pic {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 150px;
+      width: 150px;
+      img {
+        width: 100%;
+        margin: 10px;
+        border-radius: 5px;
+      }
+    }
+    .text {
+      position: absolute;
+      top: 0;
+      left: 170px;
+      margin-left: 20px;
+      margin-top: 30px;
+      .logo {
+        border: 1px solid goldenrod;
+        border-radius: 20px;
+        padding: 5px;
+        width: 100px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        color: gold;
+      }
+      .text-1 {
+        margin-top: 25px;
+        color: aliceblue;
+      }
+      .text-2 {
+        margin-top: 5px;
+        font-size: 12px;
+        color: rgb(207, 206, 206);
+      }
+    }
+  }
+  .center {
+    margin-top: 15px;
+    .type {
+      display: flex;
+      .alltype-btn {
+        flex: 3;
+        .el-button {
+          border-radius: 20px;
+          &:hover {
+            background-color: $theme-color;
+            color: black;
           }
         }
-        .hottype {
-          width: 100%;
-          height: 30px;
-          line-height: 35px;
-          flex:4.5;
-          .item {
-            cursor: pointer;
-            margin-left: 2px;
-            font-size: 13px;
-            color: gray;
-            display: inline-block;
-            padding: 0px 15px;
-            &:hover {
+      }
+      .hottype {
+        width: 100%;
+        height: 30px;
+        line-height: 35px;
+        flex: 4.5;
+        .item {
+          cursor: pointer;
+          margin-left: 2px;
+          font-size: 13px;
+          color: gray;
+          display: inline-block;
+          padding: 0px 15px;
+          &:hover {
             color: $click-grey;
           }
-          }
-          .el-button:focus,
-          .el-button:hover {
-            color: gray;
-            border-color: gray;
-            background-color: white;
-          }
-          .active {
-            color: $theme-color;
-            border-radius: 10px;
-          }
         }
-      }
-      .allcard {
-        display: flex;
-        flex-wrap: wrap; /*用了flex-wrap:wrap;自动换行属性后*/
-        justify-content: space-around;
-        .item {
-          width: 18.86%;
+        .el-button:focus,
+        .el-button:hover {
+          color: gray;
+          border-color: gray;
+          background-color: white;
+        }
+        .active {
+          color: $theme-color;
+          border-radius: 10px;
         }
       }
     }
-    .pagination {
-      height: 200px;
+    .allcard {
+      display: flex;
+      flex-wrap: wrap; /*用了flex-wrap:wrap;自动换行属性后*/
+      justify-content: space-around;
+      .item {
+        width: 18.86%;
+      }
     }
+  }
+  .pagination {
+    height: 100px;
   }
   .alltypepopover {
     position: absolute;

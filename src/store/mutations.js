@@ -170,18 +170,19 @@ export default {
     },
 
     //刷新用户的歌单
-    updataSonglist(state) {
+    updataSonglist(state, uId) {
         state.heartSonglist = state.userSonglistInfo.data.playlist[0]
         state.mySonglist = []
         state.collectSonglist = []
         for (let i = 1; i < state.userSonglistInfo.data.playlist.length; i++) {
-            if (!state.userSonglistInfo.data.playlist[i].subscribed) {
+            if (state.userSonglistInfo.data.playlist[i].userId === uId) {
                 state.mySonglist.push(state.userSonglistInfo.data.playlist[i])
             } else {
                 state.collectSonglist.push(state.userSonglistInfo.data.playlist[i])
             }
         }
     },
+
     //用户的全部的歌单信息
     setUserSonglistInfo(state, userSonglistInfo) {
         state.userSonglistInfo = userSonglistInfo

@@ -211,11 +211,15 @@ export default {
       let wrap = document.getElementById("wrap");
       let cxt = wrap.getContext("2d");
       //获取API
-      // var AudioContext = AudioContext || webkitAudioContext ;//兼容
+      //var AudioContext = AudioContext || webkitAudioContext ;//兼容
       let context = new AudioContext();
       //加载媒体
       let audio = this.$refs.audio;
       audio.crossOrigin = "anonymous";
+      //解决chrome的The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page.
+      document.documentElement.addEventListener("mousedown", () => {
+        if (context.state !== "running") context.resume();
+      });
       //创建节点
       let source = context.createMediaElementSource(audio);
       let analyser = context.createAnalyser();

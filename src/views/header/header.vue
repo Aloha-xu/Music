@@ -28,8 +28,10 @@
     </div>
     <div class="right">
       <div class="user-info">
-        <div class="out-login" @click="handleLogin" v-if="!currentUserInfo">
-          <i class="el-icon-user"></i> <span>未登录</span>
+        <div class="out-login" v-if="!currentUserInfo">
+          <el-button type="text" @click="centerDialogVisible = true">
+            <i class="el-icon-user"></i> <span>未登录</span>
+          </el-button>
         </div>
         <div class="login" v-if="currentUserInfo">
           <img :src="currentUserInfo.avatarUrl" alt="" />
@@ -189,8 +191,34 @@
         </el-drawer>
       </div>
     </el-drawer>
-
-    <!-- 衣服popover -->
+    <!-- 登录框-->
+    <el-dialog
+      title="请登录"
+      :visible.sync="centerDialogVisible"
+      width="450px"
+      center
+    >
+      <form method="POST">
+        <span>电话号码：</span
+        ><el-input
+          v-model="userPhoneNumber"
+          placeholder="请输入电话号码"
+          style="width: 300px; margin-bottom: 20px"
+        ></el-input>
+        <br />
+        <span>密码：</span
+        ><el-input
+          placeholder="请输入密码"
+          v-model="userPWD"
+          show-password
+          style="width: 300px; margin-left: 27px"
+        ></el-input>
+      </form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleLogin">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -229,6 +257,9 @@ export default {
       toUserInfo: {},
       //刷新消息的定时器
       msgInterval: null,
+      centerDialogVisible: false,
+      userPWD: null,
+      userPhoneNumber: null,
     };
   },
   methods: {
@@ -292,7 +323,8 @@ export default {
     },
     //处理点击登陆 没有写弹出框 输入账号密码 二维码 短信 之类的登陆方式窗口
     async handleLogin() {
-      const { data } = await getLogin();
+      this.centerDialogVisible = false;
+      const { data } = await getLogin(this.userPhoneNumber, this.userPWD);
       this.currentUserInfo = data.profile;
       window.localStorage.setItem(
         "currentUserInfo",
@@ -349,7 +381,6 @@ export default {
       //返回darwer时候刷新数据
       this.getNotices();
     },
-
     //获取历史聊天记录
     async getPrivateMsg(uId) {
       //获取聊天历史数据
@@ -449,6 +480,7 @@ $background-theme-color: (
   height: 60px;
   display: flex;
   width: 100%;
+  min-width: 1350px;
   .left {
     width: 510px;
     height: 60px;
@@ -477,7 +509,7 @@ $background-theme-color: (
     }
   }
   .right {
-    width: 60%;
+    width: calc(100% - 510px);
     height: 60px;
     display: flex;
     justify-content: flex-end;
@@ -499,14 +531,17 @@ $background-theme-color: (
       display: flex;
       .out-login {
         line-height: 55px;
-        .el-icon-user {
-          font-size: 32px;
-          vertical-align: middle;
-        }
-        span {
-          vertical-align: middle;
-          font-size: 16px;
-          font-weight: 400;
+        .el-button {
+          color: black;
+          .el-icon-user {
+            font-size: 32px;
+            vertical-align: middle;
+          }
+          span {
+            vertical-align: middle;
+            font-size: 16px;
+            font-weight: 400;
+          }
         }
       }
       .login {
@@ -684,7 +719,6 @@ $background-theme-color: (
     cursor: pointer;
   }
 }
-
 .send-button:hover {
   background-color: rgb(212, 212, 212);
 }

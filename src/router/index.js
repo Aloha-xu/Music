@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 //可以使用路由懒加载减少用户在首页的时候等待的事件 优化使用体验
+
 //使用VueRouter
 Vue.use(VueRouter)
 const routes = [

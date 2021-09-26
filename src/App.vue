@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <Header v-show="!this.$store.state.isShowMaxPlayer"/>
-    <el-container v-show="!this.$store.state.isShowMaxPlayer">
-      <el-aside class="navbar" width="210px">
+    <Header v-show="!this.$store.state.isShowMaxPlayer" />
+    <div v-show="!this.$store.state.isShowMaxPlayer" class="container">
+      <div class="aside" width="210px">
         <NavBar />
-      </el-aside>
-      <keep-alive
-        exclude="PlayListDetail,AlbumListDetail,SingerListDetail,MvDetail,UpDataPapg"
-      >
-        <router-view></router-view>
-      </keep-alive>
-    </el-container>
+      </div>
+      <div class="main">
+        <keep-alive
+          exclude="PlayListDetail,AlbumListDetail,SingerListDetail,MvDetail,UpDataPapg"
+        >
+          <router-view></router-view>
+        </keep-alive>
+      </div>
+    </div>
     <MaxPlay v-if="this.$store.state.isShowMaxPlayer"></MaxPlay>
     <MiniPlay class="mini-play"></MiniPlay>
   </div>
@@ -31,18 +33,27 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-#id {
-  position: relative;
+#app {
+  width: 100vw;
+  height: 100vh;
 }
-.navbar {
-  border-right: 1.5px solid rgba(173, 174, 175, 0.5);
-  height: 86vh;
-  float: left;
-  overflow: scroll;
+.container {
+  width: 100%;
+  display: flex;
+  height: calc(100vh - 135px);
+  .aside {
+      border-right: 1.5px solid rgba(173, 174, 175, 0.5);
+      height: 100%;
+      overflow: scroll;
+      min-width: 210px;
+    }
+  .main {
+    flex: 1;
+  }
 }
 .mini-play {
   position: absolute;
-  bottom: 0;
   left: 0;
+  bottom: 0;
 }
 </style>

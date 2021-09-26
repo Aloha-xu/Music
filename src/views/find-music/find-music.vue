@@ -1,10 +1,11 @@
 <template>
   <div class="find-music">
-    <!-- 选项导航栏 -->
-    <NavBar/>
-    <keep-alive>
+    <NavBar />
+    <div class="container">
+      <keep-alive>
       <router-view></router-view>
     </keep-alive>
+    </div>
   </div>
 </template>
 
@@ -15,15 +16,19 @@ export default {
   components: {
     NavBar,
   },
-  methods: {
-  
-  },
 };
 </script>
 
 <style scoped lang='scss'>
-.find-music{
-  /* 把findmusic这个组件的宽度设置铺满横屏 不设置的话就只有该组件下navbar组件的长度大小 */
+.find-music {
   width: 100%;
+  height: 100%;
+  .container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: scroll;
+    height: calc(100% - 65px);
+  }
 }
 </style>

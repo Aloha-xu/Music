@@ -1207,11 +1207,15 @@ export function SendOrDelComment(t,type,id,content,commentId){
 }
 
 
-
 //账号密码登陆接口
-export function getLogin(){
+export function getLogin(phone,pwd){
     return request({
-        url:"/login/cellphone?phone=17324205074&password=86868868z."
+        url:`/login/cellphone?phone=${phone}&password=${pwd}`,
+        path:{
+            phone,pwd
+        },
+        method:'POST',
+        
     })
 }
 

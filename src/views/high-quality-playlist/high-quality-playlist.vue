@@ -72,7 +72,7 @@ export default {
 <style scoped lang='scss'>
 .high-quality-playlist{
     overflow: scroll;
-    height: 80vh;
+    height: 100%;
     padding: 0 40px;
     position: relative;
     .head{

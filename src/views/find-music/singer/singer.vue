@@ -1,59 +1,57 @@
 <template>
   <div class="singer" ref="singer">
-    <div class="centent">
-      <div class="select-bar">
-        <div class="left">语种：</div>
-        <div class="right">
-          <div
-            :class="LanguageCurrentChoose === item ? 'singer_active' : ''"
-            v-for="item in selectBarInfo[0].language"
-            :key="item"
-            @click="handleLanguageChoose(item)"
-          >
-            {{ item }}
-          </div>
-        </div>
-      </div>
-      <div class="select-bar">
-        <div class="left">分类：</div>
-        <div class="right">
-          <div
-            :class="ClassifyCurrentChoose === item ? 'singer_active' : ''"
-            v-for="item in selectBarInfo[1].classify"
-            :key="item"
-            @click="handleClassifyChoose(item)"
-          >
-            {{ item }}
-          </div>
-        </div>
-      </div>
-      <div class="select-bar">
-        <div class="left">筛选：</div>
-        <div class="right">
-          <div
-            :class="FirstletterCurrentChoose === item ? 'singer_active' : ''"
-            v-for="item in selectBarInfo[2].firstletter"
-            :key="item"
-            @click="handleFirstletterChoose(item)"
-          >
-            {{ item }}
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
+    <div class="select-bar">
+      <div class="left">语种：</div>
+      <div class="right">
         <div
-          class="item"
-          v-for="(item, index) in SingerCardInfo"
-          :key="index"
-          @click="ToSingerDetailClick(item.id)"
+          :class="LanguageCurrentChoose === item ? 'singer_active' : ''"
+          v-for="item in selectBarInfo[0].language"
+          :key="item"
+          @click="handleLanguageChoose(item)"
         >
-          <div class="img">
-            <el-image :src="item.img1v1Url" lazy></el-image>
-          </div>
-          <div class="name">
-            {{ item.name }}
-          </div>
+          {{ item }}
+        </div>
+      </div>
+    </div>
+    <div class="select-bar">
+      <div class="left">分类：</div>
+      <div class="right">
+        <div
+          :class="ClassifyCurrentChoose === item ? 'singer_active' : ''"
+          v-for="item in selectBarInfo[1].classify"
+          :key="item"
+          @click="handleClassifyChoose(item)"
+        >
+          {{ item }}
+        </div>
+      </div>
+    </div>
+    <div class="select-bar">
+      <div class="left">筛选：</div>
+      <div class="right">
+        <div
+          :class="FirstletterCurrentChoose === item ? 'singer_active' : ''"
+          v-for="item in selectBarInfo[2].firstletter"
+          :key="item"
+          @click="handleFirstletterChoose(item)"
+        >
+          {{ item }}
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div
+        class="item"
+        v-for="(item, index) in SingerCardInfo"
+        :key="index"
+        @click="ToSingerDetailClick(item.id)"
+      >
+        <div class="img">
+          <el-image :src="item.img1v1Url" lazy></el-image>
+        </div>
+        <div class="name">
+          {{ item.name }}
         </div>
       </div>
     </div>
@@ -236,61 +234,52 @@ export default {
 </script>
 
 <style scoped lang='scss'>
-.singer{
-    font-size: 13px;
-    color: rgb(87, 87, 87);
+.singer {
+  font-size: 13px;
+  color: rgb(87, 87, 87);
+  width: 1100px;
+  .select-bar {
     display: flex;
-    justify-content: center;
-    width: 100%;
-    overflow: scroll;
-    height: 82vh;
-    .centent{
-        width: 1100px;
-        .select-bar{
-            display: flex;
-            margin-bottom: 5px;
-            .left{
-                width: 4%;
-                padding: 7px 0px 10px 20px;
-            }
-            .right{
-                width: 90%;
-                padding: 0px 10px;
-                display: flex;
-                flex-wrap: wrap;
-                div{
-                    padding: 7px 25px;
-                }
-                .singer_active{
-                    background-color: rgb(255, 216, 216) !important;
-                     border-radius: 10px !important;
-                }
-            }
-        }
-        .card{
-            width: 1100px;
-            display: flex;
-            flex-wrap: wrap;
-            .item{
-                width: 15%;
-                margin-left: 10px;
-                margin-top: 15px;
-                .img{
-                    width: 100%;
-                    img{
-                        border-radius: 5px;
-                        width: 100%;
-                        height: 100%;
-                    }
-                }
-                .name{
-                    font-size: 15px;
-                    margin-top: 5px;
-                }
-            }
-        }
+    margin-bottom: 5px;
+    .left {
+      width: 4%;
+      padding: 7px 0px 10px 20px;
     }
+    .right {
+      width: 90%;
+      padding: 0px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      div {
+        padding: 7px 25px;
+      }
+      .singer_active {
+        background-color: rgb(255, 216, 216) !important;
+        border-radius: 10px !important;
+      }
+    }
+  }
+  .card {
+    width: 1100px;
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      width: 15%;
+      margin-left: 10px;
+      margin-top: 15px;
+      .img {
+        width: 100%;
+        img {
+          border-radius: 5px;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .name {
+        font-size: 15px;
+        margin-top: 5px;
+      }
+    }
+  }
 }
-
-
 </style>

@@ -171,7 +171,7 @@ export default {
 <style scoped lang="scss">
 @import "@/assets/css/base.scss";
 .max-play {
-  height: 100vh;
+  height: calc(100% - 75px);
   overflow: scroll;
   display: flex;
   flex-wrap: wrap;

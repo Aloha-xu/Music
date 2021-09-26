@@ -1,11 +1,11 @@
 <template>
-  <div class="nav-bar">
+  <div class="nav-bar" >
     <div
       v-for="(item, index) in findMusictype"
       :key="index"
-      @click="itemClick(index)"
       class="nav-bar-item"
       :class="currentIndex === index ? 'active' : ''"
+      @click="itemClick(index)"
     >
       {{ item }}
     </div>
@@ -60,15 +60,16 @@ export default {
 @import "@/assets/css/base.scss";
 .nav-bar {
   display: flex;
+  position: relative;
   width: 100%;
   text-align: center;
   color: black;
-  height: 60pxpx;
   line-height: 45px;
   font-size: 15px;
-  margin: 8px 0px 10px 15px;
+  padding: 8px 0px 10px 15px;
   .nav-bar-item {
     width: 80px;
+    cursor: pointer;
   }
   .active {
     border-bottom: 2px solid $theme-color;
@@ -76,4 +77,6 @@ export default {
     font-weight: 900;
   }
 }
+
+
 </style>

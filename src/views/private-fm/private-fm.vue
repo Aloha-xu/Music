@@ -1,83 +1,85 @@
 <template>
   <div class="private-fm">
-    <div class="fm-content">
-      <div class="record-tools">
-        <div class="record">
-          <div class="pic">
-            <img :src="currentSongInfo.pic" class="current-pic" />
-            <i
-              class="el-icon-caret-right play-button"
-              v-show="!playing || !goblePlayingState"
-              @click="handlePlayingState"
-            ></i>
-            <img
-              src="../../assets/icon/controltools/stop.png"
-              alt=""
-              v-show="playing && goblePlayingState"
-              class="stop-button"
-              @click="handlePlayingState"
-            />
+    <div class="content_">
+      <div class="fm-content">
+        <div class="record-tools">
+          <div class="record">
+            <div class="pic">
+              <img :src="currentSongInfo.pic" class="current-pic" />
+              <i
+                class="el-icon-caret-right play-button"
+                v-show="!playing || !goblePlayingState"
+                @click="handlePlayingState"
+              ></i>
+              <img
+                src="../../assets/icon/controltools/stop.png"
+                alt=""
+                v-show="playing && goblePlayingState"
+                class="stop-button"
+                @click="handlePlayingState"
+              />
+            </div>
+          </div>
+          <div class="tools">
+            <div class="heart">
+              <img
+                src="../../assets/icon/heart.svg"
+                alt=""
+                v-show="false"
+                style="height: 30px; weight: 30px"
+              />
+              <img
+                src="../../assets/icon/heartactive.svg"
+                alt=""
+                style="height: 30px; weight: 30px"
+              />
+            </div>
+            <div class="delete">
+              <i class="el-icon-delete" style="font-size: 30px"></i>
+            </div>
+            <div class="next" @click="nextSong">
+              <i class="el-icon-caret-right" style="font-size: 30px"></i>
+            </div>
+            <div class="more">
+              <i class="el-icon-more" style="font-size: 30px"></i>
+            </div>
           </div>
         </div>
-        <div class="tools">
-          <div class="heart">
-            <img
-              src="../../assets/icon/heart.svg"
-              alt=""
-              v-show="false"
-              style="height: 30px; weight: 30px"
-            />
-            <img
-              src="../../assets/icon/heartactive.svg"
-              alt=""
-              style="height: 30px; weight: 30px"
-            />
+        <div class="song-info">
+          <div class="song-name">{{ currentSongInfo.name }}</div>
+          <div class="album-name">
+            专辑：<span>{{ currentSongInfo.album }}</span>
           </div>
-          <div class="delete">
-            <i class="el-icon-delete" style="font-size: 30px"></i>
+          <div class="singer-name">
+            歌手：<span v-for="item in currentSongInfo.singer" :key="item.id">{{
+              item.name
+            }}</span>
           </div>
-          <div class="next" @click="nextSong">
-            <i class="el-icon-caret-right" style="font-size: 30px"></i>
-          </div>
-          <div class="more">
-            <i class="el-icon-more" style="font-size: 30px"></i>
-          </div>
-        </div>
-      </div>
-      <div class="song-info">
-        <div class="song-name">{{ currentSongInfo.name }}</div>
-        <div class="album-name">
-          专辑：<span>{{ currentSongInfo.album }}</span>
-        </div>
-        <div class="singer-name">
-          歌手：<span v-for="item in currentSongInfo.singer" :key="item.id">{{
-            item.name
-          }}</span>
-        </div>
-        <!-- 纯音乐的时候显示为该音乐为纯音乐的文字 -->
-        <div
-          class="lyric"
-          ref="lyric"
-          id="lyric"
-          v-show="currentSongInfo.lyric"
-        >
+          <!-- 纯音乐的时候显示为该音乐为纯音乐的文字 -->
           <div
-            v-for="(item, index) in currentSongInfo.lyric"
-            :key="index"
-            class="lyric-item"
-            :class="syncLyricToTime(item, index) ? 'lyric-active' : ''"
+            class="lyric"
+            ref="lyric"
+            id="lyric"
+            v-show="currentSongInfo.lyric"
           >
-            {{ item.content }}
+            <div
+              v-for="(item, index) in currentSongInfo.lyric"
+              :key="index"
+              class="lyric-item"
+              :class="syncLyricToTime(item, index) ? 'lyric-active' : ''"
+            >
+              {{ item.content }}
+            </div>
           </div>
+          <div class="noLyric" v-show="!currentSongInfo.lyric">纯音乐</div>
         </div>
-        <div class="noLyric" v-show="!currentSongInfo.lyric">纯音乐</div>
       </div>
-    </div>
-    <div class="comment">
-      <comment
-        :commentInfo="commentInfo"
-        @refeshCommrnt="getCommentInfo"
-      ></comment>
+      <div class="comment">
+        <comment
+          :commentInfo="commentInfo"
+          @refeshCommrnt="getCommentInfo"
+        ></comment>
+      </div>
     </div>
   </div>
 </template>
@@ -230,147 +232,155 @@ export default {
     isTagMinPlayerToNext() {
       this.nextSong();
     },
-    currentTime(){
-      let offset = 36
-      let lyric = this.$refs.lyric
+    currentTime() {
+      let offset = 36;
+      let lyric = this.$refs.lyric;
       let currentIndex = this.$store.state.currentSongInfo.lyric.findIndex(
-        (item) => parseInt(this.currentTime / 1000) === item.time 
+        (item) => parseInt(this.currentTime / 1000) === item.time
       );
-      if ((currentIndex <= 4) || ((currentIndex+4) === this.$store.state.currentSongInfo.lyric.length)) {
+      if (
+        currentIndex <= 4 ||
+        currentIndex + 4 === this.$store.state.currentSongInfo.lyric.length
+      ) {
         return;
       }
       lyric.scrollTop = (currentIndex - 4) * offset;
-    }
+    },
   },
 };
 </script>
 
 <style scoped lang='scss'>
 .private-fm {
+  display: flex;
+  justify-content: center;
   height: 100vh;
   overflow: scroll;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  .fm-content {
+  //如果需要用flex居中一个box 要给他父元素一个width 否者父元素大小就是子元素大小 这样怎么都不能居中效果
+  width: 100%;
+  .content_ {
     width: 1100px;
-    display: flex;
-    .record-tools {
-      width: 50%;
-      .record {
-        width: 100%;
-        height: 320px;
-        .pic {
+    
+    .fm-content {
+      width: 1100px;
+      display: flex;
+      .record-tools {
+        width: 50%;
+        .record {
+          width: 100%;
           height: 320px;
-          margin-top: 80px;
-          position: relative;
-          .current-pic {
-            width: 300px;
-            height: 300px;
-            z-index: 998;
-            position: absolute;
-            left: 200px;
-            top: 0;
+          .pic {
+            height: 320px;
+            margin-top: 80px;
+            position: relative;
+            .current-pic {
+              width: 300px;
+              height: 300px;
+              z-index: 998;
+              position: absolute;
+              left: 200px;
+              top: 0;
+            }
+            .next-pic {
+              width: 250px;
+              height: 250px;
+              position: absolute;
+              left: 170px;
+              top: 25px;
+            }
+            .play-button {
+              position: absolute;
+              left: 330px;
+              top: 125px;
+              z-index: 999;
+              background-color: white;
+              border: 1px solid white;
+              border-radius: 50%;
+              padding: 8px;
+              font-size: 30px;
+            }
+            .stop-button {
+              position: absolute;
+              left: 460px;
+              top: 260px;
+              z-index: 999;
+              background-color: white;
+              border: 1px solid white;
+              border-radius: 50%;
+              padding: 8px;
+              font-size: 30px;
+            }
           }
-          .next-pic {
-            width: 250px;
-            height: 250px;
-            position: absolute;
-            left: 170px;
-            top: 25px;
-          }
-          .play-button {
-            position: absolute;
-            left: 330px;
-            top: 125px;
-            z-index: 999;
-            background-color: white;
-            border: 1px solid white;
+        }
+        .tools {
+          display: flex;
+          text-align: center;
+          margin-top: 10px;
+          margin-left: 100px;
+          justify-content: center;
+          .heart,
+          .more,
+          .next,
+          .delete {
+            margin: 10px;
+            margin-top: 25px;
+            margin-left: 25px;
+            border: 1px solid gray;
             border-radius: 50%;
-            padding: 8px;
-            font-size: 30px;
-          }
-          .stop-button {
-            position: absolute;
-            left: 460px;
-            top: 260px;
-            z-index: 999;
-            background-color: white;
-            border: 1px solid white;
-            border-radius: 50%;
-            padding: 8px;
-            font-size: 30px;
+            padding: 5px 6px;
           }
         }
       }
-      .tools {
-        display: flex;
+      .song-info {
+        width: 45%;
+        height: 50%;
+        padding-top: 40px;
         text-align: center;
-        margin-top: 10px;
-        margin-left: 100px;
-        justify-content: center;
-        .heart,
-        .more,
-        .next,
-        .delete {
-          margin: 10px;
-          margin-top: 25px;
-          margin-left: 25px;
-          border: 1px solid gray;
-          border-radius: 50%;
-          padding: 5px 6px;
+        .song-name {
+          font-size: x-large;
+        }
+        .album-name,
+        .singer-name {
+          width: 200px;
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          margin: 15px 0;
+          span {
+            color: rgb(101, 85, 247);
+            cursor: pointer;
+          }
+        }
+        .lyric {
+          overflow: scroll;
+          overflow-x: hidden;
+          overflow-y: hidden;
+          height: 350px;
+          .lyric-item {
+            font-size: medium;
+            margin: 20px 0;
+          }
+          .lyric-active {
+            font-weight: 900;
+            font-size: large;
+            font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
+              sans-serif;
+          }
+          &:hover {
+            overflow-y: auto;
+          }
         }
       }
     }
-    .song-info {
-      width: 45%;
-      height: 50%;
-      padding-top: 40px;
-      text-align: center;
-      .song-name {
+    .comment {
+      width: 1100px;
+      margin-top: 40px;
+      top: 550px;
+      .title {
         font-size: x-large;
+        padding-bottom: 20px;
       }
-      .album-name,
-      .singer-name {
-        width: 200px;
-        display: inline-block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        margin: 15px 0;
-        span {
-          color: rgb(101, 85, 247);
-          cursor: pointer;
-        }
-      }
-      .lyric {
-        overflow: scroll;
-        overflow-x: hidden;
-        overflow-y: hidden;
-        height: 350px;
-        .lyric-item {
-          font-size: medium;
-          margin: 20px 0;
-        }
-        .lyric-active {
-          font-weight: 900;
-          font-size: large;
-          font-family: "Franklin Gothic Medium", "Arial Narrow", Arial,
-            sans-serif;
-        }
-        &:hover {
-          overflow-y: auto;
-        }
-      }
-    }
-  }
-  .comment {
-    width: 1100px;
-    margin-top: 40px;
-    top: 550px;
-    .title {
-      font-size: x-large;
-      padding-bottom: 20px;
     }
   }
 }

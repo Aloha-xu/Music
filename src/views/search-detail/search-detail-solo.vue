@@ -88,6 +88,7 @@ export default {
 <style scoped lang='scss'>
 .search-detail-solo{
     width: 100%;
+    height: 100%;
     .title-card{
         font-size: 12.5px;
         font-weight: 600;

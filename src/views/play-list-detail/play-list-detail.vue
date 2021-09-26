@@ -255,7 +255,7 @@ export default {
       let uId = uInfo.userId;
       let playlist = await getUserPlaylist(uId);
       this.$store.commit("setUserSonglistInfo", playlist);
-      this.$store.commit("updataSonglist");
+      this.$store.commit("updataSonglist",uId);
     },
 
     async getCommentInfo() {

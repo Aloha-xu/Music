@@ -3,7 +3,7 @@
     <el-menu
       class="el-menu-vertical-demo"
       background-color="#fff"
-      active-text-color='black'
+      active-text-color="black"
     >
       <el-menu-item index="1-1" @click="ClickToFindMusicPapg">
         <span slot="title" class="slot">发现音乐</span>
@@ -25,7 +25,6 @@
       </el-menu-item>
     </el-menu>
     <div class="user-songlist">
-      <div class="main-pages"></div>
       <div class="created-playlist">
         <div class="titile">
           <span class="name" @click="handleShowPlaylist">创建的歌单</span>
@@ -61,20 +60,10 @@
         </div>
       </div>
       <div class="collectd-playlist">
-        <div class="titile">
-          <span class="name" @click="handleShowCollectPlaylist"
-            >收藏的歌单</span
-          >
-          <i
-            class="el-icon-caret-right"
-            @click="handleShowCollectPlaylist"
-            v-show="!isShowCollectPlaylist"
-          ></i>
-          <i
-            class="el-icon-caret-bottom"
-            @click="handleShowCollectPlaylist"
-            v-show="isShowCollectPlaylist"
-          ></i>
+        <div class="titile" @click="handleShowCollectPlaylist">
+          <span class="name">收藏的歌单</span>
+          <i class="el-icon-caret-right" v-show="!isShowCollectPlaylist"></i>
+          <i class="el-icon-caret-bottom" v-show="isShowCollectPlaylist"></i>
         </div>
         <div
           class="playlist-item"
@@ -141,9 +130,9 @@ export default {
       let uInfo = JSON.parse(window.localStorage.getItem("currentUserInfo"));
       let uId = uInfo.userId;
       let playlist = await getUserPlaylist(uId);
-      console.log(playlist);
+      console.log(playlist)
       this.$store.commit("setUserSonglistInfo", playlist);
-      this.$store.commit("updataSonglist");
+      this.$store.commit("updataSonglist",uId);
     },
     handleToPlaylistPapg(id, type) {
       if (type == "myplaylist") {
@@ -180,7 +169,6 @@ export default {
     .slot {
       margin-left: 10px;
     }
-    
   }
   .user-songlist {
     .created-playlist,

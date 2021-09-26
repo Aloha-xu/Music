@@ -1,13 +1,11 @@
 <template>
   <div class="recommend">
-    <div class="content">
       <Swiper :banner="banner"></Swiper>
       <RemcommendList />
       <ExclusivePush />
       <NewMusic />
       <RecommendMv />
       <Radio />
-    </div>
   </div>
 </template>
 
@@ -17,7 +15,7 @@ import RemcommendList from "@/views/find-music/recommend/recommend-list/recommen
 import ExclusivePush from "@/views/find-music/recommend/exclusive-push/exclusive-push.vue";
 import NewMusic from "@/views/find-music/recommend/new-music/new-music.vue";
 import RecommendMv from "@/views/find-music/recommend/recommend-mv/recommend-mv.vue";
-import Radio from "@/views/find-music/recommend/radio/radio-component.vue";
+import Radio from "@/views/find-music/recommend/radio/radio.vue";
 import { getBanner } from "@/network/api";
 export default {
   name: "Recommend",
@@ -47,12 +45,6 @@ export default {
 
 <style scoped lang='scss'>
 .recommend{
-    display: flex;
-    justify-content: center;
-    overflow: scroll;
-    height: 82vh;
-    .content{
-        width: 1100px;
-    }
+  width: 1100px;
 }
 </style>

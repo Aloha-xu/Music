@@ -37,7 +37,6 @@ export default {
       const { data } = await getExclusivePush();
       this.IntoDetailsButtonName = data.name;
       this.ExclusivePushInfo = data.result;
-      // console.log(this.ExclusivePushInfo);
     },
     intoDetailsClick() {
     },
@@ -53,6 +52,7 @@ export default {
 .exclusive-push{
     .content{
         display: flex;
+        padding-top: 5px;
         .item:nth-child(1){
             margin-right: 15px;
         }

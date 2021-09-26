@@ -130,7 +130,7 @@ export default {
   justify-content: center;
   width: 100%;
   overflow: scroll;
-  height: 87vh;
+  height: 100%;
   .content {
     width: 1100px;
     .title {

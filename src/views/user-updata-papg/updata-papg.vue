@@ -90,7 +90,7 @@ export default {
       let playlist = await getUserPlaylist(uId);
       console.log(playlist);
       this.$store.commit("setUserSonglistInfo", playlist);
-      this.$store.commit("updataSonglist");
+      this.$store.commit("updataSonglist",uId);
     },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);

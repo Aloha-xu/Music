@@ -52,15 +52,15 @@ export default {
 @import "@/assets/css/base.scss";
 .mv-home {
   width: 100%;
+  height: 100%;
   .top-nav {
     display: flex;
     width: 100%;
     text-align: center;
     color: black;
-    height: 60pxpx;
     line-height: 45px;
     font-size: 15px;
-    margin: 8px 0px 10px 15px;
+    padding: 8px 0px 10px 15px;
     .video-item,
     .mv-item {
       width: 80px;
