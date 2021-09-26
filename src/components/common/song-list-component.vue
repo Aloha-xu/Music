@@ -59,10 +59,8 @@
 </template>
 
 <script>
-//获取数据不应该写在这 不想改了
 import {
   getLikeList,
-  //setLike
 } from "@/network/api";
 import { forMatTime } from "@/utils/format";
 
@@ -196,7 +194,6 @@ export default {
       text-overflow: ellipsis;
       .active-name {
         color: $theme-color;
-        // pointer-events: none;
       }
     }
     .singer {

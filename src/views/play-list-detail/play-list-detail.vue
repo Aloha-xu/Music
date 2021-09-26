@@ -60,10 +60,10 @@ import {
   getSimiPlayList,
   getMusicComment,
   getCheckMusic,
-  getCollector
+  getCollector,
 } from "@/network/api";
 import { parseLyric } from "@/utils/lyric";
-import download from '@/utils/dowmload'
+import download from "@/utils/dowmload";
 export default {
   components: { PlayListDetailHead, SongListComponent, Collecter, Comment },
   name: "PlayListDetail",
@@ -75,7 +75,7 @@ export default {
       navbar: ["歌曲列表", "评论", "收藏者"],
       isShowPlayListComponent: true,
       commentInfo: [],
-      collectorInfo:[],
+      collectorInfo: [],
       /* 模板的渲染比route快 */
       playList: [],
       headInfo: null,
@@ -93,11 +93,11 @@ export default {
           break;
         case 2:
           this.currentIndex = index;
-          this.getCollector()
+          this.getCollector();
           break;
       }
     },
-    
+
     //获取歌单头部信息
     async upDataSongListHeadInfo() {
       this.id = this.$route.params.id;
@@ -198,24 +198,23 @@ export default {
           let musicComments = await getMusicComment(v[0].id, 100);
           this.$store.state.commentInfo = musicComments.data.comments;
 
-          this.$store.commit("setToRecordSongList",this.playList[v[1]]);
+          this.$store.commit("setToRecordSongList", this.playList[v[1]]);
         }
       } catch (error) {
-        alert("音乐没有版权")
+        alert("音乐没有版权");
       }
     },
 
-    async handleDownload(v){
+    async handleDownload(v) {
       try {
         const checkmusic = await getCheckMusic(v[0].id);
         //判断音乐是否有版权
         if (checkmusic.data.success) {
-          download(v.url,v.name)
+          download(v.url, v.name);
         }
       } catch (error) {
-        alert("音乐没有版权,无法下载")
+        alert("音乐没有版权,无法下载");
       }
-      
     },
 
     //收藏歌单
@@ -241,13 +240,13 @@ export default {
       //数据没有更新是因为网易云api接口做了短时间内多次访问只会拿到前一个的数据 ----缓存处理 ---加时间戳可以解决
     },
 
-    //处理点击head组件的播放全部按钮 
-    handlePlayAllSongs(){
+    //处理点击head组件的播放全部按钮
+    handlePlayAllSongs() {
       this.$store.commit("setAllSongsToPlayList", this.playList);
       this.$store.commit("changeCurrentPlay", this.playList[0]);
       this.$store.commit("setIsLoad", "true");
     },
-    
+
     //刷新用户歌单信息函数
     async refreshUserSonglistInfo() {
       this.upDataSongListHeadInfo();
@@ -255,7 +254,7 @@ export default {
       let uId = uInfo.userId;
       let playlist = await getUserPlaylist(uId);
       this.$store.commit("setUserSonglistInfo", playlist);
-      this.$store.commit("updataSonglist",uId);
+      this.$store.commit("updataSonglist", uId);
     },
 
     async getCommentInfo() {
@@ -264,21 +263,22 @@ export default {
       this.commentInfo = data.comments;
     },
 
-    //获取收藏者信息 
+    //获取收藏者信息
     async getCollector() {
       this.id = this.$route.params.id;
       const { data } = await getCollector(this.id, 30, 30);
-      this.collectorInfo = data.subscribers
-      console.log(data);
+      this.collectorInfo = data.subscribers;
+      if (data.subscribers) {
+        alert("NeedLogin");
+      }
     },
   },
-  
+
   async created() {
     this.itemClick(this.currentIndex);
     this.handleSongListDetailInfo();
-    
   },
-  computed: {},
+
   watch: {
     $route() {
       let id = this.$route.params.id;
@@ -293,46 +293,43 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.play-list-detail{
+.play-list-detail {
+  width: 100%;
+  flex-wrap: wrap;
+  overflow: scroll;
+  height: calc(100vh - 60px);
+  min-width: 1700px;
+  .play-list-detail-content {
     width: 100%;
-    flex-wrap: wrap;
-    overflow: scroll;
-    height: 100vh;
-    min-width: 1700px;
-    .play-list-detail-head{
-        // margin-bottom: 30px;
-    }
-    .play-list-detail-content{
-        width: 100%;
-        margin-top: 30px;
-        .top{
-            display: flex;
-            margin-bottom: 18px;
-            margin-left: 30px;
-            .navbar{
-                display: flex;
-                .item{
-                    font-size: 16px;
-                    color: gray;
-                    padding-bottom: 5px;
-                    margin-right: 20px;
-                }
-                .active{
-                    color: black;
-                    font-size: 17px;
-                    font-weight: 900;
-                    border-bottom: 2.5px solid red;
-                }
-            }
-            .search{
-                margin-left: 1000px;
-                width: 190px;
-                background-color: aqua;
-            }
+    margin-top: 30px;
+    .top {
+      display: flex;
+      margin-bottom: 18px;
+      margin-left: 30px;
+      .navbar {
+        display: flex;
+        .item {
+          font-size: 16px;
+          color: gray;
+          padding-bottom: 5px;
+          margin-right: 20px;
         }
-        .comment{
-            padding-left: 20px;
+        .active {
+          color: black;
+          font-size: 17px;
+          font-weight: 900;
+          border-bottom: 2.5px solid red;
         }
+      }
+      .search {
+        margin-left: 1000px;
+        width: 190px;
+        background-color: aqua;
+      }
     }
+    .comment {
+      padding-left: 20px;
+    }
+  }
 }
 </style>>
