@@ -101,7 +101,8 @@
       @timeupdate="handleCurrentTime"
       ref="audio"
     ></audio>
-    <!-- 歌单信息 -->
+
+    <!-- min播放器的歌单信息 -->
     <el-drawer
       :visible.sync="drawer"
       :with-header="false"
@@ -637,8 +638,8 @@ export default {
     }
   }
   .drawer {
+    height: 100%;
     .song-list {
-      overflow: scroll;
       height: 100%;
       .top {
         border-bottom: 1px solid gray;
@@ -667,6 +668,8 @@ export default {
         }
       }
       .content {
+        overflow: scroll;
+        height: calc(100vh - 50px);
         font-size: 12.5px;
         .item {
           display: flex;

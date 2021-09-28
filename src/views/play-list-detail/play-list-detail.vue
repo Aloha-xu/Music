@@ -23,7 +23,7 @@
         <div class="search">123</div>
       </div>
       <song-list-component
-        v-if="currentIndex === 0"
+        v-if="currentIndex === 0 && !this.$store.state.loading"
         :songsInfo="playList"
         @handleSongClick="handleSongClick"
         @handleDownload="handleDownload"
@@ -40,6 +40,7 @@
         :type="2"
         @refeshCommrnt="getCommentInfo"
       ></comment>
+      <Loading v-show="this.$store.state.loading" style="height:50vh"></Loading>
     </div>
   </div>
 </template>
@@ -49,6 +50,7 @@ import Collecter from "@/components/common/collecter";
 import Comment from "@/components/common/comment.vue";
 import PlayListDetailHead from "@/components/common/play-list-detail-head.vue";
 import SongListComponent from "@/components/common/song-list-component.vue";
+import Loading from "@/components/common/loading.vue";
 import {
   getSongListDetail,
   getSongDetail,
@@ -65,7 +67,7 @@ import {
 import { parseLyric } from "@/utils/lyric";
 import download from "@/utils/dowmload";
 export default {
-  components: { PlayListDetailHead, SongListComponent, Collecter, Comment },
+  components: { PlayListDetailHead, SongListComponent, Collecter, Comment,Loading },
   name: "PlayListDetail",
   data() {
     return {
@@ -107,6 +109,7 @@ export default {
 
     //获取并处理歌单列表全部信息
     async handleSongListDetailInfo() {
+      this.$store.commit("setLoading", true);
       this.id = this.$route.params.id;
       const { data } = await getSongListDetail(this.id, 20);
       let songListHeadInfo = {};
@@ -130,12 +133,9 @@ export default {
       const resIds = await getSongDetail(
         data.playlist.trackIds.map(({ id }) => id)
       );
-
       const SongsInfo = resIds.data.songs;
-
       //这里返回的url是不按传入的id按需返回的 所以需要进行url校正
       const Urls = await getSongUrl(SongsInfo.map(({ id }) => id));
-
       if (!this.playList.length == 0) {
         this.playList = [];
       }
@@ -164,6 +164,7 @@ export default {
         songinfo.album = { name: SongsInfo[i].al.name, id: SongsInfo[i].al.id };
         this.playList.push(songinfo);
       }
+      this.$store.commit("setLoading", false);
     },
 
     //处理点击某一首歌的事件
@@ -207,7 +208,7 @@ export default {
 
     async handleDownload(v) {
       try {
-        const checkmusic = await getCheckMusic(v[0].id);
+        const checkmusic = await getCheckMusic(v.id);
         //判断音乐是否有版权
         if (checkmusic.data.success) {
           download(v.url, v.name);

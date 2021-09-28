@@ -135,7 +135,6 @@ export default {
     let uId = uInfo.userId;
     let likeList = await getLikeList(uId);
     this.likeList = likeList.data.ids;
-    console.log(likeList);
   },
 };
 </script>
@@ -149,10 +148,10 @@ export default {
     height: 30px;
     line-height: 30px;
     span:nth-child(1) {
-      flex: 6;
+      flex: 4;
     }
     span:nth-child(2) {
-      flex: 2;
+      flex: 4;
     }
     span:nth-child(3) {
       flex: 3;
@@ -189,7 +188,7 @@ export default {
       padding: 0 5px;
     }
     .song-name {
-      flex: 6;
+      flex: 4;
       overflow: hidden;
       text-overflow: ellipsis;
       .active-name {
@@ -197,7 +196,7 @@ export default {
       }
     }
     .singer {
-      flex: 2;
+      flex: 4;
       overflow: hidden;
       text-overflow: ellipsis;
     }
