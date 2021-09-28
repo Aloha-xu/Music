@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <div class="all-card">
+      <div class="all-card" v-show="!this.$store.state.loading">
         <mv-card
           v-for="(item, index) in videoInfo"
           :key="index"
@@ -30,6 +30,7 @@
           :playType="playType"
         ></mv-card>
       </div>
+      <Loading v-show="this.$store.state.loading" style="height:50vh"></Loading>
       <video-type-popover
         :videoType="allvideoType"
         @handleVideoTypeClick="handleVideoTypeClick"
@@ -43,8 +44,9 @@
 import MvCard from "@/components/common/mv-card.vue";
 import videoTypePopover from "./video-type-popover.vue";
 import { getVideoCategoryList, getVideoType } from "@/network/api";
+import Loading from '@/components/common/loading.vue'
 export default {
-  components: { videoTypePopover, MvCard },
+  components: { videoTypePopover, MvCard,Loading },
   name: "Video",
   data() {
     return {
@@ -72,7 +74,7 @@ export default {
       this.isShowPopover = !this.isShowPopover;
     },
     async handleVideoTypeClick(value) {
-      console.log(value.id);
+      this.$store.commit("setLoading", true);
       this.currentVideoType = value.name;
       this.currentPopoverType = value.name;
       this.isShowPopover = false;
@@ -90,15 +92,16 @@ export default {
       }
       const videoInfo = await getVideoType(value.id);
       this.videoInfo = videoInfo.data.datas;
-      console.log(videoInfo);
+      this.$store.commit("setLoading", false);
     },
     async handleHotVideoTypeClick(value) {
+      this.$store.commit("setLoading", true);
       this.currentVideoType = value;
       this.currentPopoverType = value;
       let index = this.allvideoType.findIndex((item) => item.name === value);
       const videoInfo = await getVideoType(this.allvideoType[index].id);
       this.videoInfo = videoInfo.data.datas;
-      console.log(videoInfo);
+      this.$store.commit("setLoading", false);
     },
   },
   async created() {

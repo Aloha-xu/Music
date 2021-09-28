@@ -1,7 +1,7 @@
 <template>
   <div class="card" @click="clickCard">
     <div class="pic" >
-      <img :src="pic" alt=""  />
+      <el-image :src="pic" lazy/>
       <span class="palycount">{{ playCount }}</span>
     </div>
     <div class="text">

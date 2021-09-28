@@ -1,7 +1,7 @@
 <template>
   <div class="search-detail-solo">
     <div class="title-card">最佳匹配</div>
-    <search-detail-card :name="searchResult[0].name" :scover="searchResult[0].img1v1Url"
+    <search-detail-card v-if="searchResult" :name="searchResult[0].name" :scover="searchResult[0].img1v1Url"
     class="card"></search-detail-card>
     <div class="title-name">
       <span>音乐标题</span>

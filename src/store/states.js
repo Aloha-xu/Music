@@ -53,6 +53,7 @@ export default {
     //全部的标签数据 弹出框
     allTypeInfo: {},
 
+    //对象信息
     toUserInfo: {},
 
     //是否加再图片
@@ -75,5 +76,8 @@ export default {
 
     //控制top-tabbar页面下的innerdrawer组件是否显示
     isShowInnerMsgDrawer: false,
+
+    //loading状态
+    loading:null,
 
 }

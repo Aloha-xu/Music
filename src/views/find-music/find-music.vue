@@ -3,8 +3,8 @@
     <NavBar />
     <div class="container">
       <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
 .find-music {
   width: 100%;
   height: 100%;
-  .container{
+  .container {
     width: 100%;
     display: flex;
     justify-content: center;

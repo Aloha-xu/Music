@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" v-show="!this.$store.state.loading">
       <div
         class="item"
         v-for="(item, index) in SingerCardInfo"
@@ -48,22 +48,30 @@
         @click="ToSingerDetailClick(item.id)"
       >
         <div class="img">
-          <el-image :src="item.img1v1Url" lazy></el-image>
+          <el-image :src="item.img1v1Url" lazy>
+            <div slot="placeholder" class="image-slot">
+              <div>加载中....</div>
+            </div>
+          </el-image>
         </div>
         <div class="name">
           {{ item.name }}
         </div>
       </div>
     </div>
+    <Loading v-show="this.$store.state.loading" style="height:50vh"></Loading>
   </div>
 </template>
 
 <script>
 //bug：分类的男歌手 女歌手 乐队 这些按钮点击无对应的数据返回
 import { getArtistsList } from "../../../network/api";
+import Loading from '@/components/common/loading.vue'
 export default {
   name: "Singer",
-  components: {},
+  components: {
+    Loading
+  },
   data() {
     return {
       selectBarInfo: {
@@ -180,9 +188,10 @@ export default {
       );
     },
     async getArtistsList(type, area, initial) {
+      this.$store.commit("setLoading", true);
       const { data } = await getArtistsList(type, area, initial, 100, 100);
       this.SingerCardInfo = data.artists;
-      console.log(data);
+      this.$store.commit("setLoading", false);
     },
 
     //下拉到底部自动加载数据
@@ -215,6 +224,7 @@ export default {
         }
       };
     },
+
     ToSingerDetailClick(id) {
       this.$router.push("/singerlistdetail/" + id);
     },
@@ -229,6 +239,7 @@ export default {
   },
   activated() {
     this.$store.commit("refeshCurrentNavIndex", 4);
+    this.$store.state.loading.close();
   },
 };
 </script>
@@ -281,5 +292,11 @@ export default {
       }
     }
   }
+}
+.image-slot {
+  width: 165px;
+  height: 165px;
+  text-align: center;
+  line-height: 165px;
 }
 </style>

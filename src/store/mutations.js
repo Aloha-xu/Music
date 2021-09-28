@@ -1,6 +1,7 @@
 //处理同步的操作
 export default {
 
+    //刷新当前nav下标  发现页面下的
     refeshCurrentNavIndex(state, index) {
         state.navCurrentIndex = index
     },
@@ -191,7 +192,13 @@ export default {
     setShowMsgDarwer(state) {
         state.isShowMsgDrawer = !state.isShowMsgDrawer
     },
+
     setShowMsgInnerDarwer(state) {
         state.isShowInnerMsgDrawer = !state.isShowInnerMsgDrawer
     },
+
+    //loading
+    setLoading(state,loading){
+        state.loading = loading
+    }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="cloud-search">
-    <div class="title" v-show="setDelay">找到{{ titleValue }}</div>
+    <div class="title" >找到{{ titleValue }}</div>
     <div class="navbar">
       <div
         v-for="(item, index) in navbar"
@@ -13,7 +13,7 @@
       </div>
     </div>
     <hr />
-    <div class="cloud-search-content" v-show="setDelay">
+    <div class="cloud-search-content" v-show="!this.$store.state.loading">
       <search-detail-solo
         v-show="currentIndex === 0"
         :searchResult="searchResult"
@@ -46,7 +46,7 @@
         :userInfo="userInfo"
       ></search-detail-user>
     </div>
-    <loading v-show="!setDelay"></loading>
+    <Loading v-show="this.$store.state.loading" style="height:50vh"></Loading>
   </div>
 </template>
 
@@ -59,7 +59,7 @@ import SearchDetailSinger from "./search-detail-singer.vue";
 import SearchDetailSolo from "./search-detail-solo.vue";
 import SearchDetailUser from "./search-detail-user.vue";
 import SearchDetailVideo from "./search-detail-video.vue";
-import Loading from "@/components/common/loading.vue";
+import Loading from '@/components/common/loading.vue'
 import {
   getCloudSearch,
   getSearchMultimatch,
@@ -83,7 +83,7 @@ export default {
     SearchDetailSolo,
     SearchDetailUser,
     SearchDetailVideo,
-    Loading,
+    Loading
   },
   name: "SearchDetail",
   data() {
@@ -100,7 +100,7 @@ export default {
       ],
       currentIndex: 0,
       searchResult: [],
-      titleValue: null,
+      titleValue: '0首单曲',
       //每一个分页面下的数据
       singerInfo: {},
       albumInfo: {},
@@ -118,7 +118,7 @@ export default {
       switch (value) {
         case 0:
           this.currentIndex = value;
-          this.titleValue = `${this.playList.length}` + "首歌单";
+          this.titleValue = `${this.playList.length}` + "首单曲";
           break;
         case 1:
           this.currentIndex = value;
@@ -151,6 +151,7 @@ export default {
       }
     },
     async getInfo() {
+      this.$store.commit("setLoading", true);
       if (!this.playList.length == 0) {
         this.playList = [];
       }
@@ -191,6 +192,7 @@ export default {
       this.anchorInfo = anchorInfo.data.result;
       this.userInfo = userInfo.data.result;
       this.mvInfo = mvInfo.data.result;
+      this.$store.commit("setLoading", false);
     },
     async handleSongClick(v) {
       try {
@@ -239,9 +241,6 @@ export default {
   },
   async created() {
     this.getInfo();
-    setTimeout(() => {
-      this.setDelay = true;
-    }, 1500);
     setTimeout(() => {
       this.itemClick(0);
     }, 3000);

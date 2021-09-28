@@ -14,7 +14,6 @@
         <div class="text-2">{{ TopSongListInfo[0].copywriter }}</div>
       </div>
     </div>
-
     <!-- 显示各种歌单种类的内容 -->
     <div class="center">
       <!-- 歌单种类选择栏 -->
@@ -35,7 +34,7 @@
         </div>
       </div>
       <!-- 选择的歌单类型的详细歌单卡片 -->
-      <div class="allcard">
+      <div class="allcard" v-show="!this.$store.state.loading">
         <play-card
           v-for="item in SongListInfo"
           :key="item.id"
@@ -43,10 +42,11 @@
           :pic="item.coverImgUrl"
           :playcount="item.playCount"
           :text="item.name"
-          class="item"
+          class="item song-list-item"
         >
         </play-card>
       </div>
+      <Loading v-show="this.$store.state.loading" style="height:50vh"></Loading>
     </div>
 
     <!-- 页码组件 -->
@@ -76,8 +76,9 @@
 </template>
 
 <script>
-import PlayCard from "../../../components/common/play-card.vue";
+import PlayCard from "@/components/common/play-card.vue";
 import AllTypePopover from "../all-type-popover.vue";
+import Loading from '@/components/common/loading.vue'
 import {
   getSongListType,
   getHotSongListType,
@@ -90,6 +91,7 @@ export default {
   components: {
     AllTypePopover,
     PlayCard,
+    Loading
   },
   data() {
     return {
@@ -137,28 +139,29 @@ export default {
         }
       }
     },
+
     /* 获取歌单(网友的) */
     async getSongList(cat, limit, offset) {
+      this.$store.commit("setLoading", true);
       const { data } = await getSongList(cat, limit, offset);
       this.SongListInfo = data.playlists;
       this.TotalSongs = data.total;
-      // console.log(data);
+      this.$store.commit("setLoading", false);
     },
+
     /* 获取热门歌单分类 */
     async getHotSongListType() {
       const { data } = await getHotSongListType();
-      // console.log(data)
       this.HotSongType = data.tags.map(({ name }) => name);
-      // console.log(this.HotSongType);
     },
+
     /* 获取精品歌单 */
     async getTopSonglist(cat, limit, before) {
       const { data } = await getTopSonglist(cat, limit, before);
       //拿到数据中第一条作为精品歌单页面进去的入口
       this.TopSongListInfo = data.playlists.slice(0, 1);
-      console.log(data);
-      // console.log(this.TopSongListInfo);
     },
+
     /* 获取精品歌单标签列表 */
     async getTopSonglistType() {
       const { data } = await getTopSonglistType();

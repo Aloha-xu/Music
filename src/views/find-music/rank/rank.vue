@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import PlayCard from "../../../components/common/play-card";
-import { getTopList } from "../../../network/api";
+import PlayCard from "@/components/common/play-card";
+import { getTopList } from "@/network/api";
 export default {
   name: "Rank",
   components: {

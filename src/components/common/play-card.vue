@@ -1,7 +1,11 @@
 <template>
   <div class="card">
     <div class="card-pic">
-      <img :src="pic" @click="cardClick" class="playcard-img" />
+      <el-image :src="pic" @click="cardClick" class="playcard-img" lazy >
+        <div slot="placeholder" class="image-slot">
+              <div>加载中....</div>
+            </div>
+      </el-image>
       <span class="palycount">
         <slot name="card_palycount">{{ playCount }}</slot>
       </span>
@@ -114,5 +118,11 @@ export default {
 .track-count {
   font-size: 13px;
   font-weight: 300;
+}
+.image-slot{
+  width: 207px;
+  height: 207px;
+  text-align: center;
+  line-height: 207px;
 }
 </style>

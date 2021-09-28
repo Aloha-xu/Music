@@ -29,7 +29,7 @@ export default {
     NavBar,
     MaxPlay,
     MiniPlay,
-  },
+  }
 };
 </script>
 <style scoped lang="scss">

@@ -42,7 +42,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" v-show="!this.$store.state.loading">
         <mv-card
           v-for="item in mvInfo"
           :key="item.id"
@@ -54,6 +54,7 @@
           class="item"
         ></mv-card>
       </div>
+      <Loading v-show="this.$store.state.loading" style="height:50vh"></Loading>
     </div>
   </div>
 </template>
@@ -61,9 +62,10 @@
 <script>
 import MvCard from "@/components/common/mv-card.vue";
 import { getAllMv } from "@/network/api";
+import Loading from '@/components/common/loading.vue'
 export default {
   name: "AllMvPapg",
-  components: { MvCard },
+  components: { MvCard,Loading },
   data() {
     return {
       selectBarInfo: {
@@ -91,6 +93,7 @@ export default {
       this.getAllMvInfo();
     },
     async getAllMvInfo() {
+      this.$store.commit("setLoading", true);
       const { data } = await getAllMv(
         this.currentArea,
         this.currentType,
@@ -99,6 +102,7 @@ export default {
         0
       );
       this.mvInfo = data.data;
+      this.$store.commit("setLoading", false);
     },
   },
   //当页面被缓存了 再一次返回页面执行的钩子函数
