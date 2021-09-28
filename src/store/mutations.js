@@ -197,7 +197,7 @@ export default {
         state.isShowInnerMsgDrawer = !state.isShowInnerMsgDrawer
     },
 
-    //loading
+    //loading的状态
     setLoading(state,loading){
         state.loading = loading
     }
