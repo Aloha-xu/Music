@@ -1,10 +1,10 @@
 <template>
   <div class="card">
     <div class="card-pic">
-      <el-image :src="pic" @click="cardClick" class="playcard-img" lazy >
+      <el-image :src="pic" @click="cardClick" class="playcard-img" lazy>
         <div slot="placeholder" class="image-slot">
-              <div>加载中....</div>
-            </div>
+          <div>加载中....</div>
+        </div>
       </el-image>
       <span class="palycount">
         <slot name="card_palycount">{{ playCount }}</slot>
@@ -119,7 +119,7 @@ export default {
   font-size: 13px;
   font-weight: 300;
 }
-.image-slot{
+.image-slot {
   width: 207px;
   height: 207px;
   text-align: center;

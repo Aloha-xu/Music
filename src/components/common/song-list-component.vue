@@ -131,7 +131,7 @@ export default {
     },
   },
   async created() {
-    let uInfo = JSON.parse(window.localStorage.getItem("currentUserInfo"));
+    let uInfo = JSON.parse(window.sessionStorage.getItem("currentUserInfo"));
     let uId = uInfo.userId;
     let likeList = await getLikeList(uId);
     this.likeList = likeList.data.ids;

@@ -33,7 +33,7 @@
             <i class="el-icon-user"></i> <span>未登录</span>
           </el-button>
         </div>
-        <div class="login" v-if="currentUserInfo">
+        <div class="login" v-if="currentUserInfo" @click="handleOutLoginFun">
           <img :src="currentUserInfo.avatarUrl" alt="" />
           <span>{{ currentUserInfo.nickname }}</span>
         </div>
@@ -232,6 +232,7 @@ import {
   getMsgHistory,
   getPrivateMsgHistory,
   SendText,
+  outRefresh,
 } from "@/network/api";
 import { getYMD, getYestaryToday } from "@/utils/uctil";
 import Search from "./search/search.vue";
@@ -263,6 +264,12 @@ export default {
     };
   },
   methods: {
+    async handleOutLoginFun() {
+      //清除localStorage sessionStorage
+      window.sessionStorage.removeItem("currentUserInfo");
+      this.currentUserInfo = null;
+      await outRefresh();
+    },
     handleTheme(index, item) {
       console.log(index, item);
       if (index === 0) {
@@ -326,7 +333,7 @@ export default {
       this.centerDialogVisible = false;
       const { data } = await getLogin(this.userPhoneNumber, this.userPWD);
       this.currentUserInfo = data.profile;
-      window.localStorage.setItem(
+      window.sessionStorage.setItem(
         "currentUserInfo",
         JSON.stringify(data.profile)
       );

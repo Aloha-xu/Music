@@ -251,7 +251,7 @@ export default {
     //刷新用户歌单信息函数
     async refreshUserSonglistInfo() {
       this.upDataSongListHeadInfo();
-      let uInfo = JSON.parse(window.localStorage.getItem("currentUserInfo"));
+      let uInfo = JSON.parse(window.sessionStorage.getItem("currentUserInfo"));
       let uId = uInfo.userId;
       let playlist = await getUserPlaylist(uId);
       this.$store.commit("setUserSonglistInfo", playlist);

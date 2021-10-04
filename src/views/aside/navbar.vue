@@ -127,7 +127,7 @@ export default {
     },
     //获取用户的歌单信息
     async getUserPlaylist() {
-      let uInfo = JSON.parse(window.localStorage.getItem("currentUserInfo"));
+      let uInfo = JSON.parse(window.sessionStorage.getItem("currentUserInfo"));
       let uId = uInfo.userId;
       let playlist = await getUserPlaylist(uId);
       console.log(playlist)

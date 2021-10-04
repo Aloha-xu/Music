@@ -1224,8 +1224,11 @@ export function refresh(){
         url:"/login/refresh"
     })
 }
-
-
+export function outRefresh(){
+    return request({
+        url:"/logout"
+    })
+}
 
 export function status(){
     return request({
