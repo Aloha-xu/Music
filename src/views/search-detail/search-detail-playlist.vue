@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     handleToPlaylistPapg(id){
-      this.$router.push("playlistdetail"+id)
+      this.$router.push("/playlistdetail/"+id)
     }
   },
 };

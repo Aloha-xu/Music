@@ -20,7 +20,14 @@
             {{ item }}
           </div>
         </div>
-        <div class="search">123</div>
+        <div class="search" v-if="currentIndex === 0 && !this.$store.state.loading">
+          <el-input
+            placeholder="请输入内容"
+            prefix-icon="el-icon-search"
+            v-model="searchValues"
+          >
+          </el-input>
+        </div>
       </div>
       <song-list-component
         v-if="currentIndex === 0 && !this.$store.state.loading"
@@ -40,7 +47,10 @@
         :type="2"
         @refeshCommrnt="getCommentInfo"
       ></comment>
-      <Loading v-show="this.$store.state.loading" style="height:50vh"></Loading>
+      <Loading
+        v-show="this.$store.state.loading"
+        style="height: 50vh"
+      ></Loading>
     </div>
   </div>
 </template>
@@ -67,7 +77,13 @@ import {
 import { parseLyric } from "@/utils/lyric";
 import download from "@/utils/dowmload";
 export default {
-  components: { PlayListDetailHead, SongListComponent, Collecter, Comment,Loading },
+  components: {
+    PlayListDetailHead,
+    SongListComponent,
+    Collecter,
+    Comment,
+    Loading,
+  },
   name: "PlayListDetail",
   data() {
     return {
@@ -81,6 +97,7 @@ export default {
       /* 模板的渲染比route快 */
       playList: [],
       headInfo: null,
+      searchValues: null,
     };
   },
   methods: {
@@ -304,6 +321,7 @@ export default {
     width: 100%;
     margin-top: 30px;
     .top {
+      position: relative;
       display: flex;
       margin-bottom: 18px;
       margin-left: 30px;
@@ -323,9 +341,9 @@ export default {
         }
       }
       .search {
-        margin-left: 1000px;
-        width: 190px;
-        background-color: aqua;
+        position: absolute;
+        right: 20px;
+        height: 50px;
       }
     }
     .comment {
