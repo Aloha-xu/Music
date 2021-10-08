@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["collectsongcates"],{"3fad":function(e,n,t){"use strict";t.r(n);var l=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[e._v(" CollectSongList ")])},c=[],o={name:"CollectSongList"},s=o,a=t("2877"),i=Object(a["a"])(s,l,c,!1,null,null,null);n["default"]=i.exports}}]);

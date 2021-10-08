@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["collect"],{bd5b:function(e,t,c){"use strict";c.r(t);var l=function(){var e=this,t=e.$createElement,c=e._self._c||t;return c("div",[e._v(" Collect ")])},n=[],a={name:"Collect"},o=a,r=c("2877"),s=Object(r["a"])(o,l,n,!1,null,"63e9aaac",null);t["default"]=s.exports}}]);

@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["localmanage"],{9272:function(a,e,n){"use strict";n.r(e);var c=function(){var a=this,e=a.$createElement,n=a._self._c||e;return n("div",[a._v(" LocalManage ")])},l=[],t={name:"LocalManage"},o=t,r=n("2877"),s=Object(r["a"])(o,c,l,!1,null,"60432b6a",null);e["default"]=s.exports}}]);

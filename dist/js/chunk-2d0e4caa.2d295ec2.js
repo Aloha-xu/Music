@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0e4caa"],{9272:function(a,e,n){"use strict";n.r(e);var c=function(){var a=this,e=a.$createElement,n=a._self._c||e;return n("div",[a._v(" LocalManage ")])},t=[],l={name:"LocalManage"},o=l,u=n("2877"),r=Object(u["a"])(o,c,t,!1,null,"60432b6a",null);e["default"]=r.exports}}]);
-//# sourceMappingURL=chunk-2d0e4caa.2d295ec2.js.map

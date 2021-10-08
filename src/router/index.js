@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-//可以使用路由懒加载减少用户在首页的时候等待的事件 优化使用体验
-
-//使用VueRouter
 Vue.use(VueRouter)
 const routes = [
     {
@@ -12,129 +9,129 @@ const routes = [
     },
     {
         path: '/findmusic',
-        component: () => import('../views/find-music/find-music.vue'),
+        component: () => import(/* webpackChunkName: "findmusci" */ '../views/find-music/find-music.vue'),
         redirect: '/recommend',
         children: [
             {
                 path: '/recommend',
-                component: () => import('../views/find-music/recommend/recommend.vue'),
+                component: () => import(/* webpackChunkName: "recommend" */ '../views/find-music/recommend/recommend.vue'),
             },
             {
                 path: '/anchorradio',
-                component: () => import('../views/find-music/anchor-radio/anchor-radio.vue')
+                component: () => import(/* webpackChunkName: "anchorradio" */ '../views/find-music/anchor-radio/anchor-radio.vue')
             },
             {
                 path: '/newmusic',
-                component: () => import('../views/find-music/new-music/new-music.vue')
+                component: () => import(/* webpackChunkName: "newmusic" */ '../views/find-music/new-music/new-music.vue')
             },
             {
                 path: '/rank',
-                component: () => import('../views/find-music/rank/rank.vue')
+                component: () => import(/* webpackChunkName: "rank" */ '../views/find-music/rank/rank.vue')
             },
             {
                 path: '/singer',
-                component: () => import('../views/find-music/singer/singer.vue')
+                component: () => import(/* webpackChunkName: "singer" */ '../views/find-music/singer/singer.vue')
             },
             {
                 path: '/songlist',
-                component: () => import('../views/find-music/song-list/song-list.vue'),
+                component: () => import(/* webpackChunkName: "songlist" */ '../views/find-music/song-list/song-list.vue'),
             },
             {
                 path: '/highqualityplaylist',
-                component: () => import('../views/high-quality-playlist/high-quality-playlist.vue')
+                component: () => import(/* webpackChunkName: "highqualityplaylist" */ '../views/high-quality-playlist/high-quality-playlist.vue')
             }
         ]
     },
     {
         path: '/friend',
-        component: () => import('../views/friend/friend.vue')
+        component: () => import(/* webpackChunkName: "friend" */ '../views/friend/friend.vue')
     },
     {
         path: '/live',
-        component: () => import('../views/live/live.vue')
+        component: () => import(/* webpackChunkName: "live" */ '../views/live/live.vue')
     },
     {
         path: '/videohome',
-        component: () => import('../views/video/video-home.vue'),
+        component: () => import(/* webpackChunkName: "videohome" */ '../views/video/video-home.vue'),
         redirect: '/video',
         children: [
             {
                 path: '/mv',
-                component: () => import('../views/video/mv.vue')
+                component: () => import(/* webpackChunkName: "mv" */ '../views/video/mv.vue')
             },
             {
                 path: '/video',
-                component: () => import('../views/video/video.vue')
+                component: () => import(/* webpackChunkName: "video" */ '../views/video/video.vue')
             }
         ]
     },
     {
         path: '/fm',
-        component: () => import('../views/private-fm/private-fm.vue')
+        component: () => import(/* webpackChunkName: "fm" */ '../views/private-fm/private-fm.vue')
     },
     {
         path: '/record',
-        component: () => import('../views/user-record/user-record.vue')
+        component: () => import(/* webpackChunkName: "record" */ '../views/user-record/user-record.vue')
     },
     {
         path: '/collect',
-        component: () => import('../views/mine/collect/collect.vue')
+        component: () => import(/* webpackChunkName: "collect" */ '../views/mine/collect/collect.vue')
     },
     {
         path: '/icloudmusic',
-        component: () => import('../views/mine/icloud-music/icloud-music.vue')
+        component: () => import(/* webpackChunkName: "icloudmusic" */ '../views/mine/icloud-music/icloud-music.vue')
     },
     {
         path: '/localmusci',
-        component: () => import('../views/mine/local-music/local-music.vue')
+        component: () => import(/* webpackChunkName: "localmusci" */ '../views/mine/local-music/local-music.vue')
     },
     {
         path: '/localmanage',
-        component: () => import('../views/mine/local-manage/local-manage.vue')
+        component: () => import(/* webpackChunkName: "localmanage" */ '../views/mine/local-manage/local-manage.vue')
     },
     {
         path: '/radio',
-        component: () => import('../views/mine/radio/radio.vue')
+        component: () => import(/* webpackChunkName: "radio" */ '../views/mine/radio/radio.vue')
     },
     {
         path: '/createsongcates',
-        component: () => import('../views/create-song-list/create-song-list.vue')
+        component: () => import(/* webpackChunkName: "createsongcates" */ '../views/create-song-list/create-song-list.vue')
     },
     {
         path: '/collectsongcates',
-        component: () => import('../views/collect-song-list/collect-song-list.vue')
+        component: () => import(/* webpackChunkName: "collectsongcates" */ '../views/collect-song-list/collect-song-list.vue')
     },
     {
         path: '/playlistdetail/:id',
-        component: () => import('../views/play-list-detail/play-list-detail.vue'),
+        component: () => import(/* webpackChunkName: "playlistdetail" */ '../views/play-list-detail/play-list-detail.vue'),
     },
     {
         path: '/albumlistdetail/:id',
-        component: () => import('../views/album-list-detail/album-list-detail.vue'),
+        component: () => import(/* webpackChunkName: "albumlistdetail" */ '../views/album-list-detail/album-list-detail.vue'),
     },
     {
         path: '/singerlistdetail/:id',
-        component: () => import('../views/singer-list-detail/singer-list-detail.vue'),
+        component: () => import(/* webpackChunkName: "singerlistdetail" */ '../views/singer-list-detail/singer-list-detail.vue'),
     },
     {
         path: '/cloudsearch',
-        component: () => import('../views/search-detail/search-detail.vue'),
+        component: () => import(/* webpackChunkName: "cloudsearch" */ '../views/search-detail/search-detail.vue'),
     },
     {
         path: '/allmvpapg',
-        component: () => import('../views/video/all-mv-papg.vue'),
+        component: () => import(/* webpackChunkName: "allmvpapg" */ '../views/video/all-mv-papg.vue'),
     },
     {
         path: '/mvdetail/:id',
-        component: () => import('../views/mv-detail/mv-detail.vue'),
+        component: () => import(/* webpackChunkName: "mvdetail" */ '../views/mv-detail/mv-detail.vue'),
     },
     {
         path: '/userupdata/:id',
-        component: () => import('../views/user-updata-papg/updata-papg.vue'),
+        component: () => import(/* webpackChunkName: "userupdata" */ '../views/user-updata-papg/updata-papg.vue'),
     },
     {
         path: '/userdetail/:id',
-        component: () => import('../views/user-detail/user-detail.vue'),
+        component: () => import(/* webpackChunkName: "userdetail" */ '../views/user-detail/user-detail.vue'),
     },
 ]
 

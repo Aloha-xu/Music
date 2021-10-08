@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0c935a"],{"57bd":function(e,n,t){"use strict";t.r(n);var r=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[e._v(" AnchorRadio ")])},c=[],o={name:"AnchorRadio",created:function(){this.$store.commit("refeshCurrentNavIndex",2)},activated:function(){this.$store.commit("refeshCurrentNavIndex",2)}},a=o,i=t("2877"),s=Object(i["a"])(a,r,c,!1,null,"746d3360",null);n["default"]=s.exports}}]);
-//# sourceMappingURL=chunk-2d0c935a.4031d8a5.js.map
