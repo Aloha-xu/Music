@@ -1,3 +1,4 @@
+
 AlohaMusic音乐播放平台
 
 
@@ -39,25 +40,20 @@ Vue 2 + Vue Router + Vuex + Axios + ElementUI + SCSS    后端接口网易云官
 
 ## 效果图
 
-![3d36a18c15ea57e06ec103f926b5eaa](C:\Users\lovelife_xu\Desktop\新建文件夹\3d36a18c15ea57e06ec103f926b5eaa.png)
+图片看不了到Readme文件夹可以看得到
+![在这里插入图片描述](https://img-blog.csdnimg.cn/79894413a64f47f794b061b92333c7cb.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/300682e8625348ccb3d1c32cfd4ba325.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/cae7e9e64a1f4a8a81e51b426200d914.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/84e7787d344e410096cad1ac373201f5.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/56e1dfc5a89344a7b05db1c05a1c1ca2.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/4c312a6c4d0b4cf2b2c03c54b28cd447.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/a24ca1b7fcd640c3b44fa76b513f534b.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/1553b968827b4e6db32db238e670d79b.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/649d17d5ae91459799e5cad1a5b54220.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/ba5b9da005364cba8d10f2fb211e0bc1.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/c16fb10b9a124102866234d0762de466.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/7df33e456cdd447a83766b0e460f2f61.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAYWxwaGFfeHVfdnZ2dnY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center)
 
-![4b909271f404bfa113dde2f76d67a32](C:\Users\lovelife_xu\Desktop\新建文件夹\4b909271f404bfa113dde2f76d67a32.png)
-
-![6eb5ea4cc0c957f5738b41e86f51c54](C:\Users\lovelife_xu\Desktop\新建文件夹\6eb5ea4cc0c957f5738b41e86f51c54.png)
-
-![361a7e990c8f244b08e6799b7ed2e0e](C:\Users\lovelife_xu\Desktop\新建文件夹\361a7e990c8f244b08e6799b7ed2e0e.png)
-
-![989bfb369ece89dafa1d0697791f7ec](C:\Users\lovelife_xu\Desktop\新建文件夹\989bfb369ece89dafa1d0697791f7ec.png)
-
-![627497292c4a2a94e4d72ea2c57d6c5](C:\Users\lovelife_xu\Desktop\新建文件夹\627497292c4a2a94e4d72ea2c57d6c5.png)
-
-![a1cac912b22a3475be9c6e8067935a9](C:\Users\lovelife_xu\Desktop\新建文件夹\a1cac912b22a3475be9c6e8067935a9.png)
-
-![a49a4a2a3f4c91b9d037f35b24cb844](C:\Users\lovelife_xu\Desktop\新建文件夹\a49a4a2a3f4c91b9d037f35b24cb844.png)
-
-![d1ff441caa22e3b5a0a06ffc5412a7a](C:\Users\lovelife_xu\Desktop\新建文件夹\d1ff441caa22e3b5a0a06ffc5412a7a.png)
-
-![e9155295500d1400adfccdc024c9270](C:\Users\lovelife_xu\Desktop\新建文件夹\e9155295500d1400adfccdc024c9270.png)
 
 
 
